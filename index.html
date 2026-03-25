@@ -39,17 +39,16 @@
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
         
-        const API_KEY = ""; 
         const WHATSAPP_NUMBER = "34617635544";
-        const GITHUB_BASE = "https://raw.githubusercontent.com/zonadb/apartaoaporta-fotos/main/";
+        const GITHUB_RAW = "https://raw.githubusercontent.com/zonadb/apartaoaporta-fotos/main/";
 
         const ASSETS = {
-            playa: `${GITHUB_BASE}general%20playa%20a%205%20minutos.avif`,
-            parking: `${GITHUB_BASE}general%20parking.avif`,
-            piscina: `${GITHUB_BASE}general%20piscina.avif`,
-            luces: `${GITHUB_BASE}general%20luces%20led.avif`,
-            apto211: `${GITHUB_BASE}apto%20211%20salon.avif`,
-            apto210: `${GITHUB_BASE}apto%20210%20salon.avif`
+            playa: `${GITHUB_RAW}general%20playa%20a%205%20minutos.avif`,
+            parking: `${GITHUB_RAW}general%20parking.avif`,
+            piscina: `${GITHUB_RAW}general%20piscina.avif`,
+            luces: `${GITHUB_RAW}general%20luces%20led.avif`,
+            apto211: `${GITHUB_RAW}apto%20211%20salon.avif`,
+            apto210: `${GITHUB_RAW}apto%20210%20salon.avif`
         };
 
         const TRANSLATIONS = {
@@ -66,8 +65,8 @@
                     pool: "🏊‍♂️ **Piscina:** 10:00h a 22:00h. (Solo verano ☀️)",
                     parking: "🚗 **Parking:** Comunitario gratuito dentro del recinto. 🅿️ **Zona Azul:** GRATIS de 21:00h a 10:00h. (Al mediodía es de pago 💸)",
                     lights: "💡 **Luces:** Controla el Ambilight con los mandos pequeños junto a la TV. 🌈",
-                    apto211: "🏠 **Apto 211:** Tienes LAVAVAJILLAS 🍽️ y PERSIANAS eléctricas con mando. 🌟",
-                    apto210: "🏠 **Apto 210:** Tienes CHIMENEA eléctrica y Ambilight acogedor. 🔥",
+                    apto211: "🏠 **¡Bienvenido al Apto 211!** 🌟 Tienes LAVAVAJILLAS 🍽️ y PERSIANAS eléctricas con mando (puedes bajarlas todas a la vez o una a una).",
+                    apto210: "🏠 **¡Bienvenido al Apto 210!** 🔥 Tienes CHIMENEA eléctrica y Ambilight en la TV para una noche acogedora.",
                     playa: "🏖️ **Playa:** A 5 min andando. ¡Disfruta el mar! 🌊"
                 }
             },
@@ -84,8 +83,8 @@
                     pool: "🏊‍♂️ **Pool:** 10:00 AM to 10:00 PM. (Summer only ☀️)",
                     parking: "🚗 **Parking:** Free community parking inside. 🅿️ **Blue Zone:** FREE from 9:00 PM to 10:00 AM. (Paid at noon 💸)",
                     lights: "💡 **Lights:** Control Ambilight with the small remotes next to the TV. 🌈",
-                    apto211: "🏠 **Apt 211:** You have a DISHWASHER 🍽️ and electric BLINDS with remote. 🌟",
-                    apto210: "🏠 **Apt 210:** You have an electric FIREPLACE and cozy Ambilight. 🔥",
+                    apto211: "🏠 **Welcome to Apt 211!** 🌟 You have a DISHWASHER 🍽️ and electric BLINDS with remote control.",
+                    apto210: "🏠 **Welcome to Apt 210!** 🔥 You have an electric FIREPLACE and cozy Ambilight on the TV.",
                     playa: "🏖️ **Beach:** 5 min walk away. Enjoy! 🌊"
                 }
             },
@@ -102,8 +101,8 @@
                     pool: "🏊‍♂️ **Piscine:** 10h00 à 22h00. (Été seulement ☀️)",
                     parking: "🚗 **Parking:** Parking communautaire gratuit à l'intérieur. 🅿️ **Zone Bleue:** GRATUIT de 21h00 à 10h00. (Payant le midi 💸)",
                     lights: "💡 **Lumières:** Contrôlez l'Ambilight avec les petites télécommandes. 🌈",
-                    apto211: "🏠 **Apt 211:** Vous avez un LAVE-VAISSELLE 🍽️ et des VOLETS électriques. 🌟",
-                    apto210: "🏠 **Apt 210:** Vous avez une CHEMINÉE électrique et Ambilight. 🔥",
+                    apto211: "🏠 **Bienvenue à l'Apt 211 !** 🌟 Vous avez un LAVE-VAISSELLE 🍽️ et des VOLETS électriques avec télécommande.",
+                    apto210: "🏠 **Bienvenue à l'Apt 210 !** 🔥 Vous avez une CHEMINÉE électrique et Ambilight sur la TV.",
                     playa: "🏖️ **Plage:** À 5 min à pied. Profitez-en! 🌊"
                 }
             }
@@ -141,15 +140,15 @@
             const getResponse = (query) => {
                 const q = query.toLowerCase();
                 const d = t.data;
-                if (q.includes('piscina') || q.includes('pool')) return { text: d.pool, img: ASSETS.piscina };
-                if (q.includes('parking') || q.includes('azul') || q.includes('blue') || q.includes('coche') || q.includes('park')) return { text: d.parking, img: ASSETS.parking };
-                if (q.includes('wifi') || q.includes('clave') || q.includes('key')) return { text: d.wifi, img: null };
-                if (q.includes('luz') || q.includes('light') || q.includes('led')) return { text: d.lights, img: ASSETS.luces };
+                if (q.includes('piscina') || q.includes('pool') || q.includes('piscine')) return { text: d.pool, img: ASSETS.piscina };
+                if (q.includes('parking') || q.includes('azul') || q.includes('blue') || q.includes('bleue') || q.includes('coche') || q.includes('park')) return { text: d.parking, img: ASSETS.parking };
+                if (q.includes('wifi') || q.includes('clave') || q.includes('key') || q.includes('code')) return { text: d.wifi, img: null };
+                if (q.includes('luz') || q.includes('light') || q.includes('led') || q.includes('lumière')) return { text: d.lights, img: ASSETS.luces };
                 if (q.includes('playa') || q.includes('beach') || q.includes('plage')) return { text: d.playa, img: ASSETS.playa };
                 return null;
             };
 
-            const handleSend = async (text, isAptoBtn = false) => {
+            const handleSend = (text, isAptoBtn = false) => {
                 const userText = text || input;
                 if (!userText.trim() || typing) return;
 
@@ -162,15 +161,23 @@
                 if (isAptoBtn) {
                     const num = text.split(' ')[1];
                     setApto(num);
-                    respText = num === '211' ? t.data.apto211 : (num === '210' ? t.data.apto210 : `Apto ${num} ✨`);
-                    respImg = num === '211' ? ASSETS.apto211 : (num === '210' ? ASSETS.apto210 : null);
+                    // Aquí es donde recuperamos las fotos de los apartamentos
+                    if (num === '211') {
+                        respText = t.data.apto211;
+                        respImg = ASSETS.apto211;
+                    } else if (num === '210') {
+                        respText = t.data.apto210;
+                        respImg = ASSETS.apto210;
+                    } else {
+                        respText = `Apto ${num} ✨`;
+                        respImg = null;
+                    }
                 } else {
                     const local = getResponse(userText);
                     if (local) {
                         respText = local.text;
                         respImg = local.img;
                     } else {
-                        // Simulación de IA o respuesta por defecto si no hay API Key
                         respText = `🌴 APARTAoAPORTA ✨\n${t.data.wifi}\n${t.data.parking}`;
                     }
                 }
@@ -193,28 +200,33 @@
                             <div className="bg-[#ff6600] p-1.5 rounded-lg shadow-lg">
                                 <LucideIcon name="Sun" size={16} className="text-black animate-spin-slow" />
                             </div>
-                            <h1 className="font-black text-[#ff6600] text-xs tracking-tighter uppercase">APARTAoAPORTA</h1>
+                            <h1 className="font-black text-[#ff6600] text-xs tracking-tighter uppercase leading-none">APARTA<br/>oAPORTA</h1>
                         </div>
                         <div className="flex gap-2 bg-white/5 p-1 rounded-full px-2">
                             <button onClick={() => setLang('es')} className={`flag-btn ${lang === 'es' ? 'active' : ''}`}>
-                                <img src="https://flagcdn.com/w80/es.png" className="w-full h-full object-cover" />
+                                <img src="https://flagcdn.com/w80/es.png" className="w-full h-full object-cover" alt="ES" />
                             </button>
                             <button onClick={() => setLang('en')} className={`flag-btn ${lang === 'en' ? 'active' : ''}`}>
-                                <img src="https://flagcdn.com/w80/gb.png" className="w-full h-full object-cover" />
+                                <img src="https://flagcdn.com/w80/gb.png" className="w-full h-full object-cover" alt="EN" />
                             </button>
                             <button onClick={() => setLang('fr')} className={`flag-btn ${lang === 'fr' ? 'active' : ''}`}>
-                                <img src="https://flagcdn.com/w80/fr.png" className="w-full h-full object-cover" />
+                                <img src="https://flagcdn.com/w80/fr.png" className="w-full h-full object-cover" alt="FR" />
                             </button>
                         </div>
                     </header>
 
-                    <main className="flex-1 overflow-y-auto p-4 space-y-4 no-scrollbar pb-72">
+                    <main className="flex-1 overflow-y-auto p-4 space-y-4 no-scrollbar pb-80">
                         {messages.map((m, i) => (
                             <div key={i} className={`flex flex-col ${m.role === 'user' ? 'items-end' : 'items-start'}`}>
                                 <div className={`max-w-[88%] rounded-2xl overflow-hidden shadow-xl ${m.role === 'user' ? 'bg-[#ff6600] text-black font-bold p-3' : 'chat-bubble-bot text-slate-100'}`}>
                                     {m.image && (
                                         <div className="img-container">
-                                            <img src={m.image} className="w-full h-48 object-cover" />
+                                            <img 
+                                                src={m.image} 
+                                                className="w-full h-48 object-cover" 
+                                                alt="Apto Photo" 
+                                                onError={(e) => e.target.style.display='none'}
+                                            />
                                             <div className="img-gradient-overlay"></div>
                                         </div>
                                     )}
@@ -236,14 +248,14 @@
                             ))}
                         </div>
                         <div className="flex gap-2 mb-4">
-                            <button onClick={() => handleSend(t.wifi)} className="action-btn bg-white/5 border border-white/10 text-white font-bold text-[9px] px-3 py-3 rounded-xl uppercase flex-1">📶 {t.wifi}</button>
-                            <button onClick={() => handleSend(t.pool)} className="action-btn bg-white/5 border border-white/10 text-white font-bold text-[9px] px-3 py-3 rounded-xl uppercase flex-1">🏊‍♂️ {t.pool}</button>
-                            <button onClick={() => handleSend(t.park)} className="action-btn bg-white/5 border border-white/10 text-white font-bold text-[9px] px-3 py-3 rounded-xl uppercase flex-1">🚗 {t.park}</button>
-                            <button onClick={() => window.open(`https://wa.me/${WHATSAPP_NUMBER}`)} className="action-btn bg-green-600 text-white font-black text-[9px] px-3 py-3 rounded-xl uppercase flex items-center justify-center gap-1.5 shadow-lg"><LucideIcon name="MessageCircle" size={14} /> WhatsApp</button>
+                            <button onClick={() => handleSend(t.wifi)} className="action-btn bg-white/5 border border-white/10 text-white font-bold text-[9px] px-3 py-3 rounded-xl uppercase flex-1 shadow-sm">📶 {t.wifi}</button>
+                            <button onClick={() => handleSend(t.pool)} className="action-btn bg-white/5 border border-white/10 text-white font-bold text-[9px] px-3 py-3 rounded-xl uppercase flex-1 shadow-sm">🏊‍♂️ {t.pool}</button>
+                            <button onClick={() => handleSend(t.park)} className="action-btn bg-white/5 border border-white/10 text-white font-bold text-[9px] px-3 py-3 rounded-xl uppercase flex-1 shadow-sm">🚗 {t.park}</button>
+                            <button onClick={() => window.open(`https://wa.me/${WHATSAPP_NUMBER}`)} className="action-btn bg-green-600 text-white font-black text-[9px] px-3 py-3 rounded-xl uppercase flex items-center justify-center gap-1.5 shadow-lg active:bg-green-500 transition-all"><LucideIcon name="MessageCircle" size={14} /> WhatsApp</button>
                         </div>
                         <div className="flex gap-2 items-center bg-black border border-white/10 rounded-2xl p-1 px-3 shadow-inner">
                             <input value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleSend()} placeholder={t.placeholder} className="flex-1 bg-transparent py-4 text-sm outline-none text-white placeholder-white/20" />
-                            <button onClick={() => handleSend()} className="bg-[#ff6600] text-black p-3 rounded-xl"><LucideIcon name="Send" size={16} /></button>
+                            <button onClick={() => handleSend()} className="bg-[#ff6600] text-black p-3 rounded-xl hover:scale-105 active:scale-95 transition-all"><LucideIcon name="Send" size={16} /></button>
                         </div>
                     </footer>
                 </div>
