@@ -17,27 +17,19 @@
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0a0a0a; color: #f8fafc; margin: 0; padding: 0; height: 100vh; overflow: hidden; }
         
         @keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        @keyframes pulse-glow { 0%, 100% { filter: drop-shadow(0 0 2px #ff6600); transform: scale(1); } 50% { filter: drop-shadow(0 0 12px #ff6600); transform: scale(1.1); } }
-        @keyframes bounce-gentle { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-        
         .animate-spin-slow { animation: spin-slow 12s linear infinite; }
-        .emoji-pulse { display: inline-block; animation: pulse-glow 2s infinite ease-in-out; }
-        .emoji-bounce { display: inline-block; animation: bounce-gentle 2.5s infinite ease-in-out; }
         
-        .glass { background: rgba(15, 15, 15, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+        .glass { background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         
-        .flag-container { position: relative; display: flex; flex-direction: column; align-items: center; }
-        .flag-btn { width: 32px; height: 32px; border-radius: 50%; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); overflow: hidden; border: 2px solid transparent; background: #1a1a1a; cursor: pointer; padding: 0; }
-        .flag-btn img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
-        .flag-btn.active { border-color: #ff6600; transform: scale(1.2); box-shadow: 0 0 15px rgba(255, 102, 0, 0.5); opacity: 1 !important; filter: grayscale(0) !important; }
+        .flag-btn { width: 28px; height: 28px; border-radius: 50%; transition: all 0.3s ease; overflow: hidden; border: 1.5px solid transparent; opacity: 0.4; }
+        .flag-btn.active { border-color: #ff6600; transform: scale(1.1); opacity: 1; }
         
-        .flag-label { position: absolute; top: 100%; margin-top: 4px; font-size: 8px; font-weight: 900; color: #ff6600; opacity: 0; transform: translateY(-5px); transition: all 0.2s ease; text-transform: uppercase; pointer-events: none; }
-        .flag-container:hover .flag-label, .flag-btn.active + .flag-label { opacity: 1; transform: translateY(0); }
+        .chat-bubble-bot { background: linear-gradient(145deg, #1a1a1a, #111111); border: 1px solid rgba(255, 102, 0, 0.08); }
+        .img-gradient { mask-image: linear-gradient(to bottom, black 85%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%); }
         
-        .flag-btn:not(.active) { opacity: 0.4; filter: grayscale(0.5); }
-        .chat-bubble-bot { background: linear-gradient(145deg, #1a1a1a, #111111); border: 1px solid rgba(255, 102, 0, 0.1); }
-        .img-gradient { mask-image: linear-gradient(to bottom, black 80%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%); }
+        .action-btn { transition: all 0.2s ease; border: 1px solid rgba(255, 255, 255, 0.05); }
+        .action-btn:active { transform: scale(0.96); }
     </style>
 </head>
 <body>
@@ -50,6 +42,15 @@
         const WHATSAPP_NUMBER = "34617635544";
         const GITHUB_BASE = "https://raw.githubusercontent.com/zonadb/apartaoaporta-fotos/main/";
 
+        const DATA_FIXED = {
+            checkIn: "14:00h",
+            checkOut: "11:00h",
+            wifiRed: "apartaoaporta",
+            wifiClave: "2020v@leria",
+            pool: "10:00h a 22:00h",
+            location: "Estamos en Cap Salou, pero la playa y comercios de La Pineda están a solo 5 min andando."
+        };
+
         const FLAGS = {
             es: { url: "https://flagcdn.com/w80/es.png", label: "ES" },
             ca: { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Flag_of_Catalonia.svg/80px-Flag_of_Catalonia.svg.png", label: "CAT" },
@@ -58,10 +59,10 @@
         };
 
         const TRANSLATIONS = {
-            es: { welcome: "¡Hola! Soy el asistente de APARTAoAPORTA. ¿En qué apartamento te alojas?", wifi: "WiFi", beach: "Playa", map: "Mapa", contact: "Contactar", placeholder: "Pregúntame algo... 🥥", apto: "Apto", help: "¿En qué puedo ayudarte?", typing: "Pensando..." },
-            ca: { welcome: "Hola! Sóc l'assistent d'APARTAoAPORTA. En quin apartament t'allotges?", wifi: "WiFi", beach: "Platja", map: "Mapa", contact: "Contactar", placeholder: "Pregunta'm algo... 🥥", apto: "Apto", help: "Com et puc ajudar?", typing: "Pensant..." },
-            en: { welcome: "Hi! I'm the APARTAoAPORTA assistant. Which apartment are you staying in?", wifi: "WiFi", beach: "Beach", map: "Map", contact: "Contact", placeholder: "Ask me anything... 🥥", apto: "Apt", help: "How can I help you?", typing: "Thinking..." },
-            fr: { welcome: "Salut ! Je suis l'assistant APARTAoAPORTA. Dans quel appartement logez-vous ?", wifi: "WiFi", beach: "Plage", map: "Carte", contact: "Contacter", placeholder: "Demandez-moi... 🥥", apto: "Appt", help: "Comment puis-je vous ayudar ?", typing: "Réflexion..." }
+            es: { welcome: "¡Hola! Bienvenido a APARTAoAPORTA. Selecciona tu apartamento para empezar:", wifi: "WiFi", beach: "Playa", map: "Mapa", contact: "WhatsApp", placeholder: "Escribe aquí...", apto: "Apto", typing: "Consultando...", hours: "Horas" },
+            ca: { welcome: "Hola! Benvingut a APARTAoAPORTA. Selecciona el teu apartament per començar:", wifi: "WiFi", beach: "Platja", map: "Mapa", contact: "WhatsApp", placeholder: "Escriu aquí...", apto: "Apto", typing: "Consultant...", hours: "Horaris" },
+            en: { welcome: "Hi! Welcome to APARTAoAPORTA. Select your apartment to start:", wifi: "WiFi", beach: "Beach", map: "Map", contact: "WhatsApp", placeholder: "Type here...", apto: "Apt", typing: "Checking...", hours: "Hours" },
+            fr: { welcome: "Salut ! Bienvenue chez APARTAoAPORTA. Sélectionnez votre appartement pour commencer :", wifi: "WiFi", beach: "Plage", map: "Carte", contact: "WhatsApp", placeholder: "Écrivez ici...", apto: "Appt", typing: "Vérification...", hours: "Heures" }
         };
 
         const LucideIcon = ({ name, size = 18, className = "" }) => {
@@ -86,12 +87,7 @@
             useEffect(() => {
                 setMessages([{
                     role: 'bot',
-                    content: (
-                        <div className="flex flex-col gap-1">
-                            <div>¡{t.welcome.split('.')[0]}! <b className="text-[#ff6600]">APARTAoAPORTA</b> <span className="emoji-pulse">☀️</span></div>
-                            <div>{t.welcome.split('?')[1] || t.welcome.split('!')[1] || t.welcome.split('.')[1]} <span className="emoji-bounce">🍦</span></div>
-                        </div>
-                    ),
+                    content: t.welcome,
                     time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
                 }]);
             }, [lang]);
@@ -100,24 +96,27 @@
 
             const getLocalResponse = (query) => {
                 const q = query.toLowerCase();
-                if (q.includes('wifi') || q.includes('clave')) return "📶 Red: **apartaoaporta**\nClave: **2020v@leria**\n(La 'v' es minúscula).";
-                if (q.includes('playa')) return "🌊 Aunque estamos en Salou, la zona de **La Pineda** está mucho más cerca (5 min andando). Te recomiendo bajar a esa playa, es ideal y familiar.";
-                if (q.includes('mapa')) return "📍 Aquí tienes el mapa. Verás que tienes todos los servicios de **La Pineda** a un paso.";
-                if (q.includes('comer') || q.includes('restaurante') || q.includes('supermercado')) return "🍴 Te recomiendo ir hacia **La Pineda**. Está a solo unos minutos caminando y tienes allí todos los restaurantes, tiendas y el Paseo Pau Casals.";
+                if (q.includes('wifi') || q.includes('clave') || q.includes('internet')) 
+                    return `📶 **WiFi:**\nRed: **${DATA_FIXED.wifiRed}**\nClave: **${DATA_FIXED.wifiClave}**\n(La 'v' es minúscula).`;
+                if (q.includes('hora') || q.includes('entrada') || q.includes('salida') || q.includes('check') || q.includes('horarios')) 
+                    return `⏰ **Horarios Oficiales:**\n\n🏠 **Entrada:** A partir de las **${DATA_FIXED.checkIn}**.\n🚪 **Salida:** Antes de las **${DATA_FIXED.checkOut}**.`;
+                if (q.includes('playa') || q.includes('pineda') || q.includes('cerca') || q.includes('comer')) 
+                    return `🏘️ **Zona La Pineda:**\n${DATA_FIXED.location}\n\nRecomendamos la playa de La Pineda por ser amplia y tener todos los servicios a mano.`;
                 return null;
             };
 
             const askGemini = async (query, userApto) => {
-                const systemPrompt = `Eres el conserje digital de APARTAoAPORTA Salou (zona Cap Salou). Tono vacacional y alegre. 
-                UBICACIÓN ESTRATÉGICA: Los apartamentos están técnicamente en Salou, pero están mucho más cerca de LA PINEDA para todo.
-                - Recomienda siempre LA PINEDA para: Playas (5 min andando), Restaurantes, Supermercados y Comercios. Es lo más práctico para el huésped.
-                - APTO ACTUAL: ${userApto || 'No indicado'}.
-                CONTEXTO TÉCNICO:
-                - WiFi: apartaoaporta / 2020v@leria.
-                - Apto 211: Lavavajillas y persianas eléctricas con mando.
+                const systemPrompt = `Eres el asistente de APARTAoAPORTA Salou. 
+                NO INVENTES NADA. Si no sabes algo, remite a WhatsApp.
+                DATOS REALES:
+                - Entrada: ${DATA_FIXED.checkIn}.
+                - Salida: ${DATA_FIXED.checkOut}.
+                - WiFi: ${DATA_FIXED.wifiRed} / ${DATA_FIXED.wifiClave}.
+                - Ubicación: Muy cerca de La Pineda (5 min andando).
+                - Apto 211: Lavavajillas y persianas con mando.
                 - Apto 210: Chimenea eléctrica.
-                - Piscina: 10-22h.
-                REGLA: Solo menciona detalles técnicos si preguntan. Prioriza la cercanía a La Pineda en recomendaciones de ocio. Idioma: ${lang}.`;
+                - Piscina: ${DATA_FIXED.pool}.
+                Responde siempre breve y en idioma ${lang}.`;
 
                 try {
                     const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${API_KEY}`, {
@@ -130,38 +129,37 @@
                     });
                     const data = await response.json();
                     return data.candidates?.[0]?.content?.parts?.[0]?.text;
-                } catch (e) {
-                    return null;
-                }
+                } catch (e) { return null; }
             };
 
-            const handleSend = async (text) => {
+            const handleSend = async (text, isAptoSelection = false) => {
                 const userText = text || input;
                 if (!userText.trim() || typing) return;
 
                 const cleanText = userText.toLowerCase();
-                let currentApto = apto;
-                if (cleanText.includes('210')) { currentApto = '210'; setApto('210'); }
-                if (cleanText.includes('211')) { currentApto = '211'; setApto('211'); }
-                if (cleanText.includes('212')) { currentApto = '212'; setApto('212'); }
+                let selectedApto = apto;
+                
+                if (isAptoSelection) {
+                    selectedApto = text.split(' ')[1];
+                    setApto(selectedApto);
+                }
 
                 setMessages(prev => [...prev, { role: 'user', content: userText, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }]);
                 setInput('');
                 setTyping(true);
 
+                let finalResponse = getLocalResponse(userText);
                 let attachedImg = null;
-                if (cleanText.includes('playa') || cleanText.includes('mar')) attachedImg = `${GITHUB_BASE}general%20playa%20a%205%20minutos.avif`;
+
+                if (cleanText.includes('playa')) attachedImg = `${GITHUB_BASE}general%20playa%20a%205%20minutos.avif`;
                 if (cleanText.includes('mapa')) attachedImg = `${GITHUB_BASE}general%20mapa.avif`;
 
-                let finalResponse = await askGemini(userText, currentApto);
-
-                if (!finalResponse) {
-                    finalResponse = getLocalResponse(userText) || "Dime qué necesitas. Recuerda que tienes toda la oferta de La Pineda a solo unos minutos andando. 🥥";
-                }
+                if (!finalResponse) finalResponse = await askGemini(userText, selectedApto);
+                if (!finalResponse) finalResponse = "No tengo ese dato ahora mismo. Por favor, pulsa el botón de WhatsApp para que te ayudemos personalmente. 📲";
                 
                 setMessages(prev => [...prev, { 
                     role: 'bot', 
-                    content: finalResponse, 
+                    content: isAptoSelection ? `¡Entendido! Estás en el **Apto ${selectedApto}**. ¿En qué puedo ayudarte?` : finalResponse, 
                     image: attachedImg,
                     time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) 
                 }]);
@@ -169,75 +167,86 @@
             };
 
             return (
-                <div className="flex flex-col h-screen max-w-xl mx-auto bg-[#0a0a0a] relative overflow-hidden shadow-2xl">
-                    <header className="safe-top glass border-b border-orange-500/20 sticky top-0 z-50 px-4 pb-4">
-                        <div className="flex items-center justify-between mt-2">
-                            <div className="flex items-center gap-2">
-                                <div className="bg-[#ff6600] p-1.5 rounded-lg">
-                                    <LucideIcon name="Sun" size={18} className="text-black animate-spin-slow" />
-                                </div>
-                                <div>
-                                    <h1 className="font-black text-[#ff6600] text-sm tracking-tighter uppercase leading-none">APARTAoAPORTA</h1>
-                                    <p className="text-[7px] text-orange-500/50 font-bold tracking-widest uppercase italic">Cap Salou & La Pineda</p>
-                                </div>
+                <div className="flex flex-col h-screen max-w-xl mx-auto bg-[#0a0a0a] relative overflow-hidden border-x border-white/5 shadow-2xl">
+                    <header className="safe-top glass border-b border-orange-500/10 sticky top-0 z-50 px-4 py-3 flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                            <div className="bg-[#ff6600] p-1.5 rounded-lg shadow-lg shadow-orange-600/20">
+                                <LucideIcon name="Sun" size={16} className="text-black animate-spin-slow" />
                             </div>
-                            
-                            <div className="flex gap-4 bg-white/5 p-1 px-3 rounded-full border border-white/10 items-center h-10">
-                                {Object.keys(FLAGS).map((l) => (
-                                    <div key={l} className="flag-container">
-                                        <button onClick={() => setLang(l)} className={`flag-btn ${lang === l ? 'active' : ''}`}>
-                                            <img src={FLAGS[l].url} alt={FLAGS[l].label} />
-                                        </button>
-                                        <span className="flag-label">{FLAGS[l].label}</span>
-                                    </div>
-                                ))}
+                            <div>
+                                <h1 className="font-black text-[#ff6600] text-xs tracking-tighter uppercase leading-none">APARTAoAPORTA</h1>
+                                <p className="text-[7px] text-orange-500/50 font-bold uppercase tracking-widest italic">Guest Assistant</p>
                             </div>
+                        </div>
+                        <div className="flex gap-1.5 bg-white/5 p-1 rounded-full border border-white/5">
+                            {Object.keys(FLAGS).map((l) => (
+                                <button key={l} onClick={() => setLang(l)} className={`flag-btn ${lang === l ? 'active' : ''}`}>
+                                    <img src={FLAGS[l].url} alt={FLAGS[l].label} className="w-full h-full object-cover" />
+                                </button>
+                            ))}
                         </div>
                     </header>
 
-                    <main className="flex-1 overflow-y-auto p-4 space-y-6 no-scrollbar pb-48">
+                    <main className="flex-1 overflow-y-auto p-4 space-y-4 no-scrollbar pb-52">
                         {messages.map((m, i) => (
                             <div key={i} className={`flex flex-col ${m.role === 'user' ? 'items-end' : 'items-start'}`}>
-                                <div className={`max-w-[85%] rounded-2xl overflow-hidden shadow-xl ${m.role === 'user' ? 'bg-[#ff6600] text-black font-bold' : 'chat-bubble-bot text-slate-200'}`}>
-                                    {m.image && <img src={m.image} className="w-full h-auto img-gradient" alt="Info" />}
-                                    <div className="p-4 text-sm whitespace-pre-wrap leading-relaxed">
+                                <div className={`max-w-[88%] rounded-2xl overflow-hidden shadow-lg ${m.role === 'user' ? 'bg-[#ff6600] text-black font-semibold' : 'chat-bubble-bot text-slate-200'}`}>
+                                    {m.image && <img src={m.image} className="w-full h-auto img-gradient" />}
+                                    <div className="p-3 text-sm whitespace-pre-wrap">
                                         {m.content}
-                                        <div className="text-[8px] mt-2 font-bold uppercase opacity-30 tracking-widest">{m.time}</div>
+                                        <div className="text-[8px] mt-1.5 font-bold uppercase opacity-25 tracking-widest">{m.time}</div>
                                     </div>
                                 </div>
                             </div>
                         ))}
                         {typing && (
-                            <div className="flex items-center gap-2 p-2 px-4 bg-white/5 rounded-full w-fit">
-                                <div className="w-1.5 h-1.5 bg-orange-500 rounded-full animate-bounce"></div>
-                                <div className="w-1.5 h-1.5 bg-orange-500 rounded-full animate-bounce [animation-delay:0.2s]"></div>
-                                <div className="w-1.5 h-1.5 bg-orange-500 rounded-full animate-bounce [animation-delay:0.4s]"></div>
-                                <span className="text-[10px] text-orange-500/50 font-bold uppercase ml-2">{t.typing}</span>
+                            <div className="flex items-center gap-2 p-2 px-3 bg-white/5 rounded-full w-fit">
+                                <div className="w-1 h-1 bg-orange-500 rounded-full animate-bounce"></div>
+                                <div className="w-1 h-1 bg-orange-500 rounded-full animate-bounce [animation-delay:0.2s]"></div>
+                                <span className="text-[9px] text-orange-500/50 font-bold uppercase ml-1">{t.typing}</span>
                             </div>
                         )}
                         <div ref={messagesEndRef} />
                     </main>
 
-                    <div className="fixed bottom-0 left-0 right-0 max-w-xl mx-auto z-40 p-4 glass border-t border-white/5 pb-8">
-                        <div className="flex gap-2 mb-3 overflow-x-auto no-scrollbar py-1">
-                            <button onClick={() => window.open(`https://wa.me/${WHATSAPP_NUMBER}`)} className="bg-green-600 text-white font-black text-[10px] px-4 py-3 rounded-xl uppercase flex items-center gap-2 shrink-0 active:scale-95 transition-transform"><LucideIcon name="MessageCircle" size={14} /> {t.contact}</button>
-                            {!apto ? (
-                                ['210','211','212'].map(n => <button key={n} onClick={() => handleSend(`${t.apto} ${n}`)} className="bg-orange-600 text-black font-black text-[10px] px-5 py-3 rounded-xl uppercase shrink-0 active:scale-95 transition-transform">{t.apto} {n}</button>)
-                            ) : (
-                                <>
-                                    <button onClick={() => handleSend('wifi')} className="bg-white/5 border border-white/10 text-white font-bold text-[10px] px-4 py-3 rounded-xl uppercase shrink-0 active:scale-95 transition-transform">📶 {t.wifi}</button>
-                                    <button onClick={() => handleSend('playa')} className="bg-white/5 border border-white/10 text-white font-bold text-[10px] px-4 py-3 rounded-xl uppercase shrink-0 active:scale-95 transition-transform">🌊 {t.beach}</button>
-                                    <button onClick={() => handleSend('¿Qué hay cerca?') } className="bg-white/5 border border-white/10 text-white font-bold text-[10px] px-4 py-3 rounded-xl uppercase shrink-0 active:scale-95 transition-transform">🏘️ La Pineda</button>
-                                </>
-                            )}
+                    <footer className="fixed bottom-0 left-0 right-0 max-w-xl mx-auto z-40 p-3 glass border-t border-white/5 pb-8">
+                        {/* FILA 1: Apartamentos */}
+                        <div className="flex gap-2 mb-2 overflow-x-auto no-scrollbar">
+                            {['210', '211', '212'].map(n => (
+                                <button 
+                                    key={n} 
+                                    onClick={() => handleSend(`${t.apto} ${n}`, true)} 
+                                    className={`action-btn flex-1 py-2.5 rounded-xl text-[10px] font-black uppercase border ${apto === n ? 'bg-[#ff6600] text-black border-[#ff6600]' : 'bg-white/5 text-orange-500 border-white/10'}`}
+                                >
+                                    {t.apto} {n}
+                                </button>
+                            ))}
                         </div>
-                        <div className="flex gap-2 items-center bg-black/60 border border-white/10 rounded-2xl p-1 px-4 shadow-inner">
-                            <input value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleSend()} placeholder={t.placeholder} className="flex-1 bg-transparent py-4 text-sm outline-none text-white placeholder-white/20" />
-                            <button onClick={() => handleSend()} className="bg-[#ff6600] text-black p-3 rounded-xl active:scale-90 transition-all">
-                                <LucideIcon name="Send" size={18} />
+                        
+                        {/* FILA 2: Servicios y WhatsApp */}
+                        <div className="flex gap-2 mb-3">
+                            <button onClick={() => handleSend('wifi')} className="action-btn bg-white/5 border border-white/10 text-white font-bold text-[9px] px-3 py-2.5 rounded-xl uppercase flex-1">📶 {t.wifi}</button>
+                            <button onClick={() => handleSend('horarios')} className="action-btn bg-white/5 border border-white/10 text-white font-bold text-[9px] px-3 py-2.5 rounded-xl uppercase flex-1">⏰ {t.hours}</button>
+                            <button onClick={() => handleSend('playa')} className="action-btn bg-white/5 border border-white/10 text-white font-bold text-[9px] px-3 py-2.5 rounded-xl uppercase flex-1">🌊 {t.beach}</button>
+                            <button onClick={() => window.open(`https://wa.me/${WHATSAPP_NUMBER}`)} className="action-btn bg-green-600/90 text-white font-black text-[9px] px-4 py-2.5 rounded-xl uppercase flex items-center justify-center gap-1.5 shadow-lg shadow-green-900/20 active:bg-green-500">
+                                <LucideIcon name="MessageCircle" size={14} /> {t.contact}
                             </button>
                         </div>
-                    </div>
+                        
+                        {/* Input de texto */}
+                        <div className="flex gap-2 items-center bg-black/40 border border-white/5 rounded-2xl p-1 px-3">
+                            <input 
+                                value={input} 
+                                onChange={(e) => setInput(e.target.value)} 
+                                onKeyDown={(e) => e.key === 'Enter' && handleSend()} 
+                                placeholder={t.placeholder} 
+                                className="flex-1 bg-transparent py-3 text-sm outline-none text-white placeholder-white/10" 
+                            />
+                            <button onClick={() => handleSend()} className="bg-[#ff6600] text-black p-2.5 rounded-xl active:scale-90 transition-all">
+                                <LucideIcon name="Send" size={16} />
+                            </button>
+                        </div>
+                    </footer>
                 </div>
             );
         };
