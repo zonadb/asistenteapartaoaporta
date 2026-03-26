@@ -160,4 +160,144 @@
                 luis: "Mis sitios favoritos",
                 aptText: "Alojado en el Loft ",
                 storyT: "Los Orígenes",
-                storyC: "En febrero de 2020 compré mi primer apartamento para desconectar con mi hija Valeria. No era fan de la playa por los engorros de cargar trastos y arena, así que busqué crear un hogar con mis luces, mi TV gigante y todos los lujos a pie de mar. El destino nos llevó a completar la calle con el 211 y el 212
+                storyC: "En febrero de 2020 compré mi primer apartamento para desconectar con mi hija Valeria. No era fan de la playa por los engorros de cargar trastos y arena, así que busqué crear un hogar con mis luces, mi TV gigante y todos los lujos a pie de mar. El destino nos llevó a completar la calle con el 211 y el 212. Hoy compartimos este rincón de paz deseando que sintáis un poquito de nosotros en vuestra estancia.",
+                waMsg: "Hola Luis, necesito ayuda con mi estancia en el Loft ",
+                botWelcome: "¡Hola! Soy tu asistente. ¿Qué duda tienes sobre el apartamento?",
+                botAnswers: {
+                    parking: "Usa la llave maestra del llavero para abrir cualquier cepo libre. En agosto, el parking está muy solicitado, ¡no muevas el coche!",
+                    wifi: "La red es 'apartaoaporta' y la clave es '2020v@leria'. ¡Funciona en todo el loft!",
+                    basura: "Los contenedores están justo enfrente del portal del edificio (reciclaje completo).",
+                    tv: "Tienes una Smart TV Sony con Ambilight. Puedes usar tus cuentas de Netflix o Disney+ (acuérdate de borrarlas al salir)."
+                }
+            },
+            ca: {
+                welcome: "Benvingut a la teva llar tecnològica",
+                parkingT: "🚗 Pàrquing i Accés",
+                parkingD: "Fes servir la clau mestra per obrir qualsevol cep lliure a l'edifici Fluromar II.",
+                august: "A l'agost hi ha molta demanda, evita moure el cotxe!",
+                luis: "Els meus llocs preferits",
+                aptText: "Allotjat al Loft ",
+                storyT: "Els Orígens",
+                storyC: "Al febrer de 2020 vaig comprar el meu primer apartament per desconnectar amb la meva filla Valeria. No era fan de la platja per l'embolic de carregar trastos i sorra, així que vaig buscar crear una llar amb els meus llums, la meva TV gegant i tots els luxes a peu de mar. El destí ens va portar a completar el carrer amb el 211 i el 212. Avui compartim aquest racó de pau desitjant que sentiu una miqueta de nosaltres.",
+                waMsg: "Hola Luis, necessito ajuda amb la meva estada al Loft ",
+                botWelcome: "Hola! Sóc el teu assistent. Quin dubte tens sobre l'apartament?",
+                botAnswers: {
+                    parking: "Fes servir la clau mestra per obrir qualsevol cep lliure. A l'agost no moguis el cotxe!",
+                    wifi: "La xarxa és 'apartaoaporta' i la clau '2020v@leria'. Gaudeix-la!",
+                    basura: "Els contenidors estan just davant del portal de l'edifici.",
+                    tv: "Tens una Smart TV amb Ambilight. Pots fer servir les teves claus de Netflix (recorda esborrar-les)."
+                }
+            },
+            en: {
+                welcome: "Welcome to your high-tech home",
+                parkingT: "🚗 Parking & Access",
+                parkingD: "Use the master key to open any free parking bollard in Fluromar II.",
+                august: "Parking is busy in August, try not to move your car!",
+                luis: "My Favorite Places",
+                aptText: "Staying in Loft ",
+                storyT: "The Origins",
+                storyC: "In February 2020 I bought my first apartment to disconnect with my daughter Valeria. I wasn't a beach fan due to the hassle of toys and sand, so I decided to create a luxury home with smart lights and a huge TV right by the sea. Destiny led us to complete the street with lofts 211 and 212. Today we share our piece of peace, hoping you feel at home.",
+                waMsg: "Hi Luis, I need help with my stay at Loft ",
+                botWelcome: "Hi! I am your virtual assistant. How can I help you today?",
+                botAnswers: {
+                    parking: "Use the master key on your keychain to open any free bollard. In August, parking is hard to find, don't move your car!",
+                    wifi: "The network is 'apartaoaporta' and password is '2020v@leria'. Enjoy!",
+                    basura: "Garbage bins are located right across the building entrance.",
+                    tv: "You have a Smart TV with Ambilight. Feel free to use Netflix or Disney+ with your own account (remember to log out)."
+                }
+            },
+            fr: {
+                welcome: "Bienvenue dans votre foyer high-tech",
+                parkingT: "🚗 Parking et Accès",
+                parkingD: "Utilisez le passe-partout pour ouvrir n'importe quel arceau libre dans le bâtiment.",
+                august: "En août, le parking est très demandé, évitez de bouger la voiture!",
+                luis: "Mes endroits préférés",
+                aptText: "Logé au Loft ",
+                storyT: "Les Origines",
+                storyC: "En février 2020, j'ai acheté mon premier appartement pour déconnecter avec ma fille Valeria. Je n'aimais pas la plage à cause du sable et du transport, j'ai donc créé un foyer luxueux avec mes lumières et ma télé géante au bord de l'eau. Le destin nous a permis de compléter la rue avec les 211 et 212. Aujourd'hui, nous partageons ce havre de paix avec vous.",
+                waMsg: "Bonjour Luis, j'ai besoin d'aide pour mon séjour au Loft ",
+                botWelcome: "Bonjour ! Je suis votre assistant. Quel est votre problème ?",
+                botAnswers: {
+                    parking: "Utilisez la clé principale pour ouvrir n'importe quel arceau libre. En août, ne déplacez pas la voiture !",
+                    wifi: "Le réseau est 'apartaoaporta' et le code '2020v@leria'. Connectez-vous !",
+                    basura: "Les conteneurs sont juste en face de l'entrée de l'immeuble.",
+                    tv: "Vous avez une Smart TV avec Ambilight. Utilisez Netflix ou Disney+ (pensez à vous déconnecter)."
+                }
+            }
+        };
+
+        window.currentApt = null;
+
+        // INICIALIZAR LA APP SEGÚN LOFT SELECCIONADO
+        function initApp(apt) {
+            window.currentApt = apt;
+            document.getElementById('selector-screen').classList.add('hidden');
+            document.getElementById('main-app').classList.remove('hidden');
+            
+            // Fotos reales según fuentes
+            const photos = {
+                '210': 'img/210-salon.avif',
+                '211': 'img/211-mesa-tv.jpeg',
+                '212': 'img/212-general.avif'
+            };
+            document.getElementById('main-photo').src = photos[apt];
+            
+            updateUI();
+        }
+
+        // ACTUALIZAR TODOS LOS TEXTOS E INTERFAZ
+        function updateUI() {
+            const lang = document.getElementById('lang-selector').value;
+            const t = translations[lang];
+            
+            // Textos dinámicos
+            document.getElementById('txt-welcome').innerText = t.welcome;
+            document.getElementById('txt-luis-recomm').innerText = t.luis;
+            document.getElementById('txt-story-title').innerText = t.storyT;
+            document.getElementById('txt-story-content').innerText = t.storyC;
+            document.getElementById('txt-bot-title').innerText = "Bot de Luis (" + lang.toUpperCase() + ")";
+            
+            if(window.currentApt) {
+                document.getElementById('display-apt').innerText = t.aptText + window.currentApt;
+                
+                // Configurar WhatsApp dinámico
+                const phoneNumber = "34617635544";
+                const finalMsg = encodeURIComponent(t.waMsg + window.currentApt);
+                document.getElementById('whatsapp-link').href = "https://wa.me/" + phoneNumber + "?text=" + finalMsg;
+            }
+        }
+
+        // LÓGICA DEL CHATBOT
+        function askChat(topic) {
+            const lang = document.getElementById('lang-selector').value;
+            const t = translations[lang];
+            const container = document.getElementById('chat-container');
+            
+            const userQuestions = {
+                parking: "🚗 ¿Cómo aparco?",
+                wifi: "🌐 Clave WIFI",
+                basura: "🗑️ Basura",
+                tv: "📺 La tele"
+            };
+
+            // 1. Mensaje del usuario
+            container.innerHTML += `
+                <div class="bg-gray-200 text-gray-800 p-3 rounded-2xl rounded-br-none text-xs font-bold self-end ml-auto max-w-[80%] mb-2 shadow-sm">
+                    ${userQuestions[topic]}
+                </div>`;
+
+            // 2. Respuesta del bot (con retraso simulado)
+            setTimeout(() => {
+                container.innerHTML += `
+                    <div class="bg-blue-600 text-white p-3 rounded-2xl rounded-bl-none text-sm self-start max-w-[85%] mb-2 shadow-md italic">
+                        ${t.botAnswers[topic]}
+                    </div>`;
+                container.scrollTop = container.scrollHeight;
+            }, 450);
+        }
+
+        // Cargar traducción inicial
+        updateUI();
+    </script>
+</body>
+</html>
