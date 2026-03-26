@@ -2,268 +2,224 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Asistente APARTAoAPORTA</title>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APARTAoAPORTA - Guía Digital</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
-        :root { --sat: env(safe-area-inset-top); --sab: env(safe-area-inset-bottom); }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0a0a0a; color: #f8fafc; margin: 0; padding: 0; height: 100vh; overflow: hidden; }
-        
-        @keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .animate-spin-slow { animation: spin-slow 12s linear infinite; }
-        
-        .glass { background: rgba(10, 10, 10, 0.85); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        
-        .flag-btn { width: 32px; height: 32px; border-radius: 50%; transition: all 0.3s ease; overflow: hidden; border: 2px solid transparent; opacity: 0.4; filter: grayscale(0.5); }
-        .flag-btn.active { border-color: #ff6600; transform: scale(1.1); opacity: 1; filter: grayscale(0); box-shadow: 0 0 15px rgba(255,102,0,0.3); }
-        
-        .chat-bubble-bot { background: linear-gradient(145deg, #1a1a1a, #111111); border: 1px solid rgba(255, 102, 0, 0.1); }
-        .img-container { position: relative; width: 100%; overflow: hidden; border-radius: 12px 12px 0 0; background: #111; min-height: 180px; }
-        .img-gradient-overlay { position: absolute; bottom: 0; left: 0; right: 0; height: 50%; background: linear-gradient(to top, rgba(17,17,17,1), transparent); }
-        
-        .action-btn { transition: all 0.2s ease; border: 1px solid rgba(255, 255, 255, 0.05); }
-        .action-btn:active { transform: scale(0.96); }
+        .gradient-bg { background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .apartment-specific { display: none; }
+        .apartment-specific.visible { display: block; }
     </style>
 </head>
-<body>
-    <div id="root"></div>
+<body class="bg-gray-50 font-sans text-gray-900 pb-20">
 
-    <script type="text/babel">
-        const { useState, useEffect, useRef } = React;
+    <!-- SELECTOR DE IDIOMA (Flotante) -->
+    <div class="fixed top-4 right-4 z-50">
+        <select id="lang-selector" onchange="changeLanguage()" class="bg-white border border-blue-500 rounded-full px-3 py-1 shadow-md text-xs font-bold focus:outline-none">
+            <option value="es">🇪🇸 ES</option>
+            <option value="ca">⚽ CA</option>
+            <option value="fr">🇫🇷 FR</option>
+            <option value="en">🇬🇧 EN</option>
+        </select>
+    </div>
+
+    <!-- PANTALLA DE SELECCIÓN INICIAL -->
+    <div id="selector-screen" class="min-h-screen flex flex-col items-center justify-center p-6 gradient-bg text-white text-center">
+        <h1 class="text-4xl font-bold mb-2">APARTAoAPORTA</h1>
+        <p id="txt-welcome" class="mb-8 text-blue-100 italic">Bienvenido a tu loft en La Pineda</p>
         
-        const WHATSAPP_NUMBER = "34617635544";
-        const GITHUB_RAW = "https://raw.githubusercontent.com/zonadb/apartaoaporta-fotos/main/";
+        <div class="grid grid-cols-1 gap-4 w-full max-w-xs">
+            <button onclick="initApp('210')" class="bg-white text-blue-900 font-bold py-4 rounded-2xl shadow-xl text-xl hover:bg-blue-50">Loft 210</button>
+            <button onclick="initApp('211')" class="bg-white text-blue-900 font-bold py-4 rounded-2xl shadow-xl text-xl hover:bg-blue-50">Loft 211</button>
+            <button onclick="initApp('212')" class="bg-white text-blue-900 font-bold py-4 rounded-2xl shadow-xl text-xl hover:bg-blue-50">Loft 212</button>
+        </div>
+    </div>
 
-        const ASSETS = {
-            playa: `${GITHUB_RAW}general%20playa%20a%205%20minutos.avif`,
-            parking: `${GITHUB_RAW}general%20parking.avif`,
-            piscina: `${GITHUB_RAW}general%20piscina.avif`,
-            luces: `${GITHUB_RAW}general%20luces%20led.avif`,
-            apto211: `${GITHUB_RAW}apto%20211%20salon.avif`,
-            apto210: `${GITHUB_RAW}apto%20210%20salon.avif`
-        };
-
-        const TRANSLATIONS = {
-            es: {
-                welcome: "¡Hola! 👋 Soy tu asistente de APARTAoAPORTA. ¿En qué apartamento estás alojado? ✨",
-                placeholder: "Escribe tu duda... 💬",
-                typing: "Buscando info... 🔍",
-                wifi: "WiFi 📶",
-                pool: "Piscina 🏊‍♂️",
-                park: "Parking 🚗",
-                apto: "Apto",
-                data: {
-                    wifi: "📶 **WiFi:** Red: **apartaoaporta** / Clave: **2020v@leria** 🔑",
-                    pool: "🏊‍♂️ **Piscina:** 10:00h a 22:00h. (Solo verano ☀️)",
-                    parking: "🚗 **Parking:** Comunitario gratuito dentro del recinto. 🅿️ **Zona Azul:** GRATIS de 21:00h a 10:00h. (Al mediodía es de pago 💸)",
-                    lights: "💡 **Luces:** Controla el Ambilight con los mandos pequeños junto a la TV. 🌈",
-                    apto211: "🏠 **¡Bienvenido al Apto 211!** 🌟 Tienes LAVAVAJILLAS 🍽️ y PERSIANAS eléctricas con mando (puedes bajarlas todas a la vez o una a una).",
-                    apto210: "🏠 **¡Bienvenido al Apto 210!** 🔥 Tienes CHIMENEA eléctrica y Ambilight en la TV para una noche acogedora.",
-                    playa: "🏖️ **Playa:** A 5 min andando. ¡Disfruta el mar! 🌊"
-                }
-            },
-            en: {
-                welcome: "Hi! 👋 I'm your APARTAoAPORTA assistant. Which apartment are you staying in? ✨",
-                placeholder: "Type your question... 💬",
-                typing: "Searching... 🔍",
-                wifi: "WiFi 📶",
-                pool: "Pool 🏊‍♂️",
-                park: "Parking 🚗",
-                apto: "Apt",
-                data: {
-                    wifi: "📶 **WiFi:** Network: **apartaoaporta** / Key: **2020v@leria** 🔑",
-                    pool: "🏊‍♂️ **Pool:** 10:00 AM to 10:00 PM. (Summer only ☀️)",
-                    parking: "🚗 **Parking:** Free community parking inside. 🅿️ **Blue Zone:** FREE from 9:00 PM to 10:00 AM. (Paid at noon 💸)",
-                    lights: "💡 **Lights:** Control Ambilight with the small remotes next to the TV. 🌈",
-                    apto211: "🏠 **Welcome to Apt 211!** 🌟 You have a DISHWASHER 🍽️ and electric BLINDS with remote control.",
-                    apto210: "🏠 **Welcome to Apt 210!** 🔥 You have an electric FIREPLACE and cozy Ambilight on the TV.",
-                    playa: "🏖️ **Beach:** 5 min walk away. Enjoy! 🌊"
-                }
-            },
-            fr: {
-                welcome: "Salut! 👋 Je suis votre assistant APARTAoAPORTA. Dans quel appartement logez-vous? ✨",
-                placeholder: "Écrivez votre question... 💬",
-                typing: "Recherche... 🔍",
-                wifi: "WiFi 📶",
-                pool: "Piscine 🏊‍♂️",
-                park: "Parking 🚗",
-                apto: "Apt",
-                data: {
-                    wifi: "📶 **WiFi:** Réseau: **apartaoaporta** / Code: **2020v@leria** 🔑",
-                    pool: "🏊‍♂️ **Piscine:** 10h00 à 22h00. (Été seulement ☀️)",
-                    parking: "🚗 **Parking:** Parking communautaire gratuit à l'intérieur. 🅿️ **Zone Bleue:** GRATUIT de 21h00 à 10h00. (Payant le midi 💸)",
-                    lights: "💡 **Lumières:** Contrôlez l'Ambilight avec les petites télécommandes. 🌈",
-                    apto211: "🏠 **Bienvenue à l'Apt 211 !** 🌟 Vous avez un LAVE-VAISSELLE 🍽️ et des VOLETS électriques avec télécommande.",
-                    apto210: "🏠 **Bienvenue à l'Apt 210 !** 🔥 Vous avez une CHEMINÉE électrique et Ambilight sur la TV.",
-                    playa: "🏖️ **Plage:** À 5 min à pied. Profitez-en! 🌊"
-                }
-            }
-        };
-
-        const LucideIcon = ({ name, size = 18, className = "" }) => {
-            const [iconContent, setIconContent] = useState(null);
-            useEffect(() => { if (window.lucide && window.lucide.icons[name]) setIconContent(window.lucide.icons[name]); }, [name]);
-            if (!iconContent) return <span className={className} style={{ width: size, height: size }}></span>;
-            return (
-                <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}
-                    dangerouslySetInnerHTML={{ __html: iconContent.map(i => `<${i[0]} ${Object.entries(i[1]).map(([k, v]) => `${k}="${v}"`).join(' ')} />`).join('') }} />
-            );
-        };
-
-        const App = () => {
-            const [lang, setLang] = useState('es');
-            const [apto, setApto] = useState(null);
-            const [messages, setMessages] = useState([]);
-            const [input, setInput] = useState('');
-            const [typing, setTyping] = useState(false);
-            const messagesEndRef = useRef(null);
-            const t = TRANSLATIONS[lang];
-
-            useEffect(() => {
-                setMessages([{ 
-                    role: 'bot', 
-                    content: t.welcome, 
-                    time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) 
-                }]);
-            }, [lang]);
-
-            useEffect(() => { messagesEndRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages, typing]);
-
-            const getResponse = (query) => {
-                const q = query.toLowerCase();
-                const d = t.data;
-                if (q.includes('piscina') || q.includes('pool') || q.includes('piscine')) return { text: d.pool, img: ASSETS.piscina };
-                if (q.includes('parking') || q.includes('azul') || q.includes('blue') || q.includes('bleue') || q.includes('coche') || q.includes('park')) return { text: d.parking, img: ASSETS.parking };
-                if (q.includes('wifi') || q.includes('clave') || q.includes('key') || q.includes('code')) return { text: d.wifi, img: null };
-                if (q.includes('luz') || q.includes('light') || q.includes('led') || q.includes('lumière')) return { text: d.lights, img: ASSETS.luces };
-                if (q.includes('playa') || q.includes('beach') || q.includes('plage')) return { text: d.playa, img: ASSETS.playa };
-                return null;
-            };
-
-            const handleSend = (text, isAptoBtn = false) => {
-                const userText = text || input;
-                if (!userText.trim() || typing) return;
-
-                setMessages(prev => [...prev, { role: 'user', content: userText, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }]);
-                setInput('');
-                setTyping(true);
-
-                let respText, respImg;
-
-                if (isAptoBtn) {
-                    const num = text.split(' ')[1];
-                    setApto(num);
-                    // Aquí es donde recuperamos las fotos de los apartamentos
-                    if (num === '211') {
-                        respText = t.data.apto211;
-                        respImg = ASSETS.apto211;
-                    } else if (num === '210') {
-                        respText = t.data.apto210;
-                        respImg = ASSETS.apto210;
-                    } else {
-                        respText = `Apto ${num} ✨`;
-                        respImg = null;
-                    }
-                } else {
-                    const local = getResponse(userText);
-                    if (local) {
-                        respText = local.text;
-                        respImg = local.img;
-                    } else {
-                        respText = `🌴 APARTAoAPORTA ✨\n${t.data.wifi}\n${t.data.parking}`;
-                    }
-                }
-
-                setTimeout(() => {
-                    setMessages(prev => [...prev, { 
-                        role: 'bot', 
-                        content: respText, 
-                        image: respImg,
-                        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) 
-                    }]);
-                    setTyping(false);
-                }, 600);
-            };
-
-            return (
-                <div className="flex flex-col h-screen max-w-xl mx-auto bg-[#0a0a0a] relative overflow-hidden shadow-2xl border-x border-white/5">
-                    <header className="safe-top glass border-b border-orange-500/10 sticky top-0 z-50 px-4 py-3 flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                            <div className="bg-[#ff6600] p-1.5 rounded-lg shadow-lg">
-                                <LucideIcon name="Sun" size={16} className="text-black animate-spin-slow" />
-                            </div>
-                            <h1 className="font-black text-[#ff6600] text-xs tracking-tighter uppercase leading-none">APARTA<br/>oAPORTA</h1>
-                        </div>
-                        <div className="flex gap-2 bg-white/5 p-1 rounded-full px-2">
-                            <button onClick={() => setLang('es')} className={`flag-btn ${lang === 'es' ? 'active' : ''}`}>
-                                <img src="https://flagcdn.com/w80/es.png" className="w-full h-full object-cover" alt="ES" />
-                            </button>
-                            <button onClick={() => setLang('en')} className={`flag-btn ${lang === 'en' ? 'active' : ''}`}>
-                                <img src="https://flagcdn.com/w80/gb.png" className="w-full h-full object-cover" alt="EN" />
-                            </button>
-                            <button onClick={() => setLang('fr')} className={`flag-btn ${lang === 'fr' ? 'active' : ''}`}>
-                                <img src="https://flagcdn.com/w80/fr.png" className="w-full h-full object-cover" alt="FR" />
-                            </button>
-                        </div>
-                    </header>
-
-                    <main className="flex-1 overflow-y-auto p-4 space-y-4 no-scrollbar pb-80">
-                        {messages.map((m, i) => (
-                            <div key={i} className={`flex flex-col ${m.role === 'user' ? 'items-end' : 'items-start'}`}>
-                                <div className={`max-w-[88%] rounded-2xl overflow-hidden shadow-xl ${m.role === 'user' ? 'bg-[#ff6600] text-black font-bold p-3' : 'chat-bubble-bot text-slate-100'}`}>
-                                    {m.image && (
-                                        <div className="img-container">
-                                            <img 
-                                                src={m.image} 
-                                                className="w-full h-48 object-cover" 
-                                                alt="Apto Photo" 
-                                                onError={(e) => e.target.style.display='none'}
-                                            />
-                                            <div className="img-gradient-overlay"></div>
-                                        </div>
-                                    )}
-                                    <div className="p-3 text-sm whitespace-pre-wrap leading-relaxed">
-                                        {m.content}
-                                        <div className="text-[8px] mt-2 font-black uppercase opacity-30 tracking-widest">{m.time}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                        {typing && <div className="text-[9px] text-orange-500 font-black uppercase ml-4 animate-pulse">🔍 {t.typing}</div>}
-                        <div ref={messagesEndRef} />
-                    </main>
-
-                    <footer className="fixed bottom-0 left-0 right-0 max-w-xl mx-auto z-40 p-4 glass border-t border-white/5 pb-12">
-                        <div className="flex gap-2 mb-2 overflow-x-auto no-scrollbar">
-                            {['210', '211', '212'].map(n => (
-                                <button key={n} onClick={() => handleSend(`${t.apto} ${n}`, true)} className={`action-btn flex-1 py-2 px-4 rounded-xl text-[10px] font-black uppercase border whitespace-nowrap ${apto === n ? 'bg-[#ff6600] text-black border-[#ff6600]' : 'bg-white/5 text-orange-500 border-white/10'}`}>🏠 {t.apto} {n}</button>
-                            ))}
-                        </div>
-                        <div className="flex gap-2 mb-4">
-                            <button onClick={() => handleSend(t.wifi)} className="action-btn bg-white/5 border border-white/10 text-white font-bold text-[9px] px-3 py-3 rounded-xl uppercase flex-1 shadow-sm">📶 {t.wifi}</button>
-                            <button onClick={() => handleSend(t.pool)} className="action-btn bg-white/5 border border-white/10 text-white font-bold text-[9px] px-3 py-3 rounded-xl uppercase flex-1 shadow-sm">🏊‍♂️ {t.pool}</button>
-                            <button onClick={() => handleSend(t.park)} className="action-btn bg-white/5 border border-white/10 text-white font-bold text-[9px] px-3 py-3 rounded-xl uppercase flex-1 shadow-sm">🚗 {t.park}</button>
-                            <button onClick={() => window.open(`https://wa.me/${WHATSAPP_NUMBER}`)} className="action-btn bg-green-600 text-white font-black text-[9px] px-3 py-3 rounded-xl uppercase flex items-center justify-center gap-1.5 shadow-lg active:bg-green-500 transition-all"><LucideIcon name="MessageCircle" size={14} /> WhatsApp</button>
-                        </div>
-                        <div className="flex gap-2 items-center bg-black border border-white/10 rounded-2xl p-1 px-3 shadow-inner">
-                            <input value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleSend()} placeholder={t.placeholder} className="flex-1 bg-transparent py-4 text-sm outline-none text-white placeholder-white/20" />
-                            <button onClick={() => handleSend()} className="bg-[#ff6600] text-black p-3 rounded-xl hover:scale-105 active:scale-95 transition-all"><LucideIcon name="Send" size={16} /></button>
-                        </div>
-                    </footer>
+    <!-- APP PRINCIPAL -->
+    <div id="main-app" class="hidden">
+        <header class="gradient-bg text-white p-6 rounded-b-3xl shadow-lg sticky top-0 z-40">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h2 class="text-2xl font-bold">APARTAoAPORTA</h2>
+                    <p id="display-apt" class="text-blue-100 text-sm font-semibold"></p>
                 </div>
-            );
-        };
+                <button onclick="location.reload()" class="bg-blue-700 p-2 rounded-full"><i class="fas fa-home"></i></button>
+            </div>
+        </header>
 
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
+        <main class="p-4 space-y-4">
+            
+            <!-- SECCIÓN: CONEXIÓN -->
+            <div class="bg-white p-4 rounded-2xl shadow-sm border-l-4 border-blue-500">
+                <h3 class="font-bold flex items-center mb-2"><i class="fas fa-wifi mr-2"></i> WIFI</h3>
+                <p class="text-sm text-gray-600">Red: <span class="font-bold text-black">apartaoaporta</span></p>
+                <p class="text-sm text-gray-600">Password: <span class="font-bold text-black text-lg">2020v@leria</span></p>
+            </div>
+
+            <!-- SECCIÓN: LLEGADA Y PARKING -->
+            <div class="bg-white p-4 rounded-2xl shadow-sm">
+                <h3 id="txt-parking-title" class="font-bold mb-2">🚗 Parking y Acceso</h3>
+                <p id="txt-parking-desc" class="text-sm text-gray-600 mb-2">Tu llave maestra abre cualquier cepo libre del edificio Fluromar II.</p>
+                <div class="bg-orange-50 p-3 rounded-xl border border-orange-100 text-xs text-orange-800">
+                    <i class="fas fa-exclamation-triangle"></i> <span id="txt-parking-august">En agosto hay mucha demanda, ¡evita mover el coche!</span>
+                </div>
+            </div>
+
+            <!-- CARACTERÍSTICAS ESPECÍFICAS SEGÚN APARTAMENTO -->
+            <div id="feat-210" class="apartment-specific bg-blue-50 p-4 rounded-2xl">
+                <h4 class="font-bold text-blue-900 mb-1">Loft 210 Highlights:</h4>
+                <ul class="text-xs space-y-1">
+                    <li>📺 TV 65" Ambilight</li>
+                    <li>🔥 Chimenea Eléctrica</li>
+                    <li>💡 Luces Nanoleaf / Govee</li>
+                </ul>
+            </div>
+            <div id="feat-211" class="apartment-specific bg-green-50 p-4 rounded-2xl">
+                <h4 class="font-bold text-green-900 mb-1">Loft 211 Highlights:</h4>
+                <ul class="text-xs space-y-1">
+                    <li>🍽️ Lavavajillas integrado</li>
+                    <li>☀️ Persianas Eléctricas</li>
+                    <li>📺 TV 55" Ambilight</li>
+                </ul>
+            </div>
+
+            <!-- BOTONES DE LLAMADA DIRECTA -->
+            <div class="grid grid-cols-2 gap-3">
+                <a href="tel:+34977385050" class="bg-yellow-400 text-yellow-900 p-4 rounded-2xl font-bold text-center shadow-md">
+                    <i class="fas fa-taxi text-xl"></i><br>Taxi Salou
+                </a>
+                <a href="tel:877402030" class="bg-red-500 text-white p-4 rounded-2xl font-bold text-center shadow-md">
+                    <i class="fas fa-utensils text-xl"></i><br>El Pirata
+                </a>
+            </div>
+
+            <!-- RECOMENDACIONES DE LUIS -->
+            <div class="space-y-3">
+                <h3 id="txt-luis-recomm" class="font-bold px-2 italic text-blue-800">Recomendaciones de Luis</h3>
+                <a href="https://www.google.com/maps/dir/?api=1&destination=Tagliatella+La+Pineda" class="block bg-white p-3 rounded-xl shadow-sm border border-gray-100">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <p class="font-bold">La Tagliatella (Mi preferido)</p>
+                            <p class="text-xs text-gray-500">Pasta y Pizza frente al mar</p>
+                        </div>
+                        <i class="fas fa-chevron-right text-gray-300"></i>
+                    </div>
+                </a>
+                <a href="https://www.google.com/maps/dir/?api=1&destination=Wissler+Burger" class="block bg-white p-3 rounded-xl shadow-sm border border-gray-100">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <p class="font-bold">Wissler / Oh la lá</p>
+                            <p class="text-xs text-gray-500">Hamburguesas Gourmet (5 min)</p>
+                        </div>
+                        <i class="fas fa-chevron-right text-gray-300"></i>
+                    </div>
+                </a>
+            </div>
+
+	<!-- SECCIÓN: NUESTRA HISTORIA -->
+	<section class="bg-blue-50 p-6 rounded-2xl shadow-inner border-l-4 border-blue-600 mt-6 mx-2">
+   		 <h3 id="txt-story-title" class="font-bold text-xl mb-3 text-blue-900 text-center flex items-center justify-center">
+        		<i class="fas fa-heart text-red-500 mr-2"></i> <span id="title-origins">Nuestra Historia</span>
+   		 </h3>
+    		<div id="txt-story-content" class="text-sm text-gray-700 leading-relaxed italic text-justify">
+        		<!-- El contenido se cargará automáticamente por idioma -->
+    		</div>
+    		<p class="text-right mt-4 font-bold text-blue-900 text-xs">— Luis & Valeria</p>
+	</section>
+
+
+            <!-- NORMAS RÁPIDAS -->
+            <div class="p-4 text-xs text-gray-400 text-center">
+                <p>🚫 No mascotas | 🚭 No fumar | 🗑️ Basura frente al portal</p>
+                <p class="mt-2">Contacto urgencias: 0034617635544</p>
+            </div>
+        </main>
+    </div>
+
+    <!-- SCRIPT DE LÓGICA -->
+    <script>
+       const translations = {
+    es: {
+        welcome: "Bienvenido a tu loft en La Pineda",
+        parkingT: "🚗 Parking y Acceso",
+        parkingD: "Tu llave maestra abre cualquier cepo libre del edificio.",
+        august: "En agosto, si aparcas, ¡no muevas el coche!",
+        luis: "Recomendaciones de Luis",
+        aptText: "Te alojas en el Loft ",
+        storyT: "Los Orígenes",
+        storyC: "Todo comenzó en febrero de 2020. Buscaba un refugio para desconectar con mi hija Valeria. Aunque no era fan del 'lío' de la playa, decidí crear un hogar tecnológico y de lujo a pie de arena...",
+        waMsg: "Hola Luis, necesito ayuda con mi estancia en el Loft "
+    },
+    ca: {
+        welcome: "Benvingut al teu loft a La Pineda",
+        parkingT: "🚗 Pàrquing i Accés",
+        parkingD: "La teva clau mestra obre qualsevol cep lliure de l'edifici.",
+        august: "A l'agost, si aparques, no moguis el cotxe!",
+        luis: "Recomanacions del Luis",
+        aptText: "T'allotges al Loft ",
+        storyT: "Els Orígens",
+        storyC: "Tot va començar al febrer del 2020. Buscava un refugi per desconnectar amb la meva filla Valeria...",
+        waMsg: "Hola Luis, necessito ajuda amb la meva estada al Loft "
+    },
+    en: {
+        welcome: "Welcome to your loft in La Pineda",
+        parkingT: "🚗 Parking & Access",
+        parkingD: "Your master key opens any free bollard in the building.",
+        august: "In August, if you park, do not move the car!",
+        luis: "Luis' Recommendations",
+        aptText: "Staying in Loft ",
+        storyT: "The Origins",
+        storyC: "It all started in February 2020. I was looking for a getaway to disconnect with my daughter Valeria...",
+        waMsg: "Hi Luis, I need help with my stay at Loft "
+    },
+    fr: {
+        welcome: "Bienvenue dans votre loft à La Pineda",
+        parkingT: "🚗 Parking et Accès",
+        parkingD: "Votre passe-partout ouvre n'importe quel arceau libre.",
+        august: "En août, si vous vous garez, ne bougez pas la voiture!",
+        luis: "Recommandations de Luis",
+        aptText: "Vous logez au Loft ",
+        storyT: "Les Origines",
+        storyC: "Tout a commencé en février 2020. Je cherchais un refuge pour déconnecter avec ma fille Valeria...",
+        waMsg: "Bonjour Luis, j'ai besoin d'aide pour mon séjour au Loft "
+    }
+};
+
+
+        function initApp(apt) {
+            document.getElementById('selector-screen').classList.add('hidden');
+            document.getElementById('main-app').classList.remove('hidden');
+            
+            // Mostrar info específica del apartamento
+            document.querySelectorAll('.apartment-specific').forEach(el => el.classList.remove('visible'));
+            const specific = document.getElementById('feat-' + apt);
+            if (specific) specific.classList.add('visible');
+
+            window.currentApt = apt;
+            changeLanguage(); // Cargar textos iniciales
+        }
+
+        function changeLanguage() {
+            const lang = document.getElementById('lang-selector').value;
+            const t = translations[lang];
+            
+            document.getElementById('txt-welcome').innerText = t.welcome;
+            document.getElementById('txt-parking-title').innerText = t.parkingT;
+            document.getElementById('txt-parking-desc').innerText = t.parkingD;
+            document.getElementById('txt-parking-august').innerText = t.august;
+            document.getElementById('txt-luis-recomm').innerText = t.luis;
+            document.getElementById('display-apt').innerText = t.aptText + (window.currentApt || "");
+	    document.getElementById('title-origins').innerText = t.storyT;
+	    document.getElementById('txt-story-content').innerText = t.storyC;
+        }
     </script>
+
+	<!-- BOTÓN FLOTANTE WHATSAPP -->
+	<a id="whatsapp-link" href="#" target="_blank" class="fixed bottom-6 right-6 bg-green-500 text-white w-16 h-16 rounded-full flex items-center justify-center shadow-2xl z-50 transition-transform active:scale-90 border-2 border-white">
+    <i class="fab fa-whatsapp text-3xl"></i>
+</a>
 </body>
 </html>
