@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>APARTAoAPORTA - Guía Digital</title>
+    <!-- Framework de diseño -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -12,11 +13,13 @@
         .apartment-specific.visible { display: block; }
         .fade-in { animation: fadeIn 0.5s ease-in; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        #chat-container::-webkit-scrollbar { width: 4px; }
+        #chat-container::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 10px; }
     </style>
 </head>
 <body class="bg-gray-50 font-sans text-gray-900 pb-24">
 
-    <!-- SELECTOR DE IDIOMA -->
+    <!-- SELECTOR DE IDIOMA GLOBAL -->
     <div class="fixed top-4 right-4 z-50">
         <select id="lang-selector" onchange="updateUI()" class="bg-white border-2 border-blue-500 rounded-full px-3 py-1 shadow-lg text-sm font-bold focus:outline-none">
             <option value="es">🇪🇸 ES</option>
@@ -26,173 +29,135 @@
         </select>
     </div>
 
-    <!-- PANTALLA INICIAL -->
+    <!-- PANTALLA DE INICIO: SELECCIÓN DE LOFT -->
     <div id="selector-screen" class="min-h-screen flex flex-col items-center justify-center p-6 gradient-bg text-white text-center">
-        <h1 class="text-5xl font-extrabold mb-4 tracking-tighter">APARTAoAPORTA</h1>
-        <p id="txt-welcome" class="mb-10 text-blue-100 text-lg italic">Cargando...</p>
+        <h1 class="text-5xl font-black mb-4 tracking-tighter">APARTAoAPORTA</h1>
+        <p id="txt-welcome" class="mb-10 text-blue-100 text-lg italic">Bienvenido a tu hogar tecnológico</p>
         
         <div class="grid grid-cols-1 gap-4 w-full max-w-xs">
-            <button onclick="initApp('210')" class="bg-white text-blue-900 font-black py-5 rounded-2xl shadow-2xl text-2xl transform active:scale-95 transition">Loft 210</button>
-            <button onclick="initApp('211')" class="bg-white text-blue-900 font-black py-5 rounded-2xl shadow-2xl text-2xl transform active:scale-95 transition">Loft 211</button>
-            <button onclick="initApp('212')" class="bg-white text-blue-900 font-black py-5 rounded-2xl shadow-2xl text-2xl transform active:scale-95 transition">Loft 212</button>
+            <button onclick="initApp('210')" class="bg-white text-blue-900 font-black py-5 rounded-2xl shadow-2xl text-2xl transform active:scale-95 transition hover:bg-blue-50">Loft 210</button>
+            <button onclick="initApp('211')" class="bg-white text-blue-900 font-black py-5 rounded-2xl shadow-2xl text-2xl transform active:scale-95 transition hover:bg-blue-50">Loft 211</button>
+            <button onclick="initApp('212')" class="bg-white text-blue-900 font-black py-5 rounded-2xl shadow-2xl text-2xl transform active:scale-95 transition hover:bg-blue-50">Loft 212</button>
         </div>
+        <p class="mt-10 text-[10px] uppercase tracking-widest opacity-60">Edificio Fluromar II - La Pineda</p>
     </div>
 
-    <!-- APP PRINCIPAL -->
+    <!-- APLICACIÓN PRINCIPAL -->
     <div id="main-app" class="hidden fade-in">
         <header class="gradient-bg text-white p-8 rounded-b-[40px] shadow-2xl sticky top-0 z-40">
             <div class="flex justify-between items-center">
                 <div>
                     <h2 class="text-2xl font-black">APARTAoAPORTA</h2>
-                    <p id="display-apt" class="text-blue-100 font-bold"></p>
+                    <p id="display-apt" class="text-blue-100 font-bold italic"></p>
                 </div>
-                <button onclick="location.reload()" class="bg-blue-800/50 p-3 rounded-full border border-blue-300"><i class="fas fa-sync-alt"></i></button>
+                <button onclick="location.reload()" class="bg-blue-800/50 p-3 rounded-full border border-blue-300"><i class="fas fa-home"></i></button>
             </div>
         </header>
 
         <main class="p-5 space-y-6">
             
-            <!-- FOTO PRINCIPAL DINÁMICA -->
+            <!-- IMAGEN DINÁMICA DEL APARTAMENTO -->
             <div class="rounded-3xl overflow-hidden shadow-lg border-4 border-white">
-                <img id="main-photo" src="" alt="Apartamento" class="w-full h-56 object-cover">
+                <img id="main-photo" src="" alt="Tu Loft" class="w-full h-60 object-cover">
             </div>
 
-            <!-- WIFI -->
-            <div class="bg-white p-5 rounded-3xl shadow-sm border-l-8 border-blue-500">
-                <h3 class="font-black text-blue-900 flex items-center mb-2"><i class="fas fa-wifi mr-3"></i> WIFI</h3>
-                <p class="text-sm text-gray-500 font-bold uppercase tracking-widest">Red: <span class="text-black">apartaoaporta</span></p>
-                <p class="text-sm text-gray-500 font-bold uppercase tracking-widest">Clave: <span class="text-blue-600 text-xl font-black">2020v@leria</span></p>
-            </div>
+            <!-- SECCIÓN SOPORTE: ASISTENTE INTERACTIVO (CHATBOT) -->
+            <section class="bg-white p-5 rounded-3xl shadow-sm border-2 border-blue-100">
+                <h3 class="font-black text-blue-900 mb-4 flex items-center text-lg uppercase tracking-tight">
+                    <i class="fas fa-robot mr-2 text-blue-500"></i> <span id="txt-bot-title">Asistente de Luis</span>
+                </h3>
+                <div id="chat-container" class="space-y-3 max-h-64 overflow-y-auto mb-4 p-3 bg-gray-50 rounded-2xl border border-gray-100">
+                    <div class="bg-blue-600 text-white p-3 rounded-2xl rounded-bl-none text-sm self-start max-w-[85%] shadow-sm">
+                        ¡Hola! Soy tu asistente. ¿Qué duda tienes sobre el apartamento?
+                    </div>
+                </div>
+                <div id="chat-options" class="flex flex-wrap gap-2">
+                    <button onclick="askChat('parking')" class="bg-blue-50 text-blue-700 px-3 py-2 rounded-xl text-xs font-bold border border-blue-200 active:bg-blue-200 transition">🚗 Parking</button>
+                    <button onclick="askChat('wifi')" class="bg-blue-50 text-blue-700 px-3 py-2 rounded-xl text-xs font-bold border border-blue-200 active:bg-blue-200 transition">🌐 WIFI</button>
+                    <button onclick="askChat('basura')" class="bg-blue-50 text-blue-700 px-3 py-2 rounded-xl text-xs font-bold border border-blue-200 active:bg-blue-200 transition">🗑️ Basura</button>
+                    <button onclick="askChat('tv')" class="bg-blue-50 text-blue-700 px-3 py-2 rounded-xl text-xs font-bold border border-blue-200 active:bg-blue-200 transition">📺 TV</button>
+                </div>
+            </section>
 
-            <!-- PARKING -->
-            <div class="bg-white p-5 rounded-3xl shadow-sm border-b-4 border-gray-100">
-                <h3 id="txt-parking-title" class="font-black text-gray-800 mb-2"></h3>
-                <p id="txt-parking-desc" class="text-sm text-gray-600 leading-snug"></p>
-                <div class="mt-3 bg-amber-50 p-3 rounded-2xl border border-amber-100 text-xs text-amber-800 font-bold flex items-center">
-                    <i class="fas fa-info-circle mr-2 text-lg"></i> <span id="txt-parking-august"></span>
+            <!-- DATOS TÉCNICOS: WIFI Y ACCESOS -->
+            <div class="bg-white p-6 rounded-3xl shadow-sm border-l-[12px] border-blue-600">
+                <h3 class="font-black text-blue-900 flex items-center mb-3"><i class="fas fa-wifi mr-2 text-xl"></i> WIFI PREMIUM</h3>
+                <div class="space-y-1">
+                    <p class="text-xs text-gray-400 font-bold uppercase tracking-widest leading-none">Nombre de Red:</p>
+                    <p class="text-lg font-black text-black">apartaoaporta</p>
+                </div>
+                <div class="mt-4 space-y-1">
+                    <p class="text-xs text-gray-400 font-bold uppercase tracking-widest leading-none">Contraseña:</p>
+                    <p class="text-2xl font-black text-blue-600">2020v@leria</p>
                 </div>
             </div>
 
-            <!-- BOTONES ACCIÓN -->
+            <!-- BOTONES DE LLAMADA DIRECTA -->
             <div class="grid grid-cols-2 gap-4">
-                <a href="tel:+34977385050" class="bg-yellow-400 text-yellow-950 p-5 rounded-[30px] font-black text-center shadow-lg active:bg-yellow-500 transition">
-                    <i class="fas fa-taxi text-2xl mb-1"></i><br>Taxi Salou
+                <a href="tel:+34977385050" class="bg-amber-400 text-amber-950 p-5 rounded-[32px] font-black text-center shadow-lg active:scale-95 transition">
+                    <i class="fas fa-taxi text-2xl mb-1"></i><br><span class="text-sm">Taxi Salou</span>
                 </a>
-                <a href="tel:877402030" class="bg-red-600 text-white p-5 rounded-[30px] font-black text-center shadow-lg active:bg-red-700 transition">
-                    <i class="fas fa-utensils text-2xl mb-1"></i><br>El Pirata
+                <a href="tel:877402030" class="bg-rose-600 text-white p-5 rounded-[32px] font-black text-center shadow-lg active:scale-95 transition">
+                    <i class="fas fa-utensils text-2xl mb-1"></i><br><span class="text-sm">El Pirata</span>
                 </a>
             </div>
 
-            <!-- HISTORIA -->
-            <section class="bg-blue-50 p-6 rounded-[35px] border-2 border-blue-100">
-                <h3 id="txt-story-title" class="font-black text-blue-900 text-center mb-4 text-xl"></h3>
-                <p id="txt-story-content" class="text-sm text-blue-800 leading-relaxed italic text-justify"></p>
-                <p class="text-right mt-4 font-black text-blue-900 text-xs opacity-50">— Luis & Valeria</p>
+            <!-- SECCIÓN EMOTIVA: NUESTRA HISTORIA -->
+            <section class="bg-sky-50 p-7 rounded-[40px] border-2 border-sky-100 shadow-inner">
+                <h3 id="txt-story-title" class="font-black text-blue-900 text-center mb-5 text-xl tracking-tight"></h3>
+                <p id="txt-story-content" class="text-sm text-blue-800 leading-relaxed italic text-justify opacity-90"></p>
+                <div class="flex items-center justify-end mt-6 space-x-2">
+                    <div class="h-px w-8 bg-blue-200"></div>
+                    <p class="font-black text-blue-900 text-xs">— Luis & Valeria</p>
+                </div>
             </section>
 
-            <!-- FOOTER NORMAS -->
-            <div class="p-6 text-[10px] text-gray-400 text-center uppercase font-bold tracking-widest space-y-2">
-                <p>🚫 No pets | 🚭 No smoking | 🗑️ Trash opposite entrance</p>
-                <p>Emergency / WhatsApp: +34 617 63 55 44</p>
+            <!-- RECOMENDACIONES GASTRONÓMICAS -->
+            <div class="space-y-3">
+                <h3 id="txt-luis-recomm" class="font-black px-2 text-gray-800 uppercase tracking-widest text-xs"></h3>
+                <a href="https://www.google.com/maps/search/?api=1&query=Tagliatella+La+Pineda" class="flex items-center bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
+                    <div class="bg-red-50 p-3 rounded-xl mr-4 text-red-500"><i class="fas fa-pizza-slice text-xl"></i></div>
+                    <div class="flex-1">
+                        <p class="font-bold text-gray-900 leading-none mb-1">La Tagliatella</p>
+                        <p class="text-[10px] text-gray-500 font-bold uppercase">Italiano - Mi preferido</p>
+                    </div>
+                    <i class="fas fa-external-link-alt text-gray-300"></i>
+                </a>
+                <a href="https://www.google.com/maps/search/?api=1&query=Wissler+Burger+La+Pineda" class="flex items-center bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
+                    <div class="bg-orange-50 p-3 rounded-xl mr-4 text-orange-500"><i class="fas fa-hamburger text-xl"></i></div>
+                    <div class="flex-1">
+                        <p class="font-bold text-gray-900 leading-none mb-1">Wissler / Oh la lá</p>
+                        <p class="text-[10px] text-gray-500 font-bold uppercase">Hamburguesas Gourmet</p>
+                    </div>
+                    <i class="fas fa-external-link-alt text-gray-300"></i>
+                </a>
+            </div>
+
+            <!-- NORMAS Y CONTACTO -->
+            <div class="p-8 text-center space-y-4">
+                <p class="text-[10px] text-gray-400 font-black uppercase tracking-[0.2em]">
+                    🚫 No pets | 🚭 No smoking | 🗑️ Garbage at entrance
+                </p>
+                <div class="h-px w-12 bg-gray-200 mx-auto"></div>
+                <p class="text-xs font-bold text-gray-500">Carrer de la Torre Alta, 6 - Salou</p>
             </div>
         </main>
     </div>
 
-    <!-- WHATSAPP FLOTANTE -->
-    <a id="whatsapp-link" href="#" target="_blank" class="fixed bottom-6 right-6 bg-green-500 text-white w-16 h-16 rounded-full flex items-center justify-center shadow-2xl z-50 border-4 border-white transition active:scale-90">
+    <!-- BOTÓN WHATSAPP FLOTANTE DINÁMICO -->
+    <a id="whatsapp-link" href="#" target="_blank" class="fixed bottom-6 right-6 bg-green-500 text-white w-16 h-16 rounded-full flex items-center justify-center shadow-2xl z-50 border-4 border-white transition transform active:scale-90 duration-200">
         <i class="fab fa-whatsapp text-3xl"></i>
     </a>
 
     <script>
+        // DICCIONARIO DE TRADUCCIONES COMPLETAS
         const translations = {
             es: {
-                welcome: "Bienvenido a tu loft en La Pineda",
+                welcome: "Bienvenido a tu hogar tecnológico",
                 parkingT: "🚗 Parking y Acceso",
-                parkingD: "Tu llave maestra abre cualquier cepo libre del edificio Fluromar II.",
-                august: "En agosto, si aparcas, ¡no muevas el coche!",
-                luis: "Recomendaciones de Luis",
-                aptText: "Te alojas en el Loft ",
+                parkingD: "Usa la llave maestra para abrir cualquier cepo libre en el edificio Fluromar II.",
+                august: "En agosto hay mucha demanda, ¡evita mover el coche!",
+                luis: "Mis sitios favoritos",
+                aptText: "Alojado en el Loft ",
                 storyT: "Los Orígenes",
-                storyC: "Todo comenzó en febrero de 2020. Buscaba un refugio para desconectar con mi hija Valeria. Aunque no era fan del 'lío' de la playa, decidí crear un hogar tecnológico y de lujo a pie de arena. Empezamos con el 210, seguimos con el 211 y el destino nos trajo el 212. ¡Completamos la calle! Hoy compartimos este pedacito de nosotros con vosotros.",
-                waMsg: "Hola Luis, necesito ayuda con mi estancia en el Loft "
-            },
-            ca: {
-                welcome: "Benvingut al teu loft a La Pineda",
-                parkingT: "🚗 Pàrquing i Accés",
-                parkingD: "La teva clau mestra obre qualsevol cep lliure de l'edifici Fluromar II.",
-                august: "A l'agost, si aparques, no moguis el cotxe!",
-                luis: "Recomanacions del Luis",
-                aptText: "T'allotges al Loft ",
-                storyT: "Els Orígens",
-                storyC: "Tot va començar al febrer del 2020. Buscava un refugi per desconnectar amb la meva filla Valeria. Tot i que no era fan de l'embolic de la platja, vaig decidir crear una llar tecnològica i de luxe a peu de sorra. Vam començar amb el 210, vam seguir amb el 211 i el destí ens va portar el 212. Vam completar el carrer! Avui compartim aquest trosset de nosaltres amb vosaltres.",
-                waMsg: "Hola Luis, necessito ajuda amb la meva estada al Loft "
-            },
-            en: {
-                welcome: "Welcome to your loft in La Pineda",
-                parkingT: "🚗 Parking & Access",
-                parkingD: "Your master key opens any free bollard in the Fluromar II building.",
-                august: "In August, if you park, do not move the car!",
-                luis: "Luis' Recommendations",
-                aptText: "Staying in Loft ",
-                storyT: "The Origins",
-                storyC: "It all started in February 2020. I was looking for a getaway to disconnect with my daughter Valeria. Although I wasn't a fan of the 'beach hassle', I decided to create a technological and luxury home right by the sand. We started with 210, then 211 and destiny brought us 212. We completed the street! Today we share this little piece of ourselves with you.",
-                waMsg: "Hi Luis, I need help with my stay at Loft "
-            },
-            fr: {
-                welcome: "Bienvenue dans votre loft à La Pineda",
-                parkingT: "🚗 Parking et Accès",
-                parkingD: "Votre passe-partout ouvre n'importe quel arceau libre de l'immeuble Fluromar II.",
-                august: "En août, si vous vous garez, ne bougez pas la voiture!",
-                luis: "Recommandations de Luis",
-                aptText: "Vous logez au Loft ",
-                storyT: "Les Origines",
-                storyC: "Tout a commencé en février 2020. Je cherchais un refuge pour déconnecter avec ma fille Valeria. Même si je n'étais pas fan du 'tracas' de la plage, j'ai décidé de créer un foyer technologique et de luxe au bord du sable. Nous avons commencé par le 210, puis el 211 et le destin nous a apporté le 212. Aujourd'hui, nous partageons ce petit morceau de nous avec vous.",
-                waMsg: "Bonjour Luis, j'ai besoin d'aide pour mon séjour au Loft "
-            }
-        };
-
-        window.currentApt = null;
-
-        function initApp(apt) {
-            window.currentApt = apt;
-            document.getElementById('selector-screen').classList.add('hidden');
-            document.getElementById('main-app').classList.remove('hidden');
-            
-            // Asignar foto según el apartamento [1-3]
-            const photos = {
-                '210': 'img/210-salon.avif',
-                '211': 'img/211-mesa-tv.jpeg',
-                '212': 'img/212-general.avif'
-            };
-            document.getElementById('main-photo').src = photos[apt];
-            
-            updateUI();
-        }
-
-        function updateUI() {
-            const lang = document.getElementById('lang-selector').value;
-            const t = translations[lang];
-            
-            // Actualizar Textos
-            document.getElementById('txt-welcome').innerText = t.welcome;
-            document.getElementById('txt-parking-title').innerText = t.parkingT;
-            document.getElementById('txt-parking-desc').innerText = t.parkingD;
-            document.getElementById('txt-parking-august').innerText = t.august;
-            document.getElementById('txt-story-title').innerText = t.storyT;
-            document.getElementById('txt-story-content').innerText = t.storyC;
-            
-            if(window.currentApt) {
-                document.getElementById('display-apt').innerText = t.aptText + window.currentApt;
-                
-                // Configurar WhatsApp dinámico
-                const phoneNumber = "34617635544";
-                const finalMsg = encodeURIComponent(t.waMsg + window.currentApt);
-                document.getElementById('whatsapp-link').href = "https://wa.me/" + phoneNumber + "?text=" + finalMsg;
-            }
-        }
-
-        // Cargar texto inicial para la pantalla de bienvenida
-        updateUI();
-    </script>
-</body>
-</html>
+                storyC: "En febrero de 2020 compré mi primer apartamento para desconectar con mi hija Valeria. No era fan de la playa por los engorros de cargar trastos y arena, así que busqué crear un hogar con mis luces, mi TV gigante y todos los lujos a pie de mar. El destino nos llevó a completar la calle con el 211 y el 212
