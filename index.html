@@ -42,7 +42,7 @@
                     <div><span class="text-[9px] font-black text-blue-500 uppercase tracking-widest italic">Unit 210 Premium</span><h2 class="text-xl font-bold italic">LOFT 210</h2></div>
                     <i class="fas fa-chevron-right text-slate-600 group-hover:text-blue-500"></i>
                 </button>
-                <button onclick="bootApp('211')" class="premium-card p-6 rounded-[2rem] text-left flex justify-between items-center group">
+                <button onclick="bootApp('211')" class="premium-card p-6 rounded-[2rem] text-left flex justify-between items-center group border-l-4 border-blue-500">
                     <div><span class="text-[9px] font-black text-blue-400 uppercase tracking-widest italic">Unit 211 Executive</span><h2 class="text-xl font-bold italic">LOFT 211</h2></div>
                     <i class="fas fa-chevron-right text-slate-600 group-hover:text-blue-500"></i>
                 </button>
@@ -92,7 +92,7 @@
                     </div>
                     <div id="chat-engine" class="h-80 overflow-y-auto p-6 space-y-4 bg-slate-950/40 hide-scrollbar flex flex-col"></div>
                     <div class="p-4 bg-slate-900/50 flex gap-3 border-t border-white/5">
-                        <input type="text" id="chat-input" class="flex-1 bg-white/5 border border-white/10 rounded-[1.5rem] px-6 py-4 text-xs font-medium focus:ring-2 focus:ring-blue-600 outline-none text-white transition-all" placeholder="Dime 'Hola' para saludar...">
+                        <input type="text" id="chat-input" class="flex-1 bg-white/5 border border-white/10 rounded-[1.5rem] px-6 py-4 text-xs font-medium focus:ring-2 focus:ring-blue-600 outline-none text-white transition-all" placeholder="Salúdame con un 'Hola'...">
                         <button onclick="sendUserMsg()" class="bg-blue-600 text-white w-14 h-14 rounded-[1.5rem] flex items-center justify-center shadow-xl active:scale-90 transition-all"><i class="fas fa-paper-plane text-xl"></i></button>
                     </div>
                 </div>
@@ -215,7 +215,9 @@
             trash: "Contenedores justo enfrente: azul, amarillo, verde, rojo y de ropa usada. Puedes tirarla a cualquier hora.",
             transport: "Parada de bus a 5 min andando con conexiones a Reus, BCN, Port Aventura y aeropuertos.",
             tech_general: "Dispones de Asistente Virtual de Google e iluminación LED RGB Philips Hue (con mando o interruptores). Todas las TVs son Philips con tecnología Ambilight y Android TV.",
-            courtesy: "Entradas antes de las 14:00 o salidas tras las 11:00 se dan sin cargo adicional siempre que no haya reservas previas o posteriores."
+            courtesy: "Entradas antes de las 14:00 o salidas tras las 11:00 se dan sin cargo adicional siempre que no haya reservas previas o posteriores.",
+            checkout: "Al finalizar su estancia, por favor dejen toda la **ropa sucia en el suelo del baño**, bajen la basura a los contenedores y dejen la **llave en la misma caja de seguridad** de donde la recogieron.",
+            payment_info: "Asegúrense de haber pagado la **tasa turística**. Aceptamos pago en **efectivo, Bizum o PayPal**. ¡Gracias por vuestra colaboración!"
         };
 
         const lofts = { 
@@ -233,7 +235,7 @@
             } 
         };
 
-        // --- BASE DE DATOS DE CONOCIMIENTO (AMPLIADA LUIS PRO TOTAL) ---
+        // --- BASE DE DATOS DE CONOCIMIENTO ---
         const knowledgeBase = [
             { tags: ['hola', 'buenos dias', 'buenas tardes', 'saludos', 'hey', 'que tal'], ans: "¡Hola! 😊 ¡Qué alegría saludarte! Soy el asistente virtual de Luis. Estoy programado con todo el cariño de este proyecto familiar para que tu estancia sea impecable. ¿En qué puedo apoyarte hoy?" },
             { tags: ['gracias', 'perfecto', 'genial', 'ok', 'muy bien', 'vale'], ans: "¡De nada! Es un auténtico placer ayudarte. ❤️ Luis y Valeria estamos felices de que estés disfrutando del loft. ¡Disfruta de cada minuto!" },
@@ -243,24 +245,23 @@
                 const l = lofts[state.id];
                 return `🔑 Para entrar al **${l.name}**, debes buscar tu ${l.box} al lado del portal. El código te lo enviamos por WhatsApp. \n\nDentro verás las llaves y un **cilindro negro**. Para abrir el portal, pon ese cilindro en la placa que hay justo debajo de los números del teclado. ¡Es magia tecnológica! 😉`
             }},
-            { tags: ['checkin', 'checkout', 'hora', 'salir', 'entrar antes'], ans: commonInfo.courtesy },
+            { tags: ['checkin', 'checkout', 'hora', 'salir', 'entrar antes', 'despues', 'salida'], ans: () => `${commonInfo.courtesy} \n\n**Instrucciones de salida:** ${commonInfo.checkout}` },
             { tags: ['fumar', 'tabaco', 'mascotas', 'perro', 'gato'], ans: commonInfo.rules },
-            { tags: ['basura', 'limpieza', 'reciclar', 'ropa'], ans: commonInfo.trash },
+            { tags: ['basura', 'limpieza', 'reciclar', 'ropa', 'donde dejar'], ans: () => `🗑️ ${commonInfo.trash} \n\n👕 **Ropa sucia:** ${commonInfo.checkout}` },
             { tags: ['piscina', 'horario', 'nadar', 'bañarse'], ans: commonInfo.pool },
             { tags: ['bus', 'autobus', 'transporte', 'ir a', 'aeropuerto'], ans: commonInfo.transport },
             { tags: ['comer', 'restaurante', 'cenar', 'hambre'], ans: "🍕 Luis te recomienda la **Tagliatella** para pasta, el **Pirata** (justo debajo) para brasa o el **Wissler**. ¡Mira el carrusel de abajo!" },
             { tags: ['tele', 'tv', 'ambilight', 'netflix', 'disney', 'hbo'], ans: () => `📺 Tienes una ${lofts[state.id].tv}. **IMPORTANTE**: Si usas tus cuentas de Netflix, HBO o Disney+, recuerda borrarlas antes de finalizar tu estancia por seguridad.` },
             { tags: ['luces', 'hue', 'mando', 'color', 'iluminacion'], ans: "💡 Tienes iluminación **Philips Hue**. Puedes controlarlas desde los interruptores o desde el mando a distancia, que permite encender/apagar todas a la vez y regular la intensidad." },
-            { tags: ['persiana', 'mando', 'electrica'], ans: () => (state.id === '211' ? "🪟 En el 211 tienes **persianas eléctricas** con mando a distancia." : "🪟 Las persianas son manuales y aseguran oscuridad total.") },
+            { tags: ['tasa', 'turistica', 'pago', 'pagar', 'bizum', 'paypal', 'efectivo'], ans: commonInfo.payment_info },
             { tags: ['lavavajillas', 'lavadora', 'platos'], ans: () => (state.id === '211' ? "🍽️ ¡Sí! El Loft 211 dispone de **lavavajillas**." : "🍽️ Esta unidad no tiene lavavajillas, pero tienes todo lo necesario para limpiar.") },
             { tags: ['hervidor', 'kettle', 'te'], ans: () => (state.id === '210' ? "🫖 Tienes hervidor de agua en el Loft 210." : "🫖 Esta unidad no tiene hervidor de serie, pero Luis puede ponerte uno bajo demanda si lo necesitas.") },
             { tags: ['cocinar', 'microondas', 'cafetera', 'air fry', 'tostadora'], ans: () => `🍳 ${lofts[state.id].kitchen} Los microondas tienen grill.` },
             { tags: ['toallas', 'sabanas', 'ropa de cama'], ans: "🧺 No te preocupes por nada, incluimos ropa de cama y toallas premium en todas las reservas." },
-            { tags: ['ascensor', 'carrito', 'maletas', 'ancho'], ans: "🛗 El edificio tiene **dos ascensores** muy amplios (Puerta 81cm, Fondo 132cm). ¡Sin problemas con maletas o carritos!" },
             { tags: ['valeria', 'historia', 'luis', 'quien'], ans: "❤️ Este proyecto nació en 2020 como un refugio tecnológico para Valeria, la hija de Luis. ¡Gracias por formar parte de nuestro sueño!" }
         ];
 
-        const dict = { es: { wa: "¡Hola Luis! 👋 Soy tu huésped en la {loft}. ¡La guía es una pasada! ¿Me echas una mano con un tema?", error: "¡Vaya! Luis no me ha enseñado eso todavía... 😅 Pero sé mucho sobre el wifi, parking, piscina, llaves o las luces Hue. ¿Me lo preguntas de otra forma?" } };
+        const dict = { es: { wa: "¡Hola Luis! 👋 Soy tu huésped en la {loft}. ¡La guía es una pasada! ¿Me echas una mano con un tema?", error: "¡Vaya! Luis no me ha enseñado eso todavía... 😅 Pero sé mucho sobre el wifi, parking, piscina, check-out o pagos. ¿Me preguntas de otra forma?" } };
 
         window.onload = () => { setTimeout(() => { if (state.id) renderApp(); else { document.getElementById('status-text').innerText = "Seleccionando Unidad Digital:"; document.getElementById('loft-buttons').classList.replace('opacity-0', 'opacity-100'); document.getElementById('loft-buttons').classList.replace('translate-y-10', 'translate-y-0'); } }, 1000); };
         function bootApp(id) { state.id = id; Store.set('LOFT_ID', id); renderApp(); }
