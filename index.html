@@ -61,7 +61,6 @@
 
         .animate-in { opacity: 0; animation: fadeInUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
 
-        /* Estilo para el carrusel en escritorio */
         .carousel-item {
             scroll-snap-align: center;
         }
@@ -75,7 +74,7 @@
 </head>
 <body class="selection:bg-blue-500/30">
 
-    <!-- PANTALLA DE SELECCIÓN (INTRO) -->
+    <!-- PANTALLA DE SELECCIÓN -->
     <div id="welcome-screen" class="fixed inset-0 z-[100] flex flex-col items-center justify-center p-8 bg-slate-950 overflow-hidden">
         <div class="absolute inset-0 opacity-30">
             <div class="absolute top-0 -left-20 w-[30rem] h-[30rem] bg-blue-600 rounded-full blur-[150px]"></div>
@@ -123,9 +122,8 @@
         </div>
     </div>
 
-    <!-- APLICACIÓN PRINCIPAL -->
+    <!-- APP PRINCIPAL -->
     <div id="main-app" class="hidden min-h-screen pb-20">
-        <!-- HEADER -->
         <header class="glass sticky top-0 z-50 px-6 py-6 flex justify-between items-center border-b border-white/5 shadow-2xl">
             <div class="flex items-center gap-4">
                 <div class="w-11 h-11 bg-gradient-to-br from-blue-600 to-blue-800 rounded-2xl flex items-center justify-center shadow-lg transform -rotate-3">
@@ -135,19 +133,18 @@
                     <h2 class="text-md font-black italic tracking-tighter uppercase leading-none">APARTAoAPORTA</h2>
                     <div class="flex items-center gap-2 mt-1">
                         <span id="display-loft-id" class="text-[8px] font-black text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded-full uppercase tracking-widest">LOFT ---</span>
-                        <span class="w-1 h-1 bg-slate-700 rounded-full"></span>
-                        <span class="text-[8px] text-slate-500 font-bold uppercase tracking-widest">Smart Guide</span>
+                        <span class="text-[8px] text-slate-500 font-bold uppercase tracking-widest">Premium Digital Guide</span>
                     </div>
                 </div>
             </div>
             <div class="flex items-center gap-3">
-                <select id="lang-select" onchange="switchLang()" class="bg-white/5 border-none rounded-full px-3 py-1.5 text-[10px] font-black text-white outline-none cursor-pointer focus:ring-2 focus:ring-blue-500">
+                <select id="lang-select" onchange="switchLang()" class="bg-white/5 border-none rounded-full px-3 py-1.5 text-[10px] font-black text-white outline-none cursor-pointer">
                     <option value="es" class="text-black">ES</option>
                     <option value="ca" class="text-black">CA</option>
                     <option value="en" class="text-black">EN</option>
                     <option value="fr" class="text-black">FR</option>
                 </select>
-                <button onclick="shutdown()" class="w-11 h-11 bg-red-500/10 text-red-500 rounded-2xl flex items-center justify-center hover:bg-red-500 hover:text-white transition-all shadow-inner">
+                <button onclick="shutdown()" class="w-11 h-11 bg-red-500/10 text-red-500 rounded-2xl flex items-center justify-center hover:bg-red-500 hover:text-white transition-all">
                     <i class="fas fa-power-off text-sm"></i>
                 </button>
             </div>
@@ -155,7 +152,7 @@
 
         <main class="max-w-4xl mx-auto p-6 space-y-12">
             
-            <!-- CHAT ASISTENTE (INTERACTIVO & AMIGABLE) -->
+            <!-- CHAT ASISTENTE -->
             <section class="animate-in" style="animation-delay: 0.1s">
                 <div class="premium-card rounded-[3rem] overflow-hidden shadow-2xl border border-white/5">
                     <div class="bg-slate-950 p-5 flex items-center justify-between border-b border-white/5">
@@ -164,11 +161,11 @@
                                 <div class="w-14 h-14 bg-gradient-to-br from-blue-500 to-indigo-700 rounded-[1.5rem] flex items-center justify-center shadow-lg">
                                     <i class="fas fa-robot text-white text-2xl"></i>
                                 </div>
-                                <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 border-4 border-[#020617] rounded-full animate-pulse"></div>
+                                <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 border-4 border-[#020617] rounded-full"></div>
                             </div>
                             <div>
-                                <h3 class="text-sm font-extrabold text-white tracking-tight">Luis AI Virtual Assistant</h3>
-                                <p class="text-[8px] font-black text-blue-400 uppercase tracking-[0.3em]">IA Concierge Service</p>
+                                <h3 class="text-sm font-extrabold text-white tracking-tight">Luis AI Concierge</h3>
+                                <p class="text-[8px] font-black text-blue-400 uppercase tracking-[0.3em]">IA Proactiva & Simpática</p>
                             </div>
                         </div>
                     </div>
@@ -178,7 +175,7 @@
                     </div>
 
                     <div class="p-4 bg-slate-900/50 flex gap-3 border-t border-white/5">
-                        <input type="text" id="chat-input" class="flex-1 bg-white/5 border border-white/10 rounded-[1.5rem] px-6 py-4 text-xs font-medium focus:ring-2 focus:ring-blue-600 outline-none transition-all placeholder:text-slate-600 text-white" placeholder="Dime 'Hola' para empezar...">
+                        <input type="text" id="chat-input" class="flex-1 bg-white/5 border border-white/10 rounded-[1.5rem] px-6 py-4 text-xs font-medium focus:ring-2 focus:ring-blue-600 outline-none text-white" placeholder="Dime 'Hola' para empezar...">
                         <button onclick="sendUserMsg()" class="bg-blue-600 text-white w-14 h-14 rounded-[1.5rem] flex items-center justify-center shadow-xl active:scale-90 transition-all">
                             <i class="fas fa-paper-plane text-xl"></i>
                         </button>
@@ -188,20 +185,19 @@
 
             <!-- WIFI & QUICK SERVICES -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- WIFI -->
                 <section class="animate-in" style="animation-delay: 0.2s">
-                    <div class="premium-card p-8 rounded-[3rem] h-full flex flex-col justify-between relative group overflow-hidden border-l-4 border-blue-500">
+                    <div class="premium-card p-8 rounded-[3rem] h-full flex flex-col justify-between relative group overflow-hidden border-l-4 border-blue-500 shadow-xl">
                         <div class="absolute -right-10 -bottom-10 opacity-5 group-hover:opacity-10 transition-opacity">
                             <i class="fas fa-wifi text-[12rem]"></i>
                         </div>
                         <div class="space-y-4 relative z-10">
-                            <span class="px-3 py-1 bg-blue-500/20 text-blue-400 rounded-full text-[8px] font-black uppercase tracking-[0.3em]">Conectividad Premium</span>
-                            <h3 class="text-2xl font-black italic tracking-tighter">WiFi del Loft</h3>
+                            <span class="px-3 py-1 bg-blue-500/20 text-blue-400 rounded-full text-[8px] font-black uppercase tracking-[0.3em]">Fibra Óptica Premium</span>
+                            <h3 class="text-2xl font-black italic tracking-tighter">Conexión WiFi</h3>
                             <div class="space-y-1 pt-2">
                                 <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Red: <span class="text-white">apartaoaporta</span></p>
                                 <div class="flex items-center gap-4">
                                     <span class="text-3xl font-black text-white tracking-tighter italic">2020v@leria</span>
-                                    <button onclick="copyPass()" class="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center text-slate-400 hover:text-blue-400 transition-colors">
+                                    <button onclick="copyPass()" class="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center text-slate-400 hover:text-blue-400">
                                         <i class="fas fa-copy"></i>
                                     </button>
                                 </div>
@@ -210,16 +206,15 @@
                     </div>
                 </section>
 
-                <!-- CALL SERVICES -->
                 <section class="grid grid-cols-2 gap-4 animate-in" style="animation-delay: 0.3s">
-                    <a href="tel:+34977385050" class="premium-card p-6 rounded-[2.5rem] flex flex-col items-center justify-center gap-4 hover:bg-white/5 transition-all text-center">
+                    <a href="tel:+34977385050" class="premium-card p-6 rounded-[2.5rem] flex flex-col items-center justify-center gap-4 active:scale-95 shadow-lg">
                         <div class="w-16 h-16 bg-amber-500/10 text-amber-500 rounded-2xl flex items-center justify-center text-3xl shadow-inner">
                             <i class="fas fa-taxi"></i>
                         </div>
                         <span class="text-[9px] font-black uppercase text-slate-400 tracking-widest">Taxi Salou</span>
                     </a>
-                    <a href="tel:+34977370617" class="premium-card p-6 rounded-[2.5rem] flex flex-col items-center justify-center gap-4 hover:bg-white/5 transition-all text-center">
-                        <div class="w-16 h-16 bg-emerald-500/10 text-emerald-500 rounded-2xl flex items-center justify-center text-3xl shadow-inner">
+                    <a href="tel:+34977370617" class="premium-card p-6 rounded-[2.5rem] flex flex-col items-center justify-center gap-4 active:scale-95 shadow-lg">
+                        <div class="w-16 h-16 bg-emerald-500/10 text-emerald-600 rounded-2xl flex items-center justify-center text-3xl shadow-inner">
                             <i class="fas fa-capsules"></i>
                         </div>
                         <span class="text-[9px] font-black uppercase text-slate-400 tracking-widest">Farmacia</span>
@@ -230,22 +225,22 @@
             <!-- FOTO DINÁMICA DEL LOFT -->
             <section class="animate-in" style="animation-delay: 0.4s">
                 <div class="rounded-[3rem] overflow-hidden shadow-2xl border-4 border-white/5 relative aspect-video md:aspect-[21/9]">
-                    <img id="loft-img" src="" class="w-full h-full object-cover grayscale-[20%] hover:grayscale-0 transition-all duration-700" alt="Loft Interior">
+                    <img id="loft-img" src="" class="w-full h-full object-cover grayscale-[20%] hover:grayscale-0 transition-all duration-1000" alt="Loft Interior">
                     <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-80"></div>
                     <div class="absolute bottom-8 left-10 flex items-center gap-4">
                         <div class="w-3 h-3 bg-blue-500 rounded-full animate-ping"></div>
                         <div class="space-y-1">
-                            <span class="text-white text-[12px] font-black uppercase tracking-[0.4em] block">Tu Refugio Digital</span>
-                            <span id="loft-spec-text" class="text-blue-400 text-[10px] font-bold uppercase tracking-widest">Configuración Activa</span>
+                            <span class="text-white text-[12px] font-black uppercase tracking-[0.4em] block italic">Tu hogar en La Pineda</span>
+                            <span id="loft-spec-text" class="text-blue-400 text-[10px] font-bold uppercase tracking-widest">Smart Control Activo</span>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- CARRUSEL DE EXPERIENCIAS AMPLIADO -->
+            <!-- CARRUSEL DE EXPERIENCIAS (OPTIMIZADO CON FOTOS REALISTAS) -->
             <section class="animate-in" style="animation-delay: 0.5s">
                 <div class="flex items-center justify-between px-2 mb-8">
-                    <h4 class="text-[10px] font-black text-slate-500 uppercase tracking-[0.6em]">Guía de Experiencias · Luis Selects</h4>
+                    <h4 class="text-[10px] font-black text-slate-500 uppercase tracking-[0.6em]">Selección de Superanfitrión · Luis Selects</h4>
                     <div class="flex gap-2">
                         <div class="w-1.5 h-1.5 bg-blue-600 rounded-full animate-pulse"></div>
                         <div class="w-1.5 h-1.5 bg-slate-700 rounded-full"></div>
@@ -254,7 +249,7 @@
                 
                 <div class="flex overflow-x-auto gap-6 pb-8 hide-scrollbar snap-x snap-mandatory px-1">
                     
-                    <!-- TAGLIATELLA -->
+                    <!-- 1. LA TAGLIATELLA -->
                     <div class="carousel-item snap-center shrink-0 w-[85%] sm:w-80 premium-card rounded-[3rem] overflow-hidden">
                         <div class="h-44 relative">
                             <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
@@ -263,94 +258,106 @@
                             </div>
                         </div>
                         <div class="p-8 space-y-6">
-                            <p class="text-[11px] text-slate-400 leading-relaxed italic">"Cenas mágicas frente al Mediterráneo. Luis recomienda los Ravioli di Zucca. Imprescindible reservar terraza."</p>
+                            <p class="text-[11px] text-slate-400 leading-relaxed italic">"Cenas mágicas frente al Mediterráneo. Luis recomienda los Ravioli di Zucca en la terraza."</p>
                             <a href="https://maps.app.goo.gl/9ZpLg8wTj7tG8uKx5" target="_blank" class="block w-full py-4 bg-blue-600 text-white rounded-[1.5rem] text-[9px] font-black uppercase text-center tracking-widest">Abrir Mapa</a>
                         </div>
                     </div>
 
-                    <!-- BRASERÍA EL PIRATA -->
+                    <!-- 2. BRASERÍA EL PIRATA -->
                     <div class="carousel-item snap-center shrink-0 w-[85%] sm:w-80 premium-card rounded-[3rem] overflow-hidden">
                         <div class="h-44 relative bg-slate-800">
-                            <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover opacity-60">
-                            <div class="absolute inset-0 flex items-center justify-center">
+                            <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
                                 <h5 class="text-white font-black text-2xl italic tracking-tighter uppercase">Brasería El Pirata</h5>
                             </div>
                         </div>
                         <div class="p-8 space-y-6">
-                            <p class="text-[11px] text-slate-400 leading-relaxed italic">"Justo debajo del loft. Carnes a la brasa de calidad. Luis siempre pide las costillas, ¡son famosas!"</p>
-                            <a href="tel:877402030" class="block w-full py-4 bg-amber-600 text-white rounded-[1.5rem] text-[9px] font-black uppercase text-center tracking-widest italic">Reservar Mesa</a>
+                            <p class="text-[11px] text-slate-400 leading-relaxed italic">"Justo debajo del loft. Carnes a la brasa de gran calidad. Pide las famosas costillas a tope."</p>
+                            <a href="tel:877402030" class="block w-full py-4 bg-rose-700 text-white rounded-[1.5rem] text-[9px] font-black uppercase text-center tracking-widest italic">Reservar Mesa</a>
                         </div>
                     </div>
 
-                    <!-- PORT AVENTURA -->
+                    <!-- 3. PORT AVENTURA (FOTO MEJORADA) -->
                     <div class="carousel-item snap-center shrink-0 w-[85%] sm:w-80 premium-card rounded-[3rem] overflow-hidden">
-                        <div class="h-44 bg-gradient-to-br from-red-600 to-amber-500 flex items-center justify-center">
-                            <i class="fas fa-mountain-sun text-white text-6xl opacity-30"></i>
-                            <h5 class="absolute text-white font-black text-2xl italic tracking-tighter">PORT AVENTURA</h5>
+                        <div class="h-44 relative">
+                            <img src="https://images.unsplash.com/photo-1513889959010-68a4c30df9f7?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-black/30 flex items-center justify-center p-4">
+                                <h5 class="text-white font-black text-2xl italic tracking-tighter text-center">PORT AVENTURA</h5>
+                            </div>
                         </div>
                         <div class="p-8 space-y-6">
-                            <p class="text-[11px] text-slate-400 leading-relaxed italic">"A menos de 10 min en coche. Un must si vienes con Valeria o buscas adrenalina pura. Ferrari Land incluido."</p>
+                            <p class="text-[11px] text-slate-400 leading-relaxed italic">"A menos de 10 min. El plan perfecto para adrenalina pura o un día mágico con Valeria."</p>
                             <a href="https://www.portaventuraworld.com/" target="_blank" class="block w-full py-4 bg-red-600 text-white rounded-[1.5rem] text-[9px] font-black uppercase text-center tracking-widest">Entradas Oficiales</a>
                         </div>
                     </div>
 
-                    <!-- WISSLER BURGER -->
+                    <!-- 4. WISSLER BURGER (FOTO MEJORADA) -->
                     <div class="carousel-item snap-center shrink-0 w-[85%] sm:w-80 premium-card rounded-[3rem] overflow-hidden">
                         <div class="h-44 relative">
-                            <img src="https://images.unsplash.com/photo-1550317144-b38c03c23334?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover opacity-60">
-                            <div class="absolute inset-0 flex items-center justify-center p-4">
-                                <h5 class="text-white font-black text-2xl italic tracking-tighter">WISSLER BURGER</h5>
+                            <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-black/40 flex items-center justify-center p-4">
+                                <h5 class="text-white font-black text-2xl italic tracking-tighter text-center">WISSLER BURGER</h5>
                             </div>
                         </div>
                         <div class="p-8 space-y-6">
-                            <p class="text-[11px] text-slate-400 leading-relaxed italic">"Hamburguesas gourmet increíbles a 250m. Luis recomienda la 'Wissler' con una cerveza artesana local."</p>
-                            <a href="https://maps.app.goo.gl/9ZpLg8wTj7tG8uKx5" target="_blank" class="block w-full py-4 bg-orange-600 text-white rounded-[1.5rem] text-[9px] font-black uppercase text-center tracking-widest">Cómo llegar</a>
+                            <p class="text-[11px] text-slate-400 leading-relaxed italic">"Hamburguesas de autor a solo 250m. Luis recomienda acompañarlas con su cerveza artesana local."</p>
+                            <a href="https://maps.app.goo.gl/9ZpLg8wTj7tG8uKx5" target="_blank" class="block w-full py-4 bg-orange-600 text-white rounded-[1.5rem] text-[9px] font-black uppercase text-center tracking-widest">Ver en Mapa</a>
                         </div>
                     </div>
 
-                    <!-- OH LA LÁ -->
-                    <div class="carousel-item snap-center shrink-0 w-[85%] sm:w-80 premium-card rounded-[3rem] overflow-hidden border-t-4 border-pink-500">
-                        <div class="h-44 flex items-center justify-center bg-pink-900/40">
-                            <h5 class="text-pink-400 font-black text-3xl italic tracking-tighter uppercase">Oh la lá!</h5>
-                        </div>
-                        <div class="p-8 space-y-6">
-                            <p class="text-[11px] text-slate-400 leading-relaxed italic">"Burger & Drinks con un toque chic. Ambiente joven y divertido muy cerca del paseo de La Pineda."</p>
-                            <a href="https://www.google.com/maps/search/?api=1&query=Oh+la+la+La+Pineda" target="_blank" class="block w-full py-4 bg-pink-600 text-white rounded-[1.5rem] text-[9px] font-black uppercase text-center tracking-widest">Ver en Mapa</a>
-                        </div>
-                    </div>
-
-                    <!-- RESTAURANTE MIX -->
+                    <!-- 5. OH LA LÁ! (FOTO MEJORADA) -->
                     <div class="carousel-item snap-center shrink-0 w-[85%] sm:w-80 premium-card rounded-[3rem] overflow-hidden">
-                        <div class="h-44 bg-slate-700 flex items-center justify-center">
-                            <i class="fas fa-utensils text-white text-5xl opacity-20"></i>
-                            <h5 class="absolute text-white font-black text-2xl italic tracking-tighter uppercase leading-none">Restaurante<br>Mix</h5>
+                        <div class="h-44 relative">
+                            <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-pink-900/40 flex items-center justify-center">
+                                <h5 class="text-white font-black text-3xl italic tracking-tighter uppercase">OH LA LÁ!</h5>
+                            </div>
                         </div>
                         <div class="p-8 space-y-6">
-                            <p class="text-[11px] text-slate-400 leading-relaxed italic">"Cocina mediterránea variada. Perfecto para un almuerzo ligero o una cena tranquila con vistas."</p>
-                            <a href="https://www.google.com/maps/search/?api=1&query=Restaurante+Mix+La+Pineda" target="_blank" class="block w-full py-4 bg-slate-600 text-white rounded-[1.5rem] text-[9px] font-black uppercase text-center tracking-widest font-bold">Ubicación</a>
+                            <p class="text-[11px] text-slate-400 leading-relaxed italic">"Ambiente chic de Burger & Drinks. Un toque moderno para una noche divertida cerca del paseo."</p>
+                            <a href="https://www.google.com/maps/search/?api=1&query=Oh+la+la+La+Pineda" target="_blank" class="block w-full py-4 bg-pink-600 text-white rounded-[1.5rem] text-[9px] font-black uppercase text-center tracking-widest">Cómo llegar</a>
                         </div>
                     </div>
 
-                    <!-- AQUUM SPA -->
+                    <!-- 6. RESTAURANTE MIX (FOTO MEJORADA) -->
                     <div class="carousel-item snap-center shrink-0 w-[85%] sm:w-80 premium-card rounded-[3rem] overflow-hidden">
-                        <div class="h-44 bg-teal-800/60 flex items-center justify-center">
-                            <i class="fas fa-spa text-teal-300 text-7xl opacity-30"></i>
-                            <h5 class="absolute text-white font-black text-3xl italic tracking-tighter">AQUUM SPA</h5>
+                        <div class="h-44 relative">
+                            <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-black/40 flex items-center justify-center p-4 text-center">
+                                <h5 class="text-white font-black text-2xl italic tracking-tighter">RESTAURANTE MIX</h5>
+                            </div>
                         </div>
                         <div class="p-8 space-y-6">
-                            <p class="text-[11px] text-slate-400 leading-relaxed italic">"650m2 de relax total. Piscinas, saunas y chorros a solo 10 min. Luis recomienda ir al atardecer."</p>
+                            <p class="text-[11px] text-slate-400 leading-relaxed italic">"Variedad mediterránea frente al mar. Ideal para un almuerzo con vistas y producto fresco."</p>
+                            <a href="https://www.google.com/maps/search/?api=1&query=Restaurante+Mix+La+Pineda" target="_blank" class="block w-full py-4 bg-slate-700 text-white rounded-[1.5rem] text-[9px] font-black uppercase text-center tracking-widest">Ver Ubicación</a>
+                        </div>
+                    </div>
+
+                    <!-- 7. AQUUM SPA (FOTO MEJORADA) -->
+                    <div class="carousel-item snap-center shrink-0 w-[85%] sm:w-80 premium-card rounded-[3rem] overflow-hidden">
+                        <div class="h-44 relative">
+                            <img src="https://images.unsplash.com/photo-1544161515-4af6ce1dbbe3?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-teal-900/40 flex items-center justify-center p-4">
+                                <h5 class="text-white font-black text-3xl italic tracking-tighter">AQUUM SPA</h5>
+                            </div>
+                        </div>
+                        <div class="p-8 space-y-6">
+                            <p class="text-[11px] text-slate-400 leading-relaxed italic">"650m2 de bienestar. Piscinas termales y relax absoluto a 10 min andando del loft."</p>
                             <a href="https://www.aquum.es/" target="_blank" class="block w-full py-4 bg-teal-600 text-white rounded-[1.5rem] text-[9px] font-black uppercase text-center tracking-widest">Reserva Relax</a>
                         </div>
                     </div>
 
-                    <!-- SPALAS -->
+                    <!-- 8. SPALAS (FOTO MEJORADA) -->
                     <div class="carousel-item snap-center shrink-0 w-[85%] sm:w-80 premium-card rounded-[3rem] overflow-hidden">
-                        <div class="h-44 bg-indigo-900/60 flex items-center justify-center">
-                            <h5 class="text-white font-black text-3xl italic tracking-tighter">SPALAS</h5>
+                        <div class="h-44 relative">
+                            <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-indigo-950/50 flex items-center justify-center">
+                                <h5 class="text-white font-black text-3xl italic tracking-tighter">SPALAS</h5>
+                            </div>
                         </div>
                         <div class="p-8 space-y-6">
-                            <p class="text-[11px] text-slate-400 leading-relaxed italic">"Ubicado en el Gran Palas. Una experiencia wellness de ultra-lujo para desconectar del mundo real."</p>
-                            <a href="https://www.granpalashotel.com/spalas/" target="_blank" class="block w-full py-4 bg-indigo-600 text-white rounded-[1.5rem] text-[9px] font-black uppercase text-center tracking-widest">Luxury Spa</a>
+                            <p class="text-[11px] text-slate-400 leading-relaxed italic">"La joya del Gran Palas. Una experiencia wellness de ultra-lujo para desconectar totalmente."</p>
+                            <a href="https://www.granpalashotel.com/spalas/" target="_blank" class="block w-full py-4 bg-indigo-700 text-white rounded-[1.5rem] text-[9px] font-black uppercase text-center tracking-widest">Luxury Experience</a>
                         </div>
                     </div>
 
@@ -368,7 +375,7 @@
                         <div class="space-y-6">
                             <h4 id="story-title" class="text-4xl font-black italic leading-tight tracking-tighter">Luis & Valeria</h4>
                             <p id="story-body" class="text-sm font-light leading-relaxed text-slate-300 italic">
-                                "En 2020 creé este refugio tecnológico para mi hija Valeria. Buscaba un lugar donde las luces, la tecnología y el mar se unieran para dar paz. Hoy os abrimos las puertas de nuestro sueño deseando que disfrutéis cada detalle."
+                                "En 2020 creé este refugio tecnológico para mi hija Valeria. Buscaba un lugar donde las luces, la tecnología y el mar se unieran para dar paz. Hoy os lo abrimos deseando que aporten felicidad a vuestra estancia."
                             </p>
                             <div class="flex items-center gap-3">
                                 <div class="w-1 h-6 bg-blue-500"></div>
@@ -382,13 +389,12 @@
         </main>
     </div>
 
-    <!-- WHATSAPP FLOATING (SÓLIDO) -->
+    <!-- WHATSAPP FLOATING -->
     <a id="wa-link" href="#" target="_blank" class="fixed bottom-8 right-8 w-20 h-20 bg-[#25D366] text-white rounded-[2.2rem] shadow-[0_25px_50px_rgba(37,211,102,0.4)] z-[60] hidden items-center justify-center border-4 border-white/10 active:scale-90 transition-all hover:rotate-6">
         <i class="fab fa-whatsapp text-4xl"></i>
     </a>
 
     <script>
-        // --- MOTOR DE PERSISTENCIA PROFESIONAL ---
         const Store = {
             set: (k, v) => { localStorage.setItem(k, v); sessionStorage.setItem(k, v); },
             get: (k) => localStorage.getItem(k) || sessionStorage.getItem(k),
@@ -409,25 +415,17 @@
 
         const dict = {
             es: {
-                hello: "¡Hola! 👋 Soy el asistente virtual de Luis. ¡Qué alegría tenerte en la **{loft}**! Hecho con mucho cariño para que disfrutes de La Pineda. ¿En qué puedo ayudarte hoy? WiFi, dónde comer, farmacias...",
-                welcomeBot: "¡Luis y Valeria te dan la bienvenida! 😊 ¿Necesitas algo del loft?",
-                storyT: "Nuestra Historia",
-                storyB: "En febrero de 2020 decidí crear un refugio tecnológico para mi hija Valeria. Buscaba un lugar con luces mágicas y el mar a un paso. Hoy os abrimos nuestro hogar deseando que os aporte tanta paz como a nosotros.",
+                hello: "¡Hola! 👋 Soy el asistente virtual de Luis. ¡Qué alegría saludarte! Estás en la **{loft}**, hecha con todo el cariño para que disfrutes. ¿En qué puedo ayudarte? WiFi, sitios para cenar, farmacias...",
                 wa: "¡Hola Luis! Soy tu huésped en la {loft}. ¿Me ayudas con una duda?",
-                notfound: "¡Uy! Luis no me ha enseñado eso todavía... 😅 Pero sé mucho sobre el wifi, el parking de Fluromar II, farmacias y restaurantes. ¿Me preguntas algo de eso?",
-                shorter: "Prueba con 'wifi', 'comida' o 'farmacia'."
+                notfound: "¡Uy! Luis no me ha enseñado eso todavía... 😅 Pero sé mucho sobre el wifi, el parking, farmacias o los sitios top del carrusel. ¿Me preguntas algo de eso?"
             },
             ca: {
-                hello: "Hola! 👋 Sóc l'assistent virtual d'en Luis. Quina alegria tenir-te a la **{loft}**! En què et puc ajudar avui?",
-                storyT: "La Nostra Història",
-                storyB: "Al febrer de 2020 vaig decidir crear un refugi tecnològic per a la meva filla Valeria. Avui us obrim la nostra llar amb tot el carinyo.",
+                hello: "Hola! 👋 Sóc l'assistent virtual d'en Luis. Quina alegria saludar-te! Estàs a la **{loft}**. En què et puc ajudar avui?",
                 wa: "Hola Luis! Sóc el teu hoste a la {loft}. Em pots ajudar?",
-                notfound: "Vaja! En Luis encara no m'ha ensenyat això... 😅 Prova preguntant sobre el wifi, el parking o on menjar.",
-                shorter: "Prova amb 'wifi' o 'on menjar'."
+                notfound: "Vaja! En Luis encara no m'ha ensenyat això... 😅 Prova preguntant sobre el wifi, el pàrquing o on menjar."
             }
         };
 
-        // --- SISTEMA DE ARRANQUE ---
         window.onload = () => {
             setTimeout(() => {
                 if (state.id) {
@@ -452,18 +450,18 @@
             if (!l) return shutdown();
 
             document.getElementById('welcome-screen').classList.add('hidden');
-            document.getElementById('main-app').classList.remove('hidden');
+            const main = document.getElementById('main-app');
+            main.classList.remove('hidden');
             document.getElementById('wa-link').classList.replace('hidden', 'flex');
             
             document.getElementById('display-loft-id').innerText = l.name;
             document.getElementById('loft-spec-text').innerText = l.spec;
-            document.getElementById('loft-img').src = l.img;
+            
+            const imgEl = document.getElementById('loft-img');
+            if(imgEl) imgEl.src = l.img;
+
             document.getElementById('lang-select').value = state.lang;
             
-            document.getElementById('story-title').innerText = dict[state.lang].storyT;
-            document.getElementById('story-body').innerText = dict[state.lang].storyB;
-
-            // Chat engine init
             const engine = document.getElementById('chat-engine');
             if (engine && engine.children.length === 0) {
                 if (state.history.length === 0) {
@@ -473,11 +471,9 @@
                     state.history.forEach(m => pushChat(m.text, m.role, false));
                 }
             }
-            
             updateWA();
         }
 
-        // --- CHAT INTERACTIVO (LUIS AI) ---
         function pushChat(text, role, save = true) {
             const engine = document.getElementById('chat-engine');
             if (!engine) return;
@@ -509,40 +505,29 @@
                 const lower = msg.toLowerCase();
                 let reply = dict[state.lang].notfound;
 
-                // Saludos (Personalizado)
-                if (lower.match(/hola|buenos días|buenas tardes|hey|buenas|que tal|saludos/)) {
-                    reply = "¡Hola Luis! 😊 O mejor dicho... ¡Hola huésped de Luis! 👋 Me encanta saludarte. Estoy programado con todo el cariño de este proyecto para ayudarte. ¿Necesitas el WiFi o buscas los sitios que Luis ha seleccionado para ti?";
+                if (lower.match(/hola|buenos días|hey|buenas|que tal/)) {
+                    reply = "¡Hola! 😊 Qué alegría saludarte. Soy el asistente de Luis. Me encanta charlar con gente tan tecnológica. ¿Necesitas el WiFi o te sugiero algún sitio para cenar hoy?";
                 }
-                // Gracias
-                else if (lower.match(/gracias|muchas gracias|genial|perfecto|ok|vale/)) {
-                    reply = "¡De nada! Es un auténtico placer. ❤️ Luis y Valeria estamos felices de que disfrutes del loft. ¡Cualquier otra cosa, aquí me tienes!";
+                else if (lower.match(/gracias|genial|ok|vale|perfecto/)) {
+                    reply = "¡De nada! Es un placer ayudarte. ❤️ Luis y Valeria estamos felices de que estés aquí. ¡Disfruta!";
                 }
-                // Wifi
-                else if (lower.includes('wifi') || lower.includes('internet') || lower.includes('clave') || lower.includes('pass')) {
-                    reply = "¡Claro! 📡 Conéctate sin límites. La red es **apartaoaporta** y la contraseña es **2020v@leria**. ¡Vuela por la red!";
+                else if (lower.includes('wifi') || lower.includes('internet') || lower.includes('clave')) {
+                    reply = "¡A tope de gigas! 📡 La red es **apartaoaporta** y la contraseña es **2020v@leria**. ¡Disfruta de la alta velocidad!";
                 }
-                // Farmacia
-                else if (lower.includes('farmacia') || lower.includes('medico') || lower.includes('salud') || lower.includes('enfermo')) {
-                    reply = "¡Espero que no sea nada! ❤️ Tienes la **Farmacia Aurora** justo al lado en Pso. Pau Casals 75. Su número es 977370617. ¡Cuídate mucho!";
+                else if (lower.includes('comer') || lower.includes('restaurante') || lower.includes('hambre')) {
+                    reply = "¡Qué hambre! 🍕 Luis te recomienda la **Tagliatella** para pasta, el **Wissler** para las mejores burgers gourmet o el **Mix**. Tienes fotos reales de todos en el carrusel de abajo. 👇";
                 }
-                // Comida / Restaurantes
-                else if (lower.includes('comer') || lower.includes('restaurante') || lower.includes('cenar') || lower.includes('hambre')) {
-                    reply = "¡Me está entrando hambre! 🍕 Luis te recomienda la **Tagliatella** para pasta, el **Mix** para mediterráneo, o el **Wissler** para las mejores burgers. Tienes todas las opciones en el carrusel de aquí abajo. 👇";
+                else if (lower.includes('farmacia') || lower.includes('medico')) {
+                    reply = "¡Cuídate mucho! ❤️ La **Farmacia Aurora** está muy cerca, en Pso. Pau Casals 75. Tel: 977370617.";
                 }
-                // Parking
-                else if (lower.includes('parking') || lower.includes('aparcamiento') || lower.includes('coche')) {
-                    reply = "¡Sin problema! 🚗 Usa la **llave maestra** de tu llavero para bajar cualquier cepo libre del parking comunitario de Fluromar II. ¡Es muy cómodo!";
-                }
-                // Valeria / Historia
-                else if (lower.includes('valeria') || lower.includes('historia') || lower.includes('quien')) {
-                    reply = "Este proyecto es el sueño de Luis para su hija Valeria. ❤️ Querían tecnología y mar en un solo lugar. ¡Disfruta de este rincón tan especial!";
+                else if (lower.includes('parking') || lower.includes('coche')) {
+                    reply = "¡Sin problema! 🚗 Usa la **llave maestra** de tu llavero para bajar cualquier cepo libre del parking comunitario de Fluromar II.";
                 }
 
                 pushChat(reply, 'bot');
             }, 800);
         }
 
-        // --- UTILIDADES ---
         function copyPass() {
             const el = document.createElement('textarea');
             el.value = '2020v@leria';
@@ -550,7 +535,7 @@
             el.select();
             document.execCommand('copy');
             document.body.removeChild(el);
-            alert("¡Contraseña copiada Luis! 📋");
+            alert("¡Contraseña copiada al portapapeles! 📋");
         }
 
         function switchLang() {
