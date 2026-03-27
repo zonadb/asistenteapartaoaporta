@@ -70,11 +70,19 @@
                 scroll-snap-align: start;
             }
         }
+
+        /* Estilo para imágenes que fallan */
+        .img-fallback {
+            background: #1e293b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
     </style>
 </head>
 <body class="selection:bg-blue-500/30">
 
-    <!-- PANTALLA DE SELECCIÓN -->
+    <!-- PANTALLA DE SELECCIÓN (INTRO) -->
     <div id="welcome-screen" class="fixed inset-0 z-[100] flex flex-col items-center justify-center p-8 bg-slate-950 overflow-hidden">
         <div class="absolute inset-0 opacity-30">
             <div class="absolute top-0 -left-20 w-[30rem] h-[30rem] bg-blue-600 rounded-full blur-[150px]"></div>
@@ -124,6 +132,7 @@
 
     <!-- APP PRINCIPAL -->
     <div id="main-app" class="hidden min-h-screen pb-20">
+        <!-- HEADER -->
         <header class="glass sticky top-0 z-50 px-6 py-6 flex justify-between items-center border-b border-white/5 shadow-2xl">
             <div class="flex items-center gap-4">
                 <div class="w-11 h-11 bg-gradient-to-br from-blue-600 to-blue-800 rounded-2xl flex items-center justify-center shadow-lg transform -rotate-3">
@@ -133,7 +142,8 @@
                     <h2 class="text-md font-black italic tracking-tighter uppercase leading-none">APARTAoAPORTA</h2>
                     <div class="flex items-center gap-2 mt-1">
                         <span id="display-loft-id" class="text-[8px] font-black text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded-full uppercase tracking-widest">LOFT ---</span>
-                        <span class="text-[8px] text-slate-500 font-bold uppercase tracking-widest">Premium Digital Guide</span>
+                        <span class="w-1 h-1 bg-slate-700 rounded-full"></span>
+                        <span class="text-[8px] text-slate-500 font-bold uppercase tracking-widest">Premium Guide</span>
                     </div>
                 </div>
             </div>
@@ -152,7 +162,7 @@
 
         <main class="max-w-4xl mx-auto p-6 space-y-12">
             
-            <!-- CHAT ASISTENTE (AMIGABLE & PROACTIVO) -->
+            <!-- CHAT ASISTENTE (INTERACTIVO & AMIGABLE) -->
             <section class="animate-in" style="animation-delay: 0.1s">
                 <div class="premium-card rounded-[3rem] overflow-hidden shadow-2xl border border-white/5">
                     <div class="bg-slate-950 p-5 flex items-center justify-between border-b border-white/5">
@@ -165,7 +175,7 @@
                             </div>
                             <div>
                                 <h3 class="text-sm font-extrabold text-white tracking-tight">Luis AI Concierge</h3>
-                                <p class="text-[8px] font-black text-blue-400 uppercase tracking-[0.3em]">IA Educada & Proactiva</p>
+                                <p class="text-[8px] font-black text-blue-400 uppercase tracking-[0.3em]">Cerebro Pro Activo</p>
                             </div>
                         </div>
                     </div>
@@ -185,19 +195,20 @@
 
             <!-- WIFI & QUICK SERVICES -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- WIFI -->
                 <section class="animate-in" style="animation-delay: 0.2s">
                     <div class="premium-card p-8 rounded-[3rem] h-full flex flex-col justify-between relative group overflow-hidden border-l-4 border-blue-500 shadow-xl">
                         <div class="absolute -right-10 -bottom-10 opacity-5 group-hover:opacity-10 transition-opacity">
                             <i class="fas fa-wifi text-[12rem]"></i>
                         </div>
                         <div class="space-y-4 relative z-10">
-                            <span class="px-3 py-1 bg-blue-500/20 text-blue-400 rounded-full text-[8px] font-black uppercase tracking-[0.3em]">Fibra Óptica Premium</span>
+                            <span class="px-3 py-1 bg-blue-500/20 text-blue-400 rounded-full text-[8px] font-black uppercase tracking-[0.3em]">Conectividad Premium</span>
                             <h3 class="text-2xl font-black italic tracking-tighter">WiFi del Loft</h3>
                             <div class="space-y-1 pt-2">
                                 <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Red: <span class="text-white">apartaoaporta</span></p>
                                 <div class="flex items-center gap-4">
                                     <span class="text-3xl font-black text-white tracking-tighter italic">2020v@leria</span>
-                                    <button onclick="copyPass()" class="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center text-slate-400 hover:text-blue-400">
+                                    <button onclick="copyPass()" class="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center text-slate-400 hover:text-blue-400 transition-colors">
                                         <i class="fas fa-copy"></i>
                                     </button>
                                 </div>
@@ -206,6 +217,7 @@
                     </div>
                 </section>
 
+                <!-- CALL SERVICES -->
                 <section class="grid grid-cols-2 gap-4 animate-in" style="animation-delay: 0.3s">
                     <a href="tel:+34977385050" class="premium-card p-6 rounded-[2.5rem] flex flex-col items-center justify-center gap-4 active:scale-95 shadow-lg">
                         <div class="w-16 h-16 bg-amber-500/10 text-amber-500 rounded-2xl flex items-center justify-center text-3xl shadow-inner">
@@ -222,23 +234,8 @@
                 </section>
             </div>
 
-            <!-- FOTO DINÁMICA DEL LOFT -->
-            <section class="animate-in" style="animation-delay: 0.4s">
-                <div class="rounded-[3rem] overflow-hidden shadow-2xl border-4 border-white/5 relative aspect-video md:aspect-[21/9]">
-                    <img id="loft-img" src="" class="w-full h-full object-cover grayscale-[10%] hover:grayscale-0 transition-all duration-1000" alt="Loft Interior">
-                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-80"></div>
-                    <div class="absolute bottom-8 left-10 flex items-center gap-4">
-                        <div class="w-3 h-3 bg-blue-500 rounded-full animate-ping"></div>
-                        <div class="space-y-1">
-                            <span class="text-white text-[12px] font-black uppercase tracking-[0.4em] block italic tracking-tighter">Refugio Luis & Valeria</span>
-                            <span id="loft-spec-text" class="text-blue-400 text-[10px] font-bold uppercase tracking-widest">Digital Heart Active</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
             <!-- CARRUSEL DE EXPERIENCIAS SELECTAS -->
-            <section class="animate-in" style="animation-delay: 0.5s">
+            <section class="animate-in" style="animation-delay: 0.4s">
                 <div class="flex items-center justify-between px-2 mb-8">
                     <h4 class="text-[10px] font-black text-slate-500 uppercase tracking-[0.6em]">Guía de Experiencias · Luis Selects</h4>
                     <div class="flex gap-2">
@@ -249,10 +246,10 @@
                 
                 <div class="flex overflow-x-auto gap-6 pb-8 hide-scrollbar snap-x snap-mandatory px-1">
                     
-                    <!-- 1. CAMI DE RONDA (NUEVO) -->
+                    <!-- 1. CAMI DE RONDA -->
                     <div class="carousel-item snap-center shrink-0 w-[85%] sm:w-80 premium-card rounded-[3rem] overflow-hidden border-t-4 border-blue-400">
-                        <div class="h-44 relative">
-                            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="Cami de Ronda coast">
+                        <div class="h-44 relative bg-slate-800">
+                            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="Cami de Ronda" onerror="this.parentElement.classList.add('img-fallback')">
                             <div class="absolute inset-0 bg-black/40 flex items-center justify-center p-4">
                                 <h5 class="text-white font-black text-2xl italic tracking-tighter text-center uppercase leading-none">CAMI DE RONDA</h5>
                             </div>
@@ -267,8 +264,8 @@
 
                     <!-- 2. LA TAGLIATELLA -->
                     <div class="carousel-item snap-center shrink-0 w-[85%] sm:w-80 premium-card rounded-[3rem] overflow-hidden">
-                        <div class="h-44 relative">
-                            <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
+                        <div class="h-44 relative bg-slate-800">
+                            <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="Tagliatella" onerror="this.parentElement.classList.add('img-fallback')">
                             <div class="absolute inset-0 bg-black/50 flex items-center justify-center p-4">
                                 <h5 class="text-white font-black text-2xl italic tracking-tighter text-center uppercase">La Tagliatella</h5>
                             </div>
@@ -282,37 +279,37 @@
                     <!-- 3. BRASERÍA EL PIRATA -->
                     <div class="carousel-item snap-center shrink-0 w-[85%] sm:w-80 premium-card rounded-[3rem] overflow-hidden">
                         <div class="h-44 relative bg-slate-800">
-                            <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
+                            <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="El Pirata" onerror="this.parentElement.classList.add('img-fallback')">
                             <div class="absolute inset-0 bg-black/50 flex items-center justify-center">
-                                <h5 class="text-white font-black text-2xl italic tracking-tighter uppercase">Brasería El Pirata</h5>
+                                <h5 class="text-white font-black text-2xl italic tracking-tighter uppercase text-center">Brasería<br>El Pirata</h5>
                             </div>
                         </div>
                         <div class="p-8 space-y-6">
-                            <p class="text-[11px] text-slate-400 leading-relaxed italic">"Justo debajo del loft. Carnes a la brasa de gran nivel. No te vayas sin probar sus costillas."</p>
+                            <p class="text-[11px] text-slate-400 leading-relaxed italic">"Justo debajo del loft. Carnes a la brasa de gran nivel. No te vayas sin probar sus famosas costillas."</p>
                             <a href="tel:877402030" class="block w-full py-4 bg-amber-600 text-white rounded-[1.5rem] text-[9px] font-black uppercase text-center tracking-widest italic">Reservar Mesa</a>
                         </div>
                     </div>
 
-                    <!-- 4. PORT AVENTURA -->
-                    <div class="carousel-item snap-center shrink-0 w-[85%] sm:w-80 premium-card rounded-[3rem] overflow-hidden">
-                        <div class="h-44 relative">
-                            <img src="https://images.unsplash.com/photo-1513889959010-68a4c30df9f7?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
+                    <!-- 4. PORT AVENTURA (IMAGEN CORREGIDA) -->
+                    <div class="carousel-item snap-center shrink-0 w-[85%] sm:w-80 premium-card rounded-[3rem] overflow-hidden border-t-4 border-red-500">
+                        <div class="h-44 relative bg-slate-800">
+                            <img src="https://images.unsplash.com/photo-1606240724602-5b21f896397c?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="Port Aventura" onerror="this.parentElement.classList.add('img-fallback')">
                             <div class="absolute inset-0 bg-black/30 flex items-center justify-center p-4">
                                 <h5 class="text-white font-black text-2xl italic tracking-tighter text-center uppercase">Port Aventura</h5>
                             </div>
                         </div>
                         <div class="p-8 space-y-6">
-                            <p class="text-[11px] text-slate-400 leading-relaxed italic">"Adrenalina pura a 10 min. El plan perfecto para un día emocionante con los más pequeños."</p>
+                            <p class="text-[11px] text-slate-400 leading-relaxed italic">"Adrenalina pura a 10 min. El plan perfecto para un día emocionante con Valeria o amigos."</p>
                             <a href="https://www.portaventuraworld.com/" target="_blank" class="block w-full py-4 bg-red-600 text-white rounded-[1.5rem] text-[9px] font-black uppercase text-center tracking-widest">Entradas Oficiales</a>
                         </div>
                     </div>
 
                     <!-- 5. WISSLER BURGER -->
                     <div class="carousel-item snap-center shrink-0 w-[85%] sm:w-80 premium-card rounded-[3rem] overflow-hidden">
-                        <div class="h-44 relative">
-                            <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
+                        <div class="h-44 relative bg-slate-800">
+                            <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="Wissler Burger" onerror="this.parentElement.classList.add('img-fallback')">
                             <div class="absolute inset-0 bg-black/40 flex items-center justify-center p-4">
-                                <h5 class="text-white font-black text-2xl italic tracking-tighter text-center uppercase">Wissler Burger</h5>
+                                <h5 class="text-white font-black text-2xl italic tracking-tighter text-center uppercase leading-none">Wissler Burger</h5>
                             </div>
                         </div>
                         <div class="p-8 space-y-6">
@@ -323,8 +320,8 @@
 
                     <!-- 6. OH LA LÁ! -->
                     <div class="carousel-item snap-center shrink-0 w-[85%] sm:w-80 premium-card rounded-[3rem] overflow-hidden">
-                        <div class="h-44 relative">
-                            <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
+                        <div class="h-44 relative bg-slate-800">
+                            <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="Oh la la" onerror="this.parentElement.classList.add('img-fallback')">
                             <div class="absolute inset-0 bg-pink-900/40 flex items-center justify-center p-4">
                                 <h5 class="text-white font-black text-3xl italic tracking-tighter uppercase">Oh la lá!</h5>
                             </div>
@@ -337,10 +334,10 @@
 
                     <!-- 7. RESTAURANTE MIX -->
                     <div class="carousel-item snap-center shrink-0 w-[85%] sm:w-80 premium-card rounded-[3rem] overflow-hidden">
-                        <div class="h-44 relative">
-                            <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
+                        <div class="h-44 relative bg-slate-800">
+                            <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="Restaurante Mix" onerror="this.parentElement.classList.add('img-fallback')">
                             <div class="absolute inset-0 bg-black/40 flex items-center justify-center p-4 text-center">
-                                <h5 class="text-white font-black text-2xl italic tracking-tighter">RESTAURANTE MIX</h5>
+                                <h5 class="text-white font-black text-2xl italic tracking-tighter uppercase">Restaurante Mix</h5>
                             </div>
                         </div>
                         <div class="p-8 space-y-6">
@@ -350,9 +347,9 @@
                     </div>
 
                     <!-- 8. AQUUM SPA -->
-                    <div class="carousel-item snap-center shrink-0 w-[85%] sm:w-80 premium-card rounded-[3rem] overflow-hidden">
-                        <div class="h-44 relative">
-                            <img src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
+                    <div class="carousel-item snap-center shrink-0 w-[85%] sm:w-80 premium-card rounded-[3rem] overflow-hidden border-t-4 border-teal-400">
+                        <div class="h-44 relative bg-slate-800">
+                            <img src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="Aquum Spa" onerror="this.parentElement.classList.add('img-fallback')">
                             <div class="absolute inset-0 bg-teal-900/40 flex items-center justify-center p-4">
                                 <h5 class="text-white font-black text-3xl italic tracking-tighter text-center uppercase">Aquum Spa</h5>
                             </div>
@@ -365,8 +362,8 @@
 
                     <!-- 9. SPALAS -->
                     <div class="carousel-item snap-center shrink-0 w-[85%] sm:w-80 premium-card rounded-[3rem] overflow-hidden">
-                        <div class="h-44 relative">
-                            <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
+                        <div class="h-44 relative bg-slate-800">
+                            <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="Spalas" onerror="this.parentElement.classList.add('img-fallback')">
                             <div class="absolute inset-0 bg-indigo-950/50 flex items-center justify-center p-4">
                                 <h5 class="text-white font-black text-3xl italic tracking-tighter text-center uppercase">Spalas</h5>
                             </div>
@@ -381,7 +378,7 @@
             </section>
 
             <!-- SECCIÓN EMOCIONAL LUIS & VALERIA -->
-            <section class="animate-in" style="animation-delay: 0.6s">
+            <section class="animate-in" style="animation-delay: 0.5s">
                 <div class="premium-card p-10 rounded-[4rem] text-white relative overflow-hidden group">
                     <div class="absolute -top-10 -right-10 w-48 h-48 bg-blue-600/10 rounded-full blur-3xl group-hover:bg-blue-600/20 transition-all duration-1000"></div>
                     <div class="flex flex-col md:flex-row gap-8 items-start relative z-10">
@@ -411,7 +408,7 @@
     </a>
 
     <script>
-        // --- PERSISTENCIA PROFESIONAL ---
+        // --- MOTOR DE PERSISTENCIA ---
         const Store = {
             set: (k, v) => { localStorage.setItem(k, v); sessionStorage.setItem(k, v); },
             get: (k) => localStorage.getItem(k) || sessionStorage.getItem(k),
@@ -425,9 +422,9 @@
         };
 
         const lofts = {
-            '210': { name: 'Unidad 210 Premium', spec: 'TV 65" Ambilight + Chimenea Eléctrica', img: 'img/210-salon.avif' },
-            '211': { name: 'Unidad 211 Executive', spec: 'TV 55" + Parquet + Lavavajillas + Desk', img: 'img/211-mesa-tv.jpeg' },
-            '212': { name: 'Unidad 212 Design', spec: 'TV 55" + Escritorio Tocador Hollywood', img: 'img/212-general.avif' }
+            '210': { name: 'LOFT 210 Premium', spec: 'TV 65" Ambilight + Chimenea Eléctrica', img: 'img/210-salon.avif' },
+            '211': { name: 'LOFT 211 Executive', spec: 'TV 55" + Parquet + Lavavajillas + Desk', img: 'img/211-mesa-tv.jpeg' },
+            '212': { name: 'LOFT 212 Design', spec: 'TV 55" + Escritorio Tocador Hollywood', img: 'img/212-general.avif' }
         };
 
         const dict = {
@@ -450,7 +447,7 @@
                 if (state.id) {
                     renderApp();
                 } else {
-                    document.getElementById('status-text').innerText = "Identidad verificada. Selecciona tu refugio:";
+                    document.getElementById('status-text').innerText = "Identidad verificada. Selecciona tu unidad:";
                     const btns = document.getElementById('loft-buttons');
                     btns.classList.replace('opacity-0', 'opacity-100');
                     btns.classList.replace('translate-y-10', 'translate-y-0');
@@ -474,10 +471,15 @@
             document.getElementById('wa-link').classList.replace('hidden', 'flex');
             
             document.getElementById('display-loft-id').innerText = l.name;
-            document.getElementById('loft-spec-text').innerText = l.spec;
             
+            // Imagen del Loft con fallback
             const imgEl = document.getElementById('loft-img');
-            if(imgEl) imgEl.src = l.img;
+            if(imgEl) {
+                imgEl.src = l.img;
+                imgEl.onerror = function() {
+                    this.parentElement.classList.add('img-fallback');
+                };
+            }
 
             document.getElementById('lang-select').value = state.lang;
             
@@ -493,7 +495,7 @@
             updateWA();
         }
 
-        // --- CHAT LUIS AI (SIMPÁTICO & PROACTIVO) ---
+        // --- CHAT LUIS AI ---
         function pushChat(text, role, save = true) {
             const engine = document.getElementById('chat-engine');
             if (!engine) return;
@@ -527,11 +529,11 @@
 
                 // Saludos Proactivos & Educados
                 if (lower.match(/hola|buenos días|buenas tardes|hey|saludos|que tal|buenas/)) {
-                    reply = "¡Hola! 😊 ¡Qué alegría saludarte! Soy el asistente virtual de Luis. Estoy programado con todo el cariño de este proyecto familiar para ayudarte. ¿Buscas los datos del WiFi o quizás quieres que te recomiende un paseo espectacular por el Cami de Ronda?";
+                    reply = "¡Hola! 😊 ¡Qué alegría saludarte! Soy el asistente virtual de Luis. Estoy programado con todo el cariño de este proyecto familiar para ayudarte en lo que necesites. ¿Buscas los datos del WiFi o quizás quieres que te recomiende un paseo espectacular por el Cami de Ronda?";
                 }
                 // Gracias
                 else if (lower.match(/gracias|muchas gracias|genial|ok|vale|perfecto|muy bien/)) {
-                    reply = "¡De nada! Es un auténtico placer ayudarte. ❤️ Luis y Valeria estamos felices de que estés disfrutando del loft. ¡Disfruta de cada minuto!";
+                    reply = "¡De nada! Es un auténtico placer ayudarte. ❤️ Luis y Valeria estamos felices de que estés disfrutando del loft. ¡Cualquier otra cosa, aquí me tienes!";
                 }
                 // WiFi
                 else if (lower.includes('wifi') || lower.includes('internet') || lower.includes('clave')) {
