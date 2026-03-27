@@ -8,123 +8,47 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
-        
-        :root {
-            --primary: #3b82f6;
-            --dark: #020617;
-            --accent: #60a5fa;
-        }
-
-        body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            background-color: #020617;
-            color: #f8fafc;
-            -webkit-tap-highlight-color: transparent;
-            scroll-behavior: smooth;
-        }
-
-        .glass {
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .premium-card {
-            background: linear-gradient(145deg, #1e293b, #0f172a);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
-        }
-
-        .premium-card:active {
-            transform: scale(0.96);
-        }
-
-        .bot-bubble {
-            border-radius: 24px 24px 24px 8px;
-            background: #1e293b;
-            border: 1px solid rgba(59, 130, 246, 0.15);
-        }
-
-        .user-bubble {
-            border-radius: 24px 24px 8px 24px;
-            background: linear-gradient(135deg, #2563eb, #1d4ed8);
-        }
-
+        :root { --primary: #3b82f6; --dark: #020617; --accent: #60a5fa; --danger: #ef4444; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #020617; color: #f8fafc; -webkit-tap-highlight-color: transparent; scroll-behavior: smooth; overflow-x: hidden; }
+        .glass { background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.08); }
+        .premium-card { background: linear-gradient(145deg, #1e293b, #0f172a); border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.3s ease; }
+        .premium-card:active { transform: scale(0.96); }
+        .bot-bubble { border-radius: 24px 24px 24px 8px; background: #1e293b; border: 1px solid rgba(59, 130, 246, 0.15); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+        .user-bubble { border-radius: 24px 24px 8px 24px; background: linear-gradient(135deg, #2563eb, #1d4ed8); }
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         .animate-in { opacity: 0; animation: fadeInUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
-
-        .carousel-item {
-            scroll-snap-align: center;
-        }
-
-        @media (min-width: 768px) {
-            .carousel-item {
-                scroll-snap-align: start;
-            }
-        }
-
-        /* Estilo para imágenes que fallan */
-        .img-fallback {
-            background: #1e293b;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
     </style>
 </head>
 <body class="selection:bg-blue-500/30">
 
-    <!-- PANTALLA DE SELECCIÓN (INTRO) -->
+    <!-- PANTALLA DE INICIO -->
     <div id="welcome-screen" class="fixed inset-0 z-[100] flex flex-col items-center justify-center p-8 bg-slate-950 overflow-hidden">
         <div class="absolute inset-0 opacity-30">
             <div class="absolute top-0 -left-20 w-[30rem] h-[30rem] bg-blue-600 rounded-full blur-[150px]"></div>
             <div class="absolute bottom-0 -right-20 w-[30rem] h-[30rem] bg-indigo-900 rounded-full blur-[150px]"></div>
         </div>
-
         <div class="relative z-10 w-full max-w-sm text-center space-y-12">
             <div class="space-y-4">
                 <div class="w-24 h-24 bg-blue-600 rounded-[2.5rem] mx-auto flex items-center justify-center shadow-[0_0_60px_rgba(37,99,235,0.5)] animate-pulse">
-                    <i class="fas fa-microchip text-white text-5xl"></i>
+                    <i class="fas fa-bolt-lightning text-white text-5xl"></i>
                 </div>
                 <h1 class="text-5xl font-black tracking-tighter italic uppercase leading-none">APARTA<span class="text-blue-500">O</span>APORTA</h1>
-                <p id="status-text" class="text-slate-500 font-bold tracking-[0.5em] text-[9px] uppercase">Luis AI Online...</p>
+                <p id="status-text" class="text-slate-500 font-bold tracking-[0.5em] text-[9px] uppercase italic">Aportamos tecnología, apartamos problemas</p>
             </div>
-
             <div id="loft-buttons" class="grid grid-cols-1 gap-4 opacity-0 transform translate-y-10 transition-all duration-1000">
                 <button onclick="bootApp('210')" class="premium-card p-6 rounded-[2rem] text-left flex justify-between items-center group">
-                    <div>
-                        <span class="text-[9px] font-black text-blue-500 uppercase tracking-widest">Premium Residence</span>
-                        <h2 class="text-xl font-bold">Unidad 210</h2>
-                    </div>
-                    <div class="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center group-hover:bg-blue-600 transition-all">
-                        <i class="fas fa-arrow-right text-slate-600 group-hover:text-white"></i>
-                    </div>
+                    <div><span class="text-[9px] font-black text-blue-500 uppercase tracking-widest italic">Unit 210 Premium</span><h2 class="text-xl font-bold italic">LOFT 210</h2></div>
+                    <i class="fas fa-chevron-right text-slate-600 group-hover:text-blue-500"></i>
                 </button>
                 <button onclick="bootApp('211')" class="premium-card p-6 rounded-[2rem] text-left flex justify-between items-center group">
-                    <div>
-                        <span class="text-[9px] font-black text-blue-500 uppercase tracking-widest">Executive Residence</span>
-                        <h2 class="text-xl font-bold">Unidad 211</h2>
-                    </div>
-                    <div class="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center group-hover:bg-blue-600 transition-all">
-                        <i class="fas fa-arrow-right text-slate-600 group-hover:text-white"></i>
-                    </div>
+                    <div><span class="text-[9px] font-black text-blue-400 uppercase tracking-widest italic">Unit 211 Executive</span><h2 class="text-xl font-bold italic">LOFT 211</h2></div>
+                    <i class="fas fa-chevron-right text-slate-600 group-hover:text-blue-500"></i>
                 </button>
                 <button onclick="bootApp('212')" class="premium-card p-6 rounded-[2rem] text-left flex justify-between items-center group">
-                    <div>
-                        <span class="text-[9px] font-black text-blue-500 uppercase tracking-widest">Design Residence</span>
-                        <h2 class="text-xl font-bold">Unidad 212</h2>
-                    </div>
-                    <div class="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center group-hover:bg-blue-600 transition-all">
-                        <i class="fas fa-arrow-right text-slate-600 group-hover:text-white"></i>
-                    </div>
+                    <div><span class="text-[9px] font-black text-blue-500 uppercase tracking-widest italic">Unit 212 Design</span><h2 class="text-xl font-bold italic">LOFT 212</h2></div>
+                    <i class="fas fa-chevron-right text-slate-600 group-hover:text-blue-500"></i>
                 </button>
             </div>
         </div>
@@ -132,463 +56,264 @@
 
     <!-- APP PRINCIPAL -->
     <div id="main-app" class="hidden min-h-screen pb-20">
-        <!-- HEADER -->
-        <header class="glass sticky top-0 z-50 px-6 py-6 flex justify-between items-center border-b border-white/5 shadow-2xl">
+        <header class="glass sticky top-0 z-50 px-6 py-6 flex justify-between items-center border-b border-white/5">
             <div class="flex items-center gap-4">
-                <div class="w-11 h-11 bg-gradient-to-br from-blue-600 to-blue-800 rounded-2xl flex items-center justify-center shadow-lg transform -rotate-3">
-                    <span class="font-black text-white italic text-xl">A</span>
-                </div>
+                <div class="w-11 h-11 bg-blue-600 rounded-2xl flex items-center justify-center shadow-lg"><span class="font-black text-white italic text-xl">A</span></div>
                 <div>
                     <h2 class="text-md font-black italic tracking-tighter uppercase leading-none">APARTAoAPORTA</h2>
-                    <div class="flex items-center gap-2 mt-1">
-                        <span id="display-loft-id" class="text-[8px] font-black text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded-full uppercase tracking-widest">LOFT ---</span>
-                        <span class="w-1 h-1 bg-slate-700 rounded-full"></span>
-                        <span class="text-[8px] text-slate-500 font-bold uppercase tracking-widest">Premium Guide</span>
-                    </div>
+                    <div class="flex items-center gap-2 mt-1"><span id="display-loft-id" class="text-[8px] font-black text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded-full uppercase tracking-widest italic">LOFT ---</span></div>
                 </div>
             </div>
             <div class="flex items-center gap-3">
-                <select id="lang-select" onchange="switchLang()" class="bg-white/5 border-none rounded-full px-3 py-1.5 text-[10px] font-black text-white outline-none cursor-pointer">
+                <select id="lang-select" onchange="switchLang()" class="bg-white/5 border-none rounded-full px-3 py-1.5 text-[10px] font-black text-white outline-none">
                     <option value="es" class="text-black">ES</option>
                     <option value="ca" class="text-black">CA</option>
                     <option value="en" class="text-black">EN</option>
-                    <option value="fr" class="text-black">FR</option>
                 </select>
-                <button onclick="shutdown()" class="w-11 h-11 bg-red-500/10 text-red-500 rounded-2xl flex items-center justify-center hover:bg-red-500 hover:text-white transition-all">
-                    <i class="fas fa-power-off text-sm"></i>
-                </button>
+                <button onclick="shutdown()" class="w-11 h-11 bg-red-500/10 text-red-500 rounded-2xl flex items-center justify-center hover:bg-red-500 hover:text-white transition-all"><i class="fas fa-power-off text-sm"></i></button>
             </div>
         </header>
 
         <main class="max-w-4xl mx-auto p-6 space-y-12">
-            
-            <!-- CHAT ASISTENTE (INTERACTIVO & AMIGABLE) -->
+            <!-- ASISTENTE LUIS AI PROACTIVO -->
             <section class="animate-in" style="animation-delay: 0.1s">
                 <div class="premium-card rounded-[3rem] overflow-hidden shadow-2xl border border-white/5">
                     <div class="bg-slate-950 p-5 flex items-center justify-between border-b border-white/5">
                         <div class="flex items-center gap-4">
                             <div class="relative">
-                                <div class="w-14 h-14 bg-gradient-to-br from-blue-500 to-indigo-700 rounded-[1.5rem] flex items-center justify-center shadow-lg">
-                                    <i class="fas fa-robot text-white text-2xl"></i>
-                                </div>
-                                <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 border-4 border-[#020617] rounded-full animate-pulse"></div>
+                                <div class="w-14 h-14 bg-gradient-to-br from-blue-500 to-indigo-700 rounded-[1.5rem] flex items-center justify-center shadow-lg"><i class="fas fa-robot text-white text-2xl"></i></div>
+                                <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 border-4 border-[#020617] rounded-full"></div>
                             </div>
                             <div>
-                                <h3 class="text-sm font-extrabold text-white tracking-tight">Luis AI Concierge</h3>
-                                <p class="text-[8px] font-black text-blue-400 uppercase tracking-[0.3em]">Cerebro Pro Activo</p>
+                                <h3 class="text-sm font-extrabold text-white tracking-tight">Luis AI Virtual Assistant</h3>
+                                <p class="text-[8px] font-black text-blue-400 uppercase tracking-[0.3em]">IA Proactiva & Conserje Digital</p>
                             </div>
                         </div>
                     </div>
-
-                    <div id="chat-engine" class="h-80 overflow-y-auto p-6 space-y-4 bg-slate-950/40 hide-scrollbar flex flex-col">
-                        <!-- Mensajes -->
-                    </div>
-
+                    <div id="chat-engine" class="h-80 overflow-y-auto p-6 space-y-4 bg-slate-950/40 hide-scrollbar flex flex-col"></div>
                     <div class="p-4 bg-slate-900/50 flex gap-3 border-t border-white/5">
                         <input type="text" id="chat-input" class="flex-1 bg-white/5 border border-white/10 rounded-[1.5rem] px-6 py-4 text-xs font-medium focus:ring-2 focus:ring-blue-600 outline-none text-white transition-all" placeholder="Dime 'Hola' para saludar...">
-                        <button onclick="sendUserMsg()" class="bg-blue-600 text-white w-14 h-14 rounded-[1.5rem] flex items-center justify-center shadow-xl active:scale-90 transition-all">
-                            <i class="fas fa-paper-plane text-xl"></i>
-                        </button>
+                        <button onclick="sendUserMsg()" class="bg-blue-600 text-white w-14 h-14 rounded-[1.5rem] flex items-center justify-center shadow-xl active:scale-90 transition-all"><i class="fas fa-paper-plane text-xl"></i></button>
                     </div>
                 </div>
             </section>
 
             <!-- WIFI & QUICK SERVICES -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- WIFI -->
                 <section class="animate-in" style="animation-delay: 0.2s">
                     <div class="premium-card p-8 rounded-[3rem] h-full flex flex-col justify-between relative group overflow-hidden border-l-4 border-blue-500 shadow-xl">
-                        <div class="absolute -right-10 -bottom-10 opacity-5 group-hover:opacity-10 transition-opacity">
-                            <i class="fas fa-wifi text-[12rem]"></i>
-                        </div>
+                        <div class="absolute -right-10 -bottom-10 opacity-5 transition-opacity"><i class="fas fa-wifi text-[12rem]"></i></div>
                         <div class="space-y-4 relative z-10">
-                            <span class="px-3 py-1 bg-blue-500/20 text-blue-400 rounded-full text-[8px] font-black uppercase tracking-[0.3em]">Conectividad Premium</span>
-                            <h3 class="text-2xl font-black italic tracking-tighter">WiFi del Loft</h3>
-                            <div class="space-y-1 pt-2">
-                                <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Red: <span class="text-white">apartaoaporta</span></p>
-                                <div class="flex items-center gap-4">
-                                    <span class="text-3xl font-black text-white tracking-tighter italic">2020v@leria</span>
-                                    <button onclick="copyPass()" class="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center text-slate-400 hover:text-blue-400 transition-colors">
-                                        <i class="fas fa-copy"></i>
-                                    </button>
-                                </div>
+                            <span class="px-3 py-1 bg-blue-500/20 text-blue-400 rounded-full text-[8px] font-black uppercase tracking-[0.3em]">Tecnología Luis & Valeria</span>
+                            <h3 class="text-2xl font-black italic tracking-tighter uppercase">WiFi Premium 6G</h3>
+                            <div class="flex items-center gap-4">
+                                <span class="text-3xl font-black text-white tracking-tighter italic">2020v@leria</span>
+                                <button onclick="copyPass()" class="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center text-slate-400 hover:text-blue-400 transition-colors"><i class="fas fa-copy"></i></button>
                             </div>
                         </div>
                     </div>
                 </section>
 
-                <!-- CALL SERVICES -->
                 <section class="grid grid-cols-2 gap-4 animate-in" style="animation-delay: 0.3s">
                     <a href="tel:+34977385050" class="premium-card p-6 rounded-[2.5rem] flex flex-col items-center justify-center gap-4 active:scale-95 shadow-lg">
-                        <div class="w-16 h-16 bg-amber-500/10 text-amber-500 rounded-2xl flex items-center justify-center text-3xl shadow-inner">
-                            <i class="fas fa-taxi"></i>
-                        </div>
+                        <div class="w-16 h-16 bg-amber-500/10 text-amber-500 rounded-2xl flex items-center justify-center text-3xl shadow-inner"><i class="fas fa-taxi"></i></div>
                         <span class="text-[9px] font-black uppercase text-slate-400 tracking-widest">Taxi Salou</span>
                     </a>
                     <a href="tel:+34977370617" class="premium-card p-6 rounded-[2.5rem] flex flex-col items-center justify-center gap-4 active:scale-95 shadow-lg">
-                        <div class="w-16 h-16 bg-emerald-500/10 text-emerald-600 rounded-2xl flex items-center justify-center text-3xl shadow-inner">
-                            <i class="fas fa-capsules"></i>
-                        </div>
+                        <div class="w-16 h-16 bg-emerald-500/10 text-emerald-600 rounded-2xl flex items-center justify-center text-3xl shadow-inner"><i class="fas fa-capsules"></i></div>
                         <span class="text-[9px] font-black uppercase text-slate-400 tracking-widest">Farmacia</span>
                     </a>
                 </section>
             </div>
 
-            <!-- CARRUSEL DE EXPERIENCIAS SELECTAS -->
+            <!-- FOTO DINÁMICA DEL LOFT -->
             <section class="animate-in" style="animation-delay: 0.4s">
-                <div class="flex items-center justify-between px-2 mb-8">
-                    <h4 class="text-[10px] font-black text-slate-500 uppercase tracking-[0.6em]">Guía de Experiencias · Luis Selects</h4>
-                    <div class="flex gap-2">
-                        <div class="w-1.5 h-1.5 bg-blue-600 rounded-full animate-pulse"></div>
-                        <div class="w-1.5 h-1.5 bg-slate-700 rounded-full"></div>
+                <div class="rounded-[3rem] overflow-hidden shadow-2xl border-4 border-white/5 relative aspect-video md:aspect-[21/9] bg-slate-800">
+                    <img id="loft-img" src="" class="w-full h-full object-cover grayscale-[10%] hover:grayscale-0 transition-all duration-1000" alt="Loft Interior" onerror="this.src='https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=80'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-80"></div>
+                    <div class="absolute bottom-8 left-10 flex items-center gap-4">
+                        <div class="w-3 h-3 bg-blue-500 rounded-full animate-ping"></div>
+                        <span class="text-white text-[12px] font-black uppercase tracking-[0.4em] italic tracking-tighter">Smart Refuge Connection</span>
                     </div>
                 </div>
-                
+            </section>
+
+            <!-- CARRUSEL DE EXPERIENCIAS SELECTAS -->
+            <section class="animate-in" style="animation-delay: 0.5s">
+                <div class="flex items-center justify-between px-2 mb-8">
+                    <h4 class="text-[10px] font-black text-slate-500 uppercase tracking-[0.6em]">Luis Selecciona para ti</h4>
+                    <span class="text-[8px] font-bold text-primary uppercase animate-pulse">Desliza <i class="fas fa-arrow-right ml-1"></i></span>
+                </div>
                 <div class="flex overflow-x-auto gap-6 pb-8 hide-scrollbar snap-x snap-mandatory px-1">
-                    
-                    <!-- 1. CAMI DE RONDA -->
-                    <div class="carousel-item snap-center shrink-0 w-[85%] sm:w-80 premium-card rounded-[3rem] overflow-hidden border-t-4 border-blue-400">
-                        <div class="h-44 relative bg-slate-800">
-                            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="Cami de Ronda" onerror="this.parentElement.classList.add('img-fallback')">
-                            <div class="absolute inset-0 bg-black/40 flex items-center justify-center p-4">
-                                <h5 class="text-white font-black text-2xl italic tracking-tighter text-center uppercase leading-none">CAMI DE RONDA</h5>
-                            </div>
-                        </div>
-                        <div class="p-8 space-y-6">
-                            <p class="text-[11px] text-slate-400 leading-relaxed italic">"Ruta mágica por la costa entre La Pineda y Salou. Disfruta de calas escondidas y del Mediterráneo en estado puro."</p>
-                            <a href="https://es.wikiloc.com/rutas-senderismo/cami-de-ronda-salou-la-pineda-27783527" target="_blank" class="block w-full py-4 bg-blue-600 text-white rounded-[1.5rem] text-[9px] font-black uppercase text-center tracking-widest flex items-center justify-center gap-2">
-                                <i class="fas fa-route"></i> Ver en Wikiloc
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- 2. LA TAGLIATELLA -->
+                    <!-- CAMI DE RONDA -->
                     <div class="carousel-item snap-center shrink-0 w-[85%] sm:w-80 premium-card rounded-[3rem] overflow-hidden">
                         <div class="h-44 relative bg-slate-800">
-                            <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="Tagliatella" onerror="this.parentElement.classList.add('img-fallback')">
-                            <div class="absolute inset-0 bg-black/50 flex items-center justify-center p-4">
-                                <h5 class="text-white font-black text-2xl italic tracking-tighter text-center uppercase">La Tagliatella</h5>
-                            </div>
+                            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-black/40 flex items-center justify-center p-4"><h5 class="text-white font-black text-2xl italic tracking-tighter uppercase text-center">Cami de Ronda</h5></div>
                         </div>
                         <div class="p-8 space-y-6">
-                            <p class="text-[11px] text-slate-400 leading-relaxed italic">"Cenas frente al mar. Luis recomienda los Ravioli di Zucca en su espectacular terraza de La Pineda."</p>
-                            <a href="https://maps.app.goo.gl/9ZpLg8wTj7tG8uKx5" target="_blank" class="block w-full py-4 bg-slate-100 text-slate-900 rounded-[1.5rem] text-[9px] font-black uppercase text-center tracking-widest">Abrir Mapa</a>
+                            <p class="text-[11px] text-slate-400 leading-relaxed italic">"Ruta mágica por la costa. Disfruta de calas escondidas y del Mediterráneo en estado puro."</p>
+                            <a href="https://es.wikiloc.com/rutas-senderismo/cami-de-ronda-salou-la-pineda-27783527" target="_blank" class="block w-full py-4 bg-blue-600 text-white rounded-[1.5rem] text-[9px] font-black uppercase text-center tracking-widest font-bold italic">Ver Wikiloc</a>
                         </div>
                     </div>
-
-                    <!-- 3. BRASERÍA EL PIRATA -->
-                    <div class="carousel-item snap-center shrink-0 w-[85%] sm:w-80 premium-card rounded-[3rem] overflow-hidden">
+                    <!-- AQUUM SPA -->
+                    <div class="carousel-item snap-center shrink-0 w-[85%] sm:w-80 premium-card rounded-[3rem] overflow-hidden border-t-4 border-teal-500">
                         <div class="h-44 relative bg-slate-800">
-                            <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="El Pirata" onerror="this.parentElement.classList.add('img-fallback')">
-                            <div class="absolute inset-0 bg-black/50 flex items-center justify-center">
-                                <h5 class="text-white font-black text-2xl italic tracking-tighter uppercase text-center">Brasería<br>El Pirata</h5>
-                            </div>
-                        </div>
-                        <div class="p-8 space-y-6">
-                            <p class="text-[11px] text-slate-400 leading-relaxed italic">"Justo debajo del loft. Carnes a la brasa de gran nivel. No te vayas sin probar sus famosas costillas."</p>
-                            <a href="tel:877402030" class="block w-full py-4 bg-amber-600 text-white rounded-[1.5rem] text-[9px] font-black uppercase text-center tracking-widest italic">Reservar Mesa</a>
-                        </div>
-                    </div>
-
-                    <!-- 4. PORT AVENTURA (IMAGEN CORREGIDA) -->
-                    <div class="carousel-item snap-center shrink-0 w-[85%] sm:w-80 premium-card rounded-[3rem] overflow-hidden border-t-4 border-red-500">
-                        <div class="h-44 relative bg-slate-800">
-                            <img src="https://images.unsplash.com/photo-1606240724602-5b21f896397c?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="Port Aventura" onerror="this.parentElement.classList.add('img-fallback')">
-                            <div class="absolute inset-0 bg-black/30 flex items-center justify-center p-4">
-                                <h5 class="text-white font-black text-2xl italic tracking-tighter text-center uppercase">Port Aventura</h5>
-                            </div>
-                        </div>
-                        <div class="p-8 space-y-6">
-                            <p class="text-[11px] text-slate-400 leading-relaxed italic">"Adrenalina pura a 10 min. El plan perfecto para un día emocionante con Valeria o amigos."</p>
-                            <a href="https://www.portaventuraworld.com/" target="_blank" class="block w-full py-4 bg-red-600 text-white rounded-[1.5rem] text-[9px] font-black uppercase text-center tracking-widest">Entradas Oficiales</a>
-                        </div>
-                    </div>
-
-                    <!-- 5. WISSLER BURGER -->
-                    <div class="carousel-item snap-center shrink-0 w-[85%] sm:w-80 premium-card rounded-[3rem] overflow-hidden">
-                        <div class="h-44 relative bg-slate-800">
-                            <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="Wissler Burger" onerror="this.parentElement.classList.add('img-fallback')">
-                            <div class="absolute inset-0 bg-black/40 flex items-center justify-center p-4">
-                                <h5 class="text-white font-black text-2xl italic tracking-tighter text-center uppercase leading-none">Wissler Burger</h5>
-                            </div>
-                        </div>
-                        <div class="p-8 space-y-6">
-                            <p class="text-[11px] text-slate-400 leading-relaxed italic">"Hamburguesas gourmet a 250m. Acompáñalas con su excelente selección de cervezas artesanas."</p>
-                            <a href="https://maps.app.goo.gl/9ZpLg8wTj7tG8uKx5" target="_blank" class="block w-full py-4 bg-orange-600 text-white rounded-[1.5rem] text-[9px] font-black uppercase text-center tracking-widest">Cómo llegar</a>
-                        </div>
-                    </div>
-
-                    <!-- 6. OH LA LÁ! -->
-                    <div class="carousel-item snap-center shrink-0 w-[85%] sm:w-80 premium-card rounded-[3rem] overflow-hidden">
-                        <div class="h-44 relative bg-slate-800">
-                            <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="Oh la la" onerror="this.parentElement.classList.add('img-fallback')">
-                            <div class="absolute inset-0 bg-pink-900/40 flex items-center justify-center p-4">
-                                <h5 class="text-white font-black text-3xl italic tracking-tighter uppercase">Oh la lá!</h5>
-                            </div>
-                        </div>
-                        <div class="p-8 space-y-6">
-                            <p class="text-[11px] text-slate-400 leading-relaxed italic">"Toque chic de Burger & Drinks. Un ambiente moderno para una noche diferente en La Pineda."</p>
-                            <a href="https://www.google.com/maps/search/?api=1&query=Oh+la+la+La+Pineda" target="_blank" class="block w-full py-4 bg-pink-600 text-white rounded-[1.5rem] text-[9px] font-black uppercase text-center tracking-widest">Abrir Mapa</a>
-                        </div>
-                    </div>
-
-                    <!-- 7. RESTAURANTE MIX -->
-                    <div class="carousel-item snap-center shrink-0 w-[85%] sm:w-80 premium-card rounded-[3rem] overflow-hidden">
-                        <div class="h-44 relative bg-slate-800">
-                            <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="Restaurante Mix" onerror="this.parentElement.classList.add('img-fallback')">
-                            <div class="absolute inset-0 bg-black/40 flex items-center justify-center p-4 text-center">
-                                <h5 class="text-white font-black text-2xl italic tracking-tighter uppercase">Restaurante Mix</h5>
-                            </div>
-                        </div>
-                        <div class="p-8 space-y-6">
-                            <p class="text-[11px] text-slate-400 leading-relaxed italic">"Gastronomía mediterránea variada. Ideal para disfrutar de producto fresco con vistas al mar."</p>
-                            <a href="https://www.google.com/maps/search/?api=1&query=Restaurante+Mix+La+Pineda" target="_blank" class="block w-full py-4 bg-slate-700 text-white rounded-[1.5rem] text-[9px] font-black uppercase text-center tracking-widest">Ver ubicación</a>
-                        </div>
-                    </div>
-
-                    <!-- 8. AQUUM SPA -->
-                    <div class="carousel-item snap-center shrink-0 w-[85%] sm:w-80 premium-card rounded-[3rem] overflow-hidden border-t-4 border-teal-400">
-                        <div class="h-44 relative bg-slate-800">
-                            <img src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="Aquum Spa" onerror="this.parentElement.classList.add('img-fallback')">
-                            <div class="absolute inset-0 bg-teal-900/40 flex items-center justify-center p-4">
-                                <h5 class="text-white font-black text-3xl italic tracking-tighter text-center uppercase">Aquum Spa</h5>
-                            </div>
+                            <img src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-black/40 flex items-center justify-center"><h5 class="text-white font-black text-2xl italic tracking-tighter uppercase text-center italic">Aquum Spa</h5></div>
                         </div>
                         <div class="p-8 space-y-6">
                             <p class="text-[11px] text-slate-400 leading-relaxed italic">"650m2 de relax total. Piscinas termales y circuitos de bienestar a solo 10 min del loft."</p>
-                            <a href="https://www.aquum.es/" target="_blank" class="block w-full py-4 bg-teal-600 text-white rounded-[1.5rem] text-[9px] font-black uppercase text-center tracking-widest">Reserva Relax</a>
+                            <a href="https://www.aquum.es/" target="_blank" class="block w-full py-4 bg-teal-600 text-white rounded-[1.5rem] text-[9px] font-black uppercase text-center tracking-widest font-bold">Reserva Relax</a>
                         </div>
                     </div>
-
-                    <!-- 9. SPALAS -->
-                    <div class="carousel-item snap-center shrink-0 w-[85%] sm:w-80 premium-card rounded-[3rem] overflow-hidden">
+                    <!-- PORT AVENTURA -->
+                    <div class="carousel-item snap-center shrink-0 w-[85%] sm:w-80 premium-card rounded-[3rem] overflow-hidden border-t-4 border-red-500">
                         <div class="h-44 relative bg-slate-800">
-                            <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="Spalas" onerror="this.parentElement.classList.add('img-fallback')">
-                            <div class="absolute inset-0 bg-indigo-950/50 flex items-center justify-center p-4">
-                                <h5 class="text-white font-black text-3xl italic tracking-tighter text-center uppercase">Spalas</h5>
-                            </div>
+                            <img src="https://images.unsplash.com/photo-1606240724602-5b21f896397c?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-black/30 flex items-center justify-center p-4"><h5 class="text-white font-black text-2xl italic tracking-tighter text-center uppercase italic">Port Aventura</h5></div>
                         </div>
                         <div class="p-8 space-y-6">
-                            <p class="text-[11px] text-slate-400 leading-relaxed italic">"La joya del Gran Palas. Una experiencia wellness de ultra-lujo para una desconexión total."</p>
-                            <a href="https://www.granpalashotel.com/spalas/" target="_blank" class="block w-full py-4 bg-indigo-700 text-white rounded-[1.5rem] text-[9px] font-black uppercase text-center tracking-widest">Luxury Experience</a>
+                            <p class="text-[11px] text-slate-400 leading-relaxed italic">"Adrenalina pura a 10 min. El plan perfecto para un día emocionante con Valeria o amigos."</p>
+                            <a href="https://www.portaventuraworld.com/" target="_blank" class="block w-full py-4 bg-red-600 text-white rounded-[1.5rem] text-[9px] font-black uppercase text-center tracking-widest font-bold">Comprar Entradas</a>
                         </div>
                     </div>
-
                 </div>
             </section>
 
             <!-- SECCIÓN EMOCIONAL LUIS & VALERIA -->
-            <section class="animate-in" style="animation-delay: 0.5s">
+            <section class="animate-in" style="animation-delay: 0.6s">
                 <div class="premium-card p-10 rounded-[4rem] text-white relative overflow-hidden group">
                     <div class="absolute -top-10 -right-10 w-48 h-48 bg-blue-600/10 rounded-full blur-3xl group-hover:bg-blue-600/20 transition-all duration-1000"></div>
                     <div class="flex flex-col md:flex-row gap-8 items-start relative z-10">
-                        <div class="w-20 h-20 bg-gradient-to-tr from-blue-600 to-indigo-600 rounded-[2rem] flex items-center justify-center shadow-2xl flex-shrink-0">
-                            <i class="fas fa-heart text-white text-3xl"></i>
-                        </div>
+                        <div class="w-20 h-20 bg-gradient-to-tr from-blue-600 to-indigo-600 rounded-[2rem] flex items-center justify-center shadow-2xl flex-shrink-0"><i class="fas fa-heart text-white text-3xl"></i></div>
                         <div class="space-y-6">
-                            <h4 id="story-title" class="text-4xl font-black italic leading-tight tracking-tighter">Luis & Valeria</h4>
-                            <p id="story-body" class="text-sm font-light leading-relaxed text-slate-300 italic">
-                                "En 2020 decidí crear este refugio tecnológico para mi hija Valeria. Buscaba un lugar donde las luces, la tecnología y el mar se unieran para dar paz. Hoy os abrimos nuestras puertas deseando que os aporte tanta felicidad como a nosotros."
-                            </p>
-                            <div class="flex items-center gap-3">
-                                <div class="w-1 h-6 bg-blue-500"></div>
-                                <span class="text-[9px] font-black text-blue-400 uppercase tracking-[0.3em]">Superanfitriones · 4% Valeria Spirit</span>
-                            </div>
+                            <h4 id="story-title" class="text-4xl font-black italic leading-tight tracking-tighter italic">Luis & Valeria</h4>
+                            <p id="story-body" class="text-sm font-light leading-relaxed text-slate-300 italic">"Este proyecto nació en 2020 como un refugio tecnológico para mi hija Valeria. Buscaba un lugar donde las luces, la tecnología y el mar se unieran para dar paz. Hoy os abrimos nuestras puertas deseando que os aporte felicidad."</p>
+                            <div class="flex items-center gap-3"><div class="w-1 h-6 bg-blue-500"></div><span class="text-[9px] font-black text-blue-400 uppercase tracking-[0.3em] italic">Superanfitriones · 4% Valeria Spirit</span></div>
                         </div>
                     </div>
                 </div>
             </section>
-
         </main>
     </div>
 
     <!-- WHATSAPP FLOATING -->
-    <a id="wa-link" href="#" target="_blank" class="fixed bottom-8 right-8 w-20 h-20 bg-[#25D366] text-white rounded-[2.2rem] shadow-[0_25px_50px_rgba(37,211,102,0.4)] z-[60] hidden items-center justify-center border-4 border-white/10 active:scale-90 transition-all hover:rotate-6">
-        <i class="fab fa-whatsapp text-4xl"></i>
-    </a>
+    <a id="wa-link" href="#" target="_blank" class="fixed bottom-8 right-8 w-20 h-20 bg-[#25D366] text-white rounded-3xl shadow-[0_20px_40px_rgba(37,211,102,0.4)] z-[60] hidden items-center justify-center border-4 border-white/10 active:scale-90 transition-all hover:rotate-6"><i class="fab fa-whatsapp text-4xl"></i></a>
 
     <script>
-        // --- MOTOR DE PERSISTENCIA ---
-        const Store = {
-            set: (k, v) => { localStorage.setItem(k, v); sessionStorage.setItem(k, v); },
-            get: (k) => localStorage.getItem(k) || sessionStorage.getItem(k),
-            clear: () => { localStorage.clear(); sessionStorage.clear(); }
+        const Store = { set: (k, v) => { localStorage.setItem(k, v); sessionStorage.setItem(k, v); }, get: (k) => localStorage.getItem(k) || sessionStorage.getItem(k), clear: () => { localStorage.clear(); sessionStorage.clear(); } };
+        const state = { id: Store.get('LOFT_ID') || null, lang: Store.get('LANG') || 'es', history: JSON.parse(Store.get('CHAT_LOG') || '[]') };
+        
+        // --- CONFIGURACIÓN DE UNIDADES LUIS PRO ---
+        const commonInfo = {
+            general: "Todos nuestros apartamentos son tipo estudio o loft, situados en el edificio Fluromar II con dos ascensores amplios (Puerta 81cm, Fondo 132cm). Incluimos ropa de cama y toallas de alta calidad.",
+            pool: "La piscina comunitaria es grande (aprox. 10x5m) y abre de 10:00 a 22:00 hs.",
+            parking: "Aparcamiento comunitario gratuito (plaza libre, sin asignación fija). ¡Atención! En agosto hay mucha demanda, te recomiendo no mover mucho el vehículo. Dentro de la caja de seguridad verás una **pequeña llave** que abre cualquier cepo de las plazas comunitarias. Por favor, **cierra el cepo** cuando salgas con el coche.",
+            keys: "Llegada autónoma: el código de tu caja de seguridad se te proporcionará por WhatsApp. Una vez abierta, encontrarás las llaves y un **cilindro negro**. Este cilindro es para abrir el portal del edificio: simplemente apóyalo en la placa que hay debajo de los números del portero.",
+            rules: "**PROHIBIDO FUMAR** y no se aceptan mascotas para garantizar la higiene premium.",
+            trash: "Contenedores justo enfrente: azul, amarillo, verde, rojo y de ropa usada. Puedes tirarla a cualquier hora.",
+            transport: "Parada de bus a 5 min andando con conexiones a Reus, BCN, Port Aventura y aeropuertos.",
+            tech_general: "Dispones de Asistente Virtual de Google e iluminación LED RGB Philips Hue (con mando o interruptores). Todas las TVs son Philips con tecnología Ambilight y Android TV.",
+            courtesy: "Entradas antes de las 14:00 o salidas tras las 11:00 se dan sin cargo adicional siempre que no haya reservas previas o posteriores."
         };
 
-        const state = {
-            id: Store.get('LOFT_ID') || null,
-            lang: Store.get('LANG') || 'es',
-            history: JSON.parse(Store.get('CHAT_LOG') || '[]')
+        const lofts = { 
+            '210': { 
+                name: 'Loft 210 Premium', img: 'img/210-salon.avif', box: 'caja de seguridad **NEGRA**',
+                kitchen: "Cocina con Air Fry, microondas con grill, hervidor de agua y tostadora.", tv: "Smart TV Philips de 65\" con Ambilight y Android TV."
+            }, 
+            '211': { 
+                name: 'Loft 211 Executive', img: 'img/211-mesa-tv.jpeg', box: 'caja de seguridad **NEGRA Y AMARILLA**',
+                kitchen: "Cocina con **LAVAVAJILLAS**, Air Fry, microondas con grill y tostadora.", tv: "Smart TV Philips de 55\" con Ambilight y Android TV."
+            }, 
+            '212': { 
+                name: 'Loft 212 Design', img: 'img/212-general.avif', box: 'caja de seguridad **GRIS**',
+                kitchen: "Cocina con Air Fry, microondas con grill y tostadora.", tv: "Smart TV Philips de 55\" con Ambilight y Android TV."
+            } 
         };
 
-        const lofts = {
-            '210': { name: 'LOFT 210 Premium', spec: 'TV 65" Ambilight + Chimenea Eléctrica', img: 'img/210-salon.avif' },
-            '211': { name: 'LOFT 211 Executive', spec: 'TV 55" + Parquet + Lavavajillas + Desk', img: 'img/211-mesa-tv.jpeg' },
-            '212': { name: 'LOFT 212 Design', spec: 'TV 55" + Escritorio Tocador Hollywood', img: 'img/212-general.avif' }
-        };
+        // --- BASE DE DATOS DE CONOCIMIENTO (AMPLIADA LUIS PRO TOTAL) ---
+        const knowledgeBase = [
+            { tags: ['hola', 'buenos dias', 'buenas tardes', 'saludos', 'hey', 'que tal'], ans: "¡Hola! 😊 ¡Qué alegría saludarte! Soy el asistente virtual de Luis. Estoy programado con todo el cariño de este proyecto familiar para que tu estancia sea impecable. ¿En qué puedo apoyarte hoy?" },
+            { tags: ['gracias', 'perfecto', 'genial', 'ok', 'muy bien', 'vale'], ans: "¡De nada! Es un auténtico placer ayudarte. ❤️ Luis y Valeria estamos felices de que estés disfrutando del loft. ¡Disfruta de cada minuto!" },
+            { tags: ['wifi', 'internet', 'clave', 'password'], ans: "📡 ¡A tope de gigas! La red es **apartaoaporta** y la contraseña es **2020v@leria**. ¡Vuela por la red!" },
+            { tags: ['parking', 'coche', 'cepo', 'llave parking', 'aparcar', 'azul'], ans: () => `${commonInfo.parking} En la calle hay zona azul gratis de 21:00 a 10:00 y en temporada baja.` },
+            { tags: ['llave', 'entrar', 'acceder', 'codigo', 'caja', 'seguridad', 'portal', 'cilindro', 'negro', 'abrir portal'], ans: () => {
+                const l = lofts[state.id];
+                return `🔑 Para entrar al **${l.name}**, debes buscar tu ${l.box} al lado del portal. El código te lo enviamos por WhatsApp. \n\nDentro verás las llaves y un **cilindro negro**. Para abrir el portal, pon ese cilindro en la placa que hay justo debajo de los números del teclado. ¡Es magia tecnológica! 😉`
+            }},
+            { tags: ['checkin', 'checkout', 'hora', 'salir', 'entrar antes'], ans: commonInfo.courtesy },
+            { tags: ['fumar', 'tabaco', 'mascotas', 'perro', 'gato'], ans: commonInfo.rules },
+            { tags: ['basura', 'limpieza', 'reciclar', 'ropa'], ans: commonInfo.trash },
+            { tags: ['piscina', 'horario', 'nadar', 'bañarse'], ans: commonInfo.pool },
+            { tags: ['bus', 'autobus', 'transporte', 'ir a', 'aeropuerto'], ans: commonInfo.transport },
+            { tags: ['comer', 'restaurante', 'cenar', 'hambre'], ans: "🍕 Luis te recomienda la **Tagliatella** para pasta, el **Pirata** (justo debajo) para brasa o el **Wissler**. ¡Mira el carrusel de abajo!" },
+            { tags: ['tele', 'tv', 'ambilight', 'netflix', 'disney', 'hbo'], ans: () => `📺 Tienes una ${lofts[state.id].tv}. **IMPORTANTE**: Si usas tus cuentas de Netflix, HBO o Disney+, recuerda borrarlas antes de finalizar tu estancia por seguridad.` },
+            { tags: ['luces', 'hue', 'mando', 'color', 'iluminacion'], ans: "💡 Tienes iluminación **Philips Hue**. Puedes controlarlas desde los interruptores o desde el mando a distancia, que permite encender/apagar todas a la vez y regular la intensidad." },
+            { tags: ['persiana', 'mando', 'electrica'], ans: () => (state.id === '211' ? "🪟 En el 211 tienes **persianas eléctricas** con mando a distancia." : "🪟 Las persianas son manuales y aseguran oscuridad total.") },
+            { tags: ['lavavajillas', 'lavadora', 'platos'], ans: () => (state.id === '211' ? "🍽️ ¡Sí! El Loft 211 dispone de **lavavajillas**." : "🍽️ Esta unidad no tiene lavavajillas, pero tienes todo lo necesario para limpiar.") },
+            { tags: ['hervidor', 'kettle', 'te'], ans: () => (state.id === '210' ? "🫖 Tienes hervidor de agua en el Loft 210." : "🫖 Esta unidad no tiene hervidor de serie, pero Luis puede ponerte uno bajo demanda si lo necesitas.") },
+            { tags: ['cocinar', 'microondas', 'cafetera', 'air fry', 'tostadora'], ans: () => `🍳 ${lofts[state.id].kitchen} Los microondas tienen grill.` },
+            { tags: ['toallas', 'sabanas', 'ropa de cama'], ans: "🧺 No te preocupes por nada, incluimos ropa de cama y toallas premium en todas las reservas." },
+            { tags: ['ascensor', 'carrito', 'maletas', 'ancho'], ans: "🛗 El edificio tiene **dos ascensores** muy amplios (Puerta 81cm, Fondo 132cm). ¡Sin problemas con maletas o carritos!" },
+            { tags: ['valeria', 'historia', 'luis', 'quien'], ans: "❤️ Este proyecto nació en 2020 como un refugio tecnológico para Valeria, la hija de Luis. ¡Gracias por formar parte de nuestro sueño!" }
+        ];
 
-        const dict = {
-            es: {
-                hello: "¡Hola! 👋 Soy el asistente virtual de Luis. ¡Es un auténtico placer saludarte! Estás en la **{loft}**, un refugio que Luis preparó con todo el cariño del mundo para que vivas una experiencia única. ¿Qué necesitas hoy para que tu estancia sea perfecta? WiFi, sugerencias para cenar, descubrir el Cami de Ronda...",
-                wa: "¡Hola Luis! 👋 Soy tu huésped en la {loft}. ¡La guía es una pasada! ¿Me echas una mano con un tema?",
-                notfound: "¡Vaya! Me has pillado... 😅 Luis me ha enseñado mucho sobre el wifi, el parking comunitario, farmacias y sus sitios favoritos, pero eso se me escapa. ¿Me lo dices de otra forma?",
-                shorter: "Prueba con 'wifi', 'comida', 'farmacia' o 'cami de ronda'."
-            },
-            ca: {
-                hello: "Hola! 👋 Sóc l'assistent virtual d'en Luis. És un plaer saludar-te! Estàs a la **{loft}**. En què et puc ajudar avui?",
-                wa: "Hola Luis! Sóc el teu hoste a la {loft}. Em pots ajudar?",
-                notfound: "Vaja! En Luis encara no m'ha ensenyat això... 😅 Prova preguntant sobre el wifi, el pàrquing o on menjar."
-            }
-        };
+        const dict = { es: { wa: "¡Hola Luis! 👋 Soy tu huésped en la {loft}. ¡La guía es una pasada! ¿Me echas una mano con un tema?", error: "¡Vaya! Luis no me ha enseñado eso todavía... 😅 Pero sé mucho sobre el wifi, parking, piscina, llaves o las luces Hue. ¿Me lo preguntas de otra forma?" } };
 
-        // --- SISTEMA DE INICIO ---
-        window.onload = () => {
-            setTimeout(() => {
-                if (state.id) {
-                    renderApp();
-                } else {
-                    document.getElementById('status-text').innerText = "Identidad verificada. Selecciona tu unidad:";
-                    const btns = document.getElementById('loft-buttons');
-                    btns.classList.replace('opacity-0', 'opacity-100');
-                    btns.classList.replace('translate-y-10', 'translate-y-0');
-                }
-            }, 1000);
-        };
-
-        function bootApp(id) {
-            state.id = id;
-            Store.set('LOFT_ID', id);
-            renderApp();
-        }
-
+        window.onload = () => { setTimeout(() => { if (state.id) renderApp(); else { document.getElementById('status-text').innerText = "Seleccionando Unidad Digital:"; document.getElementById('loft-buttons').classList.replace('opacity-0', 'opacity-100'); document.getElementById('loft-buttons').classList.replace('translate-y-10', 'translate-y-0'); } }, 1000); };
+        function bootApp(id) { state.id = id; Store.set('LOFT_ID', id); renderApp(); }
         function renderApp() {
             const l = lofts[state.id];
             if (!l) return shutdown();
-
             document.getElementById('welcome-screen').classList.add('hidden');
-            const main = document.getElementById('main-app');
-            main.classList.remove('hidden');
+            document.getElementById('main-app').classList.remove('hidden');
             document.getElementById('wa-link').classList.replace('hidden', 'flex');
-            
             document.getElementById('display-loft-id').innerText = l.name;
-            
-            // Imagen del Loft con fallback
             const imgEl = document.getElementById('loft-img');
-            if(imgEl) {
-                imgEl.src = l.img;
-                imgEl.onerror = function() {
-                    this.parentElement.classList.add('img-fallback');
-                };
-            }
-
-            document.getElementById('lang-select').value = state.lang;
-            
+            if(imgEl) imgEl.src = l.img;
             const engine = document.getElementById('chat-engine');
             if (engine && engine.children.length === 0) {
-                if (state.history.length === 0) {
-                    const msg = dict[state.lang].hello.replace('{loft}', l.name);
-                    pushChat(msg, 'bot', false);
-                } else {
-                    state.history.forEach(m => pushChat(m.text, m.role, false));
-                }
+                if (state.history.length === 0) pushChat(`¡Bienvenido al **${l.name}**! 👋 Soy tu asistente inteligente. ¿Cómo puedo hacer tu estancia perfecta hoy?`, 'bot', false);
+                else state.history.forEach(m => pushChat(m.text, m.role, false));
             }
             updateWA();
         }
 
-        // --- CHAT LUIS AI ---
         function pushChat(text, role, save = true) {
             const engine = document.getElementById('chat-engine');
-            if (!engine) return;
-
             const bubble = document.createElement('div');
-            bubble.className = `${role === 'bot' ? 'bot-bubble text-slate-300' : 'user-bubble ml-auto text-white'} p-5 text-[11px] max-w-[85%] leading-relaxed shadow-xl animate-in`;
-            
-            let html = text.replace(/\*\*(.*?)\*\*/g, '<span class="font-bold text-white">$1</span>');
-            bubble.innerHTML = html.replace(/\n/g, '<br>');
-            
+            bubble.className = `${role === 'bot' ? 'bot-bubble text-slate-300' : 'user-bubble ml-auto text-white'} p-5 text-[11px] max-w-[85%] leading-relaxed shadow-xl animate-in mb-4`;
+            bubble.innerHTML = text.replace(/\*\*(.*?)\*\*/g, '<span class="font-bold text-white">$1</span>').replace(/\n/g, '<br>');
             engine.appendChild(bubble);
             engine.scrollTop = engine.scrollHeight;
-
-            if (save) {
-                state.history.push({ role, text });
-                Store.set('CHAT_LOG', JSON.stringify(state.history));
-            }
+            if (save) { state.history.push({ role, text }); Store.set('CHAT_LOG', JSON.stringify(state.history)); }
         }
 
         function sendUserMsg() {
             const input = document.getElementById('chat-input');
             const msg = input.value.trim();
             if (!msg) return;
-
             pushChat(msg, 'user');
             input.value = "";
-
             setTimeout(() => {
                 const lower = msg.toLowerCase();
-                let reply = dict[state.lang].notfound;
-
-                // Saludos Proactivos & Educados
-                if (lower.match(/hola|buenos días|buenas tardes|hey|saludos|que tal|buenas/)) {
-                    reply = "¡Hola! 😊 ¡Qué alegría saludarte! Soy el asistente virtual de Luis. Estoy programado con todo el cariño de este proyecto familiar para ayudarte en lo que necesites. ¿Buscas los datos del WiFi o quizás quieres que te recomiende un paseo espectacular por el Cami de Ronda?";
-                }
-                // Gracias
-                else if (lower.match(/gracias|muchas gracias|genial|ok|vale|perfecto|muy bien/)) {
-                    reply = "¡De nada! Es un auténtico placer ayudarte. ❤️ Luis y Valeria estamos felices de que estés disfrutando del loft. ¡Cualquier otra cosa, aquí me tienes!";
-                }
-                // WiFi
-                else if (lower.includes('wifi') || lower.includes('internet') || lower.includes('clave')) {
-                    reply = "¡Claro! 📡 Conéctate sin límites. La red es **apartaoaporta** y la contraseña es **2020v@leria**. ¡Vuela por la red!";
-                }
-                // Farmacia
-                else if (lower.includes('farmacia') || lower.includes('medico') || lower.includes('urgencia')) {
-                    reply = "¡Espero que estés bien! ❤️ Tienes la **Farmacia Aurora** muy cerca, en el Paseo Pau Casals 75. Su teléfono es el 977370617. ¡Cuídate mucho!";
-                }
-                // Cami de Ronda
-                else if (lower.includes('ronda') || lower.includes('caminar') || lower.includes('paseo') || lower.includes('senderismo')) {
-                    reply = "¡Qué buen plan! 🌊 El **Cami de Ronda** es un paseo alucinante por la costa. Une La Pineda con Salou y tiene unas vistas increíbles. Tienes el enlace a la ruta de Wikiloc en el carrusel de aquí abajo. 👇";
-                }
-                // Comer
-                else if (lower.includes('comer') || lower.includes('restaurante') || lower.includes('cenar')) {
-                    reply = "¡Me está entrando hambre! 🍕 Luis te recomienda la **Tagliatella** para pasta frente al mar, o el **Pirata** si quieres carnes a la brasa. ¡Echa un ojo al carrusel para ver las fotos!";
-                }
-                // Parking
-                else if (lower.includes('parking') || lower.includes('coche')) {
-                    reply = "¡Sin problema! 🚗 Usa la **llave maestra** de tu llavero para bajar cualquier cepo libre del parking comunitario de Fluromar II. ¡Es comodísimo!";
-                }
-
+                let match = knowledgeBase.find(k => k.tags.some(tag => lower.includes(tag)));
+                let reply = match ? (typeof match.ans === 'function' ? match.ans() : match.ans) : dict.es.error;
                 pushChat(reply, 'bot');
-            }, 800);
+            }, 700);
         }
 
-        // --- FUNCIONES DE APOYO ---
-        function copyPass() {
-            const el = document.createElement('textarea');
-            el.value = '2020v@leria';
-            document.body.appendChild(el);
-            el.select();
-            document.execCommand('copy');
-            document.body.removeChild(el);
-            alert("¡Contraseña copiada Luis! 📋");
+        function copyPass() { 
+            const el = document.createElement('textarea'); el.value = '2020v@leria'; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el); 
+            const btn = document.querySelector('button[onclick="copyPass()"]');
+            btn.innerHTML = '<i class="fas fa-check text-green-500"></i>';
+            setTimeout(() => btn.innerHTML = '<i class="fas fa-copy"></i>', 2000);
         }
-
-        function switchLang() {
-            state.lang = document.getElementById('lang-select').value;
-            Store.set('LANG', state.lang);
-            state.history = [];
-            Store.set('CHAT_LOG', '[]');
-            location.reload();
-        }
-
-        function updateWA() {
-            const msg = dict[state.lang].wa.replace('{loft}', lofts[state.id].name);
-            document.getElementById('wa-link').href = `https://wa.me/34617635544?text=${encodeURIComponent(msg)}`;
-        }
-
-        function shutdown() {
-            Store.clear();
-            location.reload();
-        }
-
+        function switchLang() { state.lang = document.getElementById('lang-select').value; Store.set('LANG', state.lang); state.history = []; location.reload(); }
+        function updateWA() { document.getElementById('wa-link').href = `https://wa.me/34617635544?text=${encodeURIComponent(dict.es.wa.replace('{loft}', lofts[state.id].name))}`; }
+        function shutdown() { Store.clear(); location.reload(); }
         document.getElementById('chat-input').onkeypress = (e) => { if(e.key === 'Enter') sendUserMsg(); };
     </script>
 </body>
