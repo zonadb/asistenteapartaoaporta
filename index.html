@@ -13,7 +13,6 @@
             --primary: #3b82f6; 
             --dark: #020617; 
             --accent: #60a5fa; 
-            --danger: #ef4444; 
         }
 
         body { 
@@ -22,323 +21,347 @@
             color: #f8fafc; 
             -webkit-tap-highlight-color: transparent; 
             scroll-behavior: smooth; 
-            overflow-x: hidden; 
+            overflow-x: hidden;
+            width: 100%;
         }
 
-        /* Glassmorphism Efecto */
+        /* Efectos de Cristalería */
         .glass { 
-            background: rgba(15, 23, 42, 0.85); 
-            backdrop-filter: blur(25px); 
-            -webkit-backdrop-filter: blur(25px); 
+            background: rgba(15, 23, 42, 0.8); 
+            backdrop-filter: blur(20px); 
+            -webkit-backdrop-filter: blur(20px); 
             border: 1px solid rgba(255, 255, 255, 0.08); 
         }
 
-        /* Tarjetas Premium con micro-interacciones */
+        /* Tarjetas con profundidad */
         .premium-card { 
             background: linear-gradient(145deg, #1e293b, #0f172a); 
             border: 1px solid rgba(255, 255, 255, 0.05); 
-            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease; 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 100%;
         }
         
-        .premium-card:active { transform: scale(0.97); }
+        .premium-card:hover { 
+            border-color: rgba(59, 130, 246, 0.4); 
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
 
-        /* Burbujas de Chat */
+        /* Chat UI */
         .bot-bubble { 
-            border-radius: 24px 24px 24px 8px; 
-            background: #1e293b; 
-            border: 1px solid rgba(59, 130, 246, 0.15); 
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); 
+            border-radius: 20px 20px 20px 5px; 
+            background: rgba(30, 41, 59, 0.7); 
+            border: 1px solid rgba(59, 130, 246, 0.2); 
         }
         .user-bubble { 
-            border-radius: 24px 24px 8px 24px; 
+            border-radius: 20px 20px 5px 20px; 
             background: linear-gradient(135deg, #2563eb, #1d4ed8); 
         }
 
-        /* Scrollbar invisible */
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* Animación de entrada */
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         .animate-in { opacity: 0; animation: fadeInUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
 
-        /* Optimización de Imagen */
-        .img-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-        .img-container:hover img { transform: scale(1.05); }
-
-        /* Breakpoints específicos para el carrusel */
+        /* Carrusel Adaptativo */
         .carousel-item {
-            scroll-snap-align: center;
+            scroll-snap-align: start;
             flex-shrink: 0;
             width: 85%;
         }
-        @media (min-width: 768px) {
-            .carousel-item { width: 350px; scroll-snap-align: start; }
+        @media (min-width: 1024px) {
+            .carousel-item { width: 33%; }
+        }
+
+        /* Ajuste de scroll para el contenido derecho en PC */
+        @media (min-width: 1024px) {
+            .main-grid {
+                display: grid;
+                grid-template-columns: 400px 1fr;
+                gap: 2rem;
+                height: calc(100vh - 120px);
+                overflow: hidden;
+            }
+            .scrollable-content {
+                overflow-y: auto;
+                padding-right: 1rem;
+            }
         }
     </style>
 </head>
-<body class="selection:bg-blue-500/30">
+<body class="selection:bg-blue-500/30 w-full">
 
-    <!-- PANTALLA DE BIENVENIDA (RESPONSIVE) -->
+    <!-- PANTALLA DE BIENVENIDA -->
     <div id="welcome-screen" class="fixed inset-0 z-[100] flex flex-col items-center justify-center p-6 bg-slate-950 overflow-hidden">
-        <div class="absolute inset-0 opacity-30">
-            <div class="absolute top-0 -left-20 w-[20rem] md:w-[40rem] h-[20rem] md:h-[40rem] bg-blue-600 rounded-full blur-[150px]"></div>
-            <div class="absolute bottom-0 -right-20 w-[20rem] md:w-[40rem] h-[20rem] md:h-[40rem] bg-indigo-900 rounded-full blur-[150px]"></div>
+        <div class="absolute inset-0">
+            <div class="absolute top-0 -left-20 w-[30rem] md:w-[60rem] h-[30rem] md:h-[60rem] bg-blue-600 rounded-full blur-[180px] opacity-20"></div>
+            <div class="absolute bottom-0 -right-20 w-[30rem] md:w-[60rem] h-[30rem] md:h-[60rem] bg-indigo-900 rounded-full blur-[180px] opacity-20"></div>
         </div>
 
-        <div class="relative z-10 w-full max-w-md text-center space-y-8 md:space-y-12">
-            <div class="space-y-4">
-                <div class="w-20 md:w-24 h-20 md:h-24 bg-blue-600 rounded-[2.2rem] mx-auto flex items-center justify-center shadow-[0_0_60px_rgba(37,99,235,0.5)] animate-pulse">
-                    <i class="fas fa-bolt-lightning text-white text-4xl md:text-5xl"></i>
+        <div class="relative z-10 w-full max-w-4xl text-center space-y-12">
+            <div class="space-y-4 animate-in">
+                <div class="w-24 h-24 bg-blue-600 rounded-[2.5rem] mx-auto flex items-center justify-center shadow-[0_0_80px_rgba(37,99,235,0.4)]">
+                    <i class="fas fa-microchip text-white text-5xl"></i>
                 </div>
-                <h1 class="text-4xl md:text-5xl font-black tracking-tighter italic uppercase leading-none px-2">APARTA<span class="text-blue-500">O</span>APORTA</h1>
-                <p id="status-text" class="text-slate-500 font-bold tracking-[0.4em] text-[8px] md:text-[10px] uppercase italic">Aportamos tecnología, apartamos problemas</p>
+                <h1 class="text-5xl md:text-7xl font-black tracking-tighter italic uppercase">APARTA<span class="text-blue-500 font-black">O</span>APORTA</h1>
+                <p id="status-text" class="text-slate-500 font-bold tracking-[0.5em] text-[10px] md:text-[12px] uppercase">Control Center Pro · Luis Sanchez</p>
             </div>
 
-            <div id="loft-buttons" class="grid grid-cols-1 sm:grid-cols-1 gap-4 opacity-0 transform translate-y-10 transition-all duration-1000 px-4">
-                <button onclick="bootApp('210')" class="premium-card p-5 md:p-6 rounded-[1.8rem] text-left flex justify-between items-center group">
-                    <div><span class="text-[8px] md:text-[9px] font-black text-blue-500 uppercase tracking-widest italic">Unit 210 Premium</span><h2 class="text-lg md:text-xl font-bold italic">LOFT 210</h2></div>
-                    <i class="fas fa-chevron-right text-slate-600 group-hover:text-blue-500 transition-colors"></i>
+            <div id="loft-buttons" class="grid grid-cols-1 md:grid-cols-3 gap-6 opacity-0 transform translate-y-10 transition-all duration-1000 px-4">
+                <button onclick="bootApp('210')" class="premium-card p-8 rounded-[2.5rem] group">
+                    <span class="text-[10px] font-black text-blue-500 uppercase tracking-widest block mb-2">Refugio Premium</span>
+                    <h2 class="text-2xl font-bold italic">LOFT 210</h2>
                 </button>
-                <button onclick="bootApp('211')" class="premium-card p-5 md:p-6 rounded-[1.8rem] text-left flex justify-between items-center group border-l-4 border-blue-500">
-                    <div><span class="text-[8px] md:text-[9px] font-black text-blue-400 uppercase tracking-widest italic">Unit 211 Executive</span><h2 class="text-lg md:text-xl font-bold italic">LOFT 211</h2></div>
-                    <i class="fas fa-chevron-right text-slate-600 group-hover:text-blue-500 transition-colors"></i>
+                <button onclick="bootApp('211')" class="premium-card p-8 rounded-[2.5rem] group border-l-4 border-blue-500">
+                    <span class="text-[10px] font-black text-blue-400 uppercase tracking-widest block mb-2">Refugio Executive</span>
+                    <h2 class="text-2xl font-bold italic">LOFT 211</h2>
                 </button>
-                <button onclick="bootApp('212')" class="premium-card p-5 md:p-6 rounded-[1.8rem] text-left flex justify-between items-center group">
-                    <div><span class="text-[8px] md:text-[9px] font-black text-blue-500 uppercase tracking-widest italic">Unit 212 Design</span><h2 class="text-lg md:text-xl font-bold italic">LOFT 212</h2></div>
-                    <i class="fas fa-chevron-right text-slate-600 group-hover:text-blue-500 transition-colors"></i>
+                <button onclick="bootApp('212')" class="premium-card p-8 rounded-[2.5rem] group">
+                    <span class="text-[10px] font-black text-blue-500 uppercase tracking-widest block mb-2">Refugio Design</span>
+                    <h2 class="text-2xl font-bold italic">LOFT 212</h2>
                 </button>
             </div>
         </div>
     </div>
 
     <!-- APP PRINCIPAL -->
-    <div id="main-app" class="hidden min-h-screen pb-20">
-        <!-- HEADER RESPONSIVO -->
-        <header class="glass sticky top-0 z-50 px-4 md:px-8 py-4 md:py-6 flex justify-between items-center border-b border-white/5">
-            <div class="flex items-center gap-3 md:gap-4">
-                <div class="w-10 md:w-11 h-10 md:h-11 bg-blue-600 rounded-2xl flex items-center justify-center shadow-lg"><span class="font-black text-white italic text-lg md:text-xl">A</span></div>
-                <div class="hidden xs:block">
-                    <h2 class="text-xs md:text-md font-black italic tracking-tighter uppercase leading-none">APARTAoAPORTA</h2>
-                    <div class="flex items-center gap-2 mt-1"><span id="display-loft-id" class="text-[7px] md:text-[8px] font-black text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded-full uppercase tracking-widest italic">LOFT ---</span></div>
+    <div id="main-app" class="hidden min-h-screen flex flex-col">
+        <!-- HEADER -->
+        <header class="glass sticky top-0 z-50 px-6 lg:px-12 py-6 flex justify-between items-center border-b border-white/5 shadow-2xl w-full">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center shadow-lg transform -rotate-3 hover:rotate-0 transition-transform">
+                    <span class="font-black text-white italic text-2xl">A</span>
+                </div>
+                <div class="hidden sm:block">
+                    <h2 class="text-lg font-black italic tracking-tighter uppercase leading-none">APARTAoAPORTA</h2>
+                    <div class="flex items-center gap-2 mt-1">
+                        <span id="display-loft-id" class="text-[9px] font-black text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded-full uppercase italic">LOFT ---</span>
+                        <span class="text-[9px] text-slate-500 font-bold uppercase tracking-widest">Digital Guide Pro</span>
+                    </div>
                 </div>
             </div>
-            <div class="flex items-center gap-2 md:gap-3">
-                <select id="lang-select" onchange="switchLang()" class="bg-white/5 border-none rounded-full px-2 md:px-3 py-1.5 text-[10px] font-black text-white outline-none cursor-pointer">
-                    <option value="es" class="text-black">ES</option>
-                    <option value="ca" class="text-black">CA</option>
-                    <option value="en" class="text-black">EN</option>
+            <div class="flex items-center gap-4">
+                <select id="lang-select" onchange="switchLang()" class="bg-white/5 border-none rounded-full px-4 py-2 text-[11px] font-black text-white outline-none cursor-pointer focus:ring-2 focus:ring-blue-500 appearance-none">
+                    <option value="es" class="text-black">ESPAÑOL</option>
+                    <option value="ca" class="text-black">CATALÀ</option>
+                    <option value="en" class="text-black">ENGLISH</option>
                 </select>
-                <button onclick="shutdown()" class="w-10 md:w-11 h-10 md:h-11 bg-red-500/10 text-red-500 rounded-2xl flex items-center justify-center hover:bg-red-500 hover:text-white transition-all"><i class="fas fa-power-off text-xs md:text-sm"></i></button>
+                <button onclick="shutdown()" class="w-12 h-12 bg-red-500/10 text-red-500 rounded-2xl flex items-center justify-center hover:bg-red-500 hover:text-white transition-all shadow-inner">
+                    <i class="fas fa-power-off"></i>
+                </button>
             </div>
         </header>
 
-        <main class="max-w-5xl mx-auto p-4 md:p-8 space-y-10 md:space-y-14">
-            
-            <!-- ASISTENTE LUIS AI (ADAPTATIVO) -->
-            <section class="animate-in" style="animation-delay: 0.1s">
-                <div class="premium-card rounded-[2.5rem] md:rounded-[3.5rem] overflow-hidden shadow-2xl border border-white/5">
-                    <div class="bg-slate-950 p-4 md:p-5 flex items-center justify-between border-b border-white/5">
-                        <div class="flex items-center gap-3 md:gap-4">
-                            <div class="relative">
-                                <div class="w-12 md:w-14 h-12 md:h-14 bg-gradient-to-br from-blue-500 to-indigo-700 rounded-2xl flex items-center justify-center shadow-lg"><i class="fas fa-robot text-white text-xl md:text-2xl"></i></div>
-                                <div class="absolute -bottom-1 -right-1 w-3 md:w-4 h-3 md:h-4 bg-green-500 border-2 md:border-4 border-[#020617] rounded-full animate-pulse"></div>
-                            </div>
-                            <div>
-                                <h3 class="text-xs md:text-sm font-extrabold text-white tracking-tight">Luis AI Virtual Assistant</h3>
-                                <p class="text-[7px] md:text-[8px] font-black text-blue-400 uppercase tracking-[0.2em]">Cerebro Pro Activo</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="chat-engine" class="h-64 md:h-80 overflow-y-auto p-4 md:p-6 space-y-4 bg-slate-950/40 hide-scrollbar flex flex-col"></div>
-                    <div class="p-3 md:p-4 bg-slate-900/50 flex gap-2 md:gap-3 border-t border-white/5">
-                        <input type="text" id="chat-input" class="flex-1 bg-white/5 border border-white/10 rounded-[1.2rem] md:rounded-[1.5rem] px-4 md:px-6 py-3 md:py-4 text-xs font-medium focus:ring-2 focus:ring-blue-600 outline-none text-white transition-all placeholder:text-slate-600" placeholder="Pregúntame algo...">
-                        <button onclick="sendUserMsg()" class="bg-blue-600 text-white w-12 md:w-14 h-12 md:h-14 rounded-[1.2rem] md:rounded-[1.5rem] flex items-center justify-center shadow-xl active:scale-90 transition-all"><i class="fas fa-paper-plane text-lg md:text-xl"></i></button>
-                    </div>
-                </div>
-            </section>
-
-            <!-- SERVICIOS RÁPIDOS Y WIFI (REJILLA RESPONSIVA) -->
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
-                <!-- WIFI -->
-                <div class="md:col-span-7 animate-in" style="animation-delay: 0.2s">
-                    <div class="premium-card p-6 md:p-8 rounded-[2.5rem] h-full flex flex-col justify-between relative group overflow-hidden border-l-4 border-blue-500 shadow-xl">
-                        <div class="absolute -right-10 -bottom-10 opacity-5 transition-opacity"><i class="fas fa-wifi text-[10rem] md:text-[12rem]"></i></div>
-                        <div class="space-y-4 relative z-10">
-                            <span class="px-3 py-1 bg-blue-500/20 text-blue-400 rounded-full text-[7px] md:text-[8px] font-black uppercase tracking-[0.2em]">Tecnología Luis & Valeria</span>
-                            <h3 class="text-xl md:text-2xl font-black italic tracking-tighter uppercase">WiFi Premium 6G</h3>
+        <!-- LAYOUT DE PANTALLA COMPLETA -->
+        <main class="flex-1 w-full max-w-[1800px] mx-auto p-4 md:p-8 lg:p-12 overflow-x-hidden">
+            <div class="main-grid">
+                
+                <!-- COLUMNA IZQUIERDA: ASISTENTE (COLUMNA FIJA EN PC) -->
+                <div class="flex flex-col h-full animate-in" style="animation-delay: 0.1s">
+                    <div class="premium-card rounded-[3rem] overflow-hidden shadow-2xl flex flex-col h-[500px] lg:h-full border border-white/5">
+                        <div class="bg-slate-900/80 p-6 flex items-center justify-between border-b border-white/5">
                             <div class="flex items-center gap-4">
-                                <span class="text-2xl md:text-3xl font-black text-white tracking-tighter italic">2020v@leria</span>
-                                <button onclick="copyPass()" class="w-10 md:w-12 h-10 md:h-12 bg-white/5 rounded-2xl flex items-center justify-center text-slate-400 hover:text-blue-400 transition-colors"><i class="fas fa-copy"></i></button>
+                                <div class="relative">
+                                    <div class="w-14 h-14 bg-gradient-to-br from-blue-500 to-indigo-700 rounded-2xl flex items-center justify-center shadow-lg transform -rotate-3 hover:rotate-0 transition-transform">
+                                        <i class="fas fa-robot text-white text-2xl"></i>
+                                    </div>
+                                    <div class="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 border-4 border-[#0f172a] rounded-full"></div>
+                                </div>
+                                <div>
+                                    <h3 class="text-sm font-extrabold text-white tracking-tight">Luis AI Virtual Assistant</h3>
+                                    <p class="text-[9px] font-black text-blue-400 uppercase tracking-[0.2em]">Siempre proactivo</p>
+                                </div>
                             </div>
+                        </div>
+                        <div id="chat-engine" class="flex-1 overflow-y-auto p-6 space-y-4 bg-slate-950/20 hide-scrollbar flex flex-col text-xs leading-relaxed"></div>
+                        <div class="p-5 bg-slate-900/50 border-t border-white/5 flex gap-3">
+                            <input type="text" id="chat-input" class="flex-1 bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-xs font-medium outline-none text-white focus:ring-2 focus:ring-blue-600 transition-all placeholder:text-slate-600" placeholder="Salúdame con un 'Hola'...">
+                            <button onclick="sendUserMsg()" class="bg-blue-600 text-white w-14 h-14 rounded-2xl flex items-center justify-center shadow-xl hover:bg-blue-500 transition-all">
+                                <i class="fas fa-paper-plane text-xl"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- LLAMADAS -->
-                <div class="md:col-span-5 grid grid-cols-2 md:grid-cols-1 gap-4 animate-in" style="animation-delay: 0.3s">
-                    <a href="tel:+34977385050" class="premium-card p-5 md:p-6 rounded-[1.8rem] md:rounded-[2.5rem] flex flex-col md:flex-row items-center gap-3 md:gap-6 active:scale-95 shadow-lg">
-                        <div class="w-12 md:w-16 h-12 md:h-16 bg-amber-500/10 text-amber-500 rounded-2xl flex items-center justify-center text-2xl md:text-3xl shadow-inner"><i class="fas fa-taxi"></i></div>
-                        <span class="text-[8px] md:text-[9px] font-black uppercase text-slate-400 tracking-widest text-center md:text-left">Taxi Salou</span>
-                    </a>
-                    <a href="tel:+34977370617" class="premium-card p-5 md:p-6 rounded-[1.8rem] md:rounded-[2.5rem] flex flex-col md:flex-row items-center gap-3 md:gap-6 active:scale-95 shadow-lg">
-                        <div class="w-12 md:w-16 h-12 md:h-16 bg-emerald-500/10 text-emerald-600 rounded-2xl flex items-center justify-center text-2xl md:text-3xl shadow-inner"><i class="fas fa-capsules"></i></div>
-                        <span class="text-[8px] md:text-[9px] font-black uppercase text-slate-400 tracking-widest text-center md:text-left">Farmacia</span>
-                    </a>
+                <!-- COLUMNA DERECHA: DASHBOARD DE CONTENIDOS -->
+                <div class="scrollable-content space-y-12 mt-8 lg:mt-0">
+                    
+                    <!-- REJILLA DE HERRAMIENTAS (Dashboard Style) -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 animate-in" style="animation-delay: 0.2s">
+                        <!-- WIFI CARD (Expande 2 cols en pantallas grandes) -->
+                        <div class="xl:col-span-2 premium-card p-8 rounded-[3rem] relative overflow-hidden border-l-4 border-blue-500 shadow-2xl flex items-center justify-between group">
+                            <div class="absolute -right-10 -bottom-10 opacity-5 group-hover:opacity-10 transition-opacity"><i class="fas fa-wifi text-[12rem]"></i></div>
+                            <div class="relative z-10 space-y-6 w-full">
+                                <span class="px-3 py-1 bg-blue-500/20 text-blue-400 rounded-full text-[9px] font-black uppercase tracking-[0.3em]">Conexión Luis & Valeria</span>
+                                <h3 class="text-3xl font-black italic tracking-tighter uppercase leading-none">WiFi Premium 6G</h3>
+                                <div class="flex flex-wrap items-center gap-6">
+                                    <div class="space-y-1">
+                                        <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Network ID</p>
+                                        <p class="text-xl font-bold text-white">apartaoaporta</p>
+                                    </div>
+                                    <div class="space-y-1">
+                                        <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Master Key</p>
+                                        <div class="flex items-center gap-4">
+                                            <span class="text-3xl font-black text-white italic tracking-tighter">2020v@leria</span>
+                                            <button onclick="copyPass()" class="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center text-slate-400 hover:text-blue-400 transition-colors"><i class="fas fa-copy text-xl"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ACCIONES RÁPIDAS -->
+                        <div class="grid grid-cols-2 gap-4 h-full">
+                            <a href="tel:+34977385050" class="premium-card p-6 rounded-[2.5rem] flex flex-col items-center justify-center gap-4 text-center hover:bg-white/5">
+                                <div class="w-16 h-16 bg-amber-500/10 text-amber-500 rounded-2xl flex items-center justify-center text-3xl shadow-inner"><i class="fas fa-taxi"></i></div>
+                                <span class="text-[9px] font-black uppercase text-slate-400 tracking-widest">Taxi Salou</span>
+                            </a>
+                            <a href="tel:+34977370617" class="premium-card p-6 rounded-[2.5rem] flex flex-col items-center justify-center gap-4 text-center hover:bg-white/5">
+                                <div class="w-16 h-16 bg-emerald-500/10 text-emerald-600 rounded-2xl flex items-center justify-center text-3xl shadow-inner"><i class="fas fa-capsules"></i></div>
+                                <span class="text-[9px] font-black uppercase text-slate-400 tracking-widest">Farmacia</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- GALERÍA DINÁMICA (Full Width) -->
+                    <section class="animate-in" style="animation-delay: 0.3s">
+                        <div class="rounded-[4rem] overflow-hidden shadow-2xl border-4 border-white/5 relative aspect-video md:aspect-[21/9] bg-slate-800 group">
+                            <img id="loft-img" src="" class="w-full h-full object-cover grayscale-[10%] group-hover:grayscale-0 transition-all duration-1000 transform group-hover:scale-105" alt="Loft Interior" onerror="this.src='https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1500&q=80'">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-80"></div>
+                            <div class="absolute bottom-10 left-12 flex items-center gap-6">
+                                <div class="w-4 h-4 bg-blue-500 rounded-full animate-ping"></div>
+                                <div class="space-y-1">
+                                    <span class="text-white text-xl font-black uppercase tracking-[0.4em] italic block">Refugio Digital Conectado</span>
+                                    <span id="loft-spec-text" class="text-blue-400 text-[11px] font-bold uppercase tracking-[0.3em]">Smart Sensors Online</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SECCIÓN EXPLORAR (Dashboard) -->
+                    <section class="animate-in" style="animation-delay: 0.4s">
+                        <div class="flex items-center justify-between mb-8 px-4">
+                            <h4 class="text-[12px] font-black text-slate-500 uppercase tracking-[0.6em]">Luis Selects · Guía Proactiva</h4>
+                            <div class="h-[1px] flex-1 bg-white/10 mx-6"></div>
+                        </div>
+                        
+                        <div class="flex overflow-x-auto gap-8 pb-10 hide-scrollbar snap-x snap-mandatory px-4">
+                            <!-- Items adaptativos del carrusel -->
+                            <div class="carousel-item premium-card rounded-[3.5rem] overflow-hidden border-t-4 border-blue-400 shadow-2xl">
+                                <div class="h-56 relative bg-slate-800">
+                                    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
+                                    <div class="absolute inset-0 bg-black/40 flex items-center justify-center"><h5 class="text-white font-black text-2xl italic tracking-tighter uppercase">CAMI DE RONDA</h5></div>
+                                </div>
+                                <div class="p-8 space-y-6">
+                                    <p class="text-[12px] text-slate-400 leading-relaxed italic">"Ruta mágica por la costa. Disfruta de calas escondidas y del Mediterráneo puro. Un must de Luis."</p>
+                                    <a href="https://es.wikiloc.com/rutas-senderismo/cami-de-ronda-salou-la-pineda-27783527" target="_blank" class="block w-full py-4 bg-blue-600 text-white rounded-[1.8rem] text-[10px] font-black uppercase text-center tracking-widest italic hover:bg-blue-500 transition-all">Ver Wikiloc</a>
+                                </div>
+                            </div>
+
+                            <div class="carousel-item premium-card rounded-[3.5rem] overflow-hidden shadow-2xl">
+                                <div class="h-56 relative bg-slate-800">
+                                    <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
+                                    <div class="absolute inset-0 bg-black/40 flex items-center justify-center"><h5 class="text-white font-black text-2xl italic tracking-tighter uppercase">LA TAGLIATELLA</h5></div>
+                                </div>
+                                <div class="p-8 space-y-6">
+                                    <p class="text-[12px] text-slate-400 leading-relaxed italic">"Cenas frente al mar. Luis recomienda los Ravioli di Zucca en su espectacular terraza."</p>
+                                    <a href="https://maps.app.goo.gl/9ZpLg8wTj7tG8uKx5" target="_blank" class="block w-full py-4 bg-slate-100 text-slate-900 rounded-[1.8rem] text-[10px] font-black uppercase text-center tracking-widest hover:bg-white transition-all">Abrir Mapa</a>
+                                </div>
+                            </div>
+
+                            <div class="carousel-item premium-card rounded-[3.5rem] overflow-hidden border-t-4 border-red-500 shadow-2xl">
+                                <div class="h-56 relative bg-slate-800">
+                                    <img src="https://images.unsplash.com/photo-1606240724602-5b21f896397c?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
+                                    <div class="absolute inset-0 bg-black/40 flex items-center justify-center"><h5 class="text-white font-black text-2xl italic tracking-tighter uppercase">PORT AVENTURA</h5></div>
+                                </div>
+                                <div class="p-8 space-y-6">
+                                    <p class="text-[12px] text-slate-400 leading-relaxed italic">"Adrenalina pura a 10 min. El plan perfecto para un día emocionante con Valeria o amigos."</p>
+                                    <a href="https://www.portaventuraworld.com/" target="_blank" class="block w-full py-4 bg-red-600 text-white rounded-[1.8rem] text-[10px] font-black uppercase text-center tracking-widest italic hover:bg-red-500">Tickets Oficiales</a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- HISTORIA EMOCIONAL (Full Width) -->
+                    <section class="animate-in pb-12" style="animation-delay: 0.5s">
+                        <div class="premium-card p-10 md:p-16 rounded-[4rem] text-white relative overflow-hidden group">
+                            <div class="absolute -top-10 -right-10 w-96 h-96 bg-blue-600/10 rounded-full blur-[100px] transition-all duration-1000 group-hover:bg-blue-600/20"></div>
+                            <div class="flex flex-col md:flex-row gap-12 items-center relative z-10">
+                                <div class="w-28 h-28 bg-gradient-to-tr from-blue-600 to-indigo-600 rounded-[2.5rem] flex items-center justify-center shadow-2xl flex-shrink-0 animate-bounce-slow">
+                                    <i class="fas fa-heart text-white text-5xl"></i>
+                                </div>
+                                <div class="space-y-8 text-center md:text-left">
+                                    <h4 class="text-5xl md:text-7xl font-black italic tracking-tighter uppercase italic leading-none">Luis & Valeria</h4>
+                                    <p class="text-lg md:text-xl font-light leading-relaxed text-slate-300 italic max-w-3xl">"En 2020 decidí crear este refugio tecnológico para mi hija Valeria. Buscaba un lugar donde las luces, la tecnología y el mar se unieran para dar paz. Hoy os abrimos nuestras puertas deseando que os aporte felicidad."</p>
+                                    <div class="flex items-center justify-center md:justify-start gap-4">
+                                        <div class="w-2 h-12 bg-blue-500"></div>
+                                        <span class="text-[12px] font-black text-blue-400 uppercase tracking-[0.4em] italic">Superhost Excellence · Est. 2020</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
                 </div>
             </div>
-
-            <!-- FOTO DINÁMICA (ADAPTATIVA) -->
-            <section class="animate-in" style="animation-delay: 0.4s">
-                <div class="img-container rounded-[2.5rem] md:rounded-[3.5rem] overflow-hidden shadow-2xl border-4 border-white/5 relative aspect-video md:aspect-[21/9] bg-slate-800">
-                    <img id="loft-img" src="" alt="Loft Interior" onerror="this.src='https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1200&q=80'">
-                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-80"></div>
-                    <div class="absolute bottom-4 md:bottom-8 left-6 md:left-10 flex items-center gap-3 md:gap-4">
-                        <div class="w-2 md:w-3 h-2 md:h-3 bg-blue-500 rounded-full animate-ping"></div>
-                        <span class="text-white text-[10px] md:text-[12px] font-black uppercase tracking-[0.3em] italic">Smart Refuge Connection</span>
-                    </div>
-                </div>
-            </section>
-
-            <!-- CARRUSEL DE EXPERIENCIAS (RESPONSIVE) -->
-            <section class="animate-in" style="animation-delay: 0.5s">
-                <div class="flex items-center justify-between px-2 mb-6 md:mb-10">
-                    <h4 class="text-[9px] md:text-[11px] font-black text-slate-500 uppercase tracking-[0.4em] md:tracking-[0.6em]">Guía de Experiencias · Luis Selects</h4>
-                    <div class="flex gap-2">
-                        <div class="w-1.5 h-1.5 bg-blue-600 rounded-full animate-pulse"></div>
-                        <div class="w-1.5 h-1.5 bg-slate-700 rounded-full"></div>
-                    </div>
-                </div>
-                
-                <div class="flex overflow-x-auto gap-5 md:gap-8 pb-8 hide-scrollbar snap-x snap-mandatory px-1">
-                    
-                    <!-- 1. CAMI DE RONDA -->
-                    <div class="carousel-item premium-card rounded-[2.5rem] md:rounded-[3rem] overflow-hidden border-t-4 border-blue-400">
-                        <div class="h-40 md:h-48 relative bg-slate-800">
-                            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
-                            <div class="absolute inset-0 bg-black/40 flex items-center justify-center p-4"><h5 class="text-white font-black text-xl md:text-2xl italic tracking-tighter uppercase text-center">Cami de Ronda</h5></div>
-                        </div>
-                        <div class="p-6 md:p-8 space-y-4 md:space-y-6">
-                            <p class="text-[10px] md:text-[11px] text-slate-400 leading-relaxed italic">"Ruta mágica por la costa. Disfruta de calas escondidas y del Mediterráneo en estado puro entre La Pineda y Salou."</p>
-                            <a href="https://es.wikiloc.com/rutas-senderismo/cami-de-ronda-salou-la-pineda-27783527" target="_blank" class="block w-full py-3 md:py-4 bg-blue-600 text-white rounded-[1.2rem] md:rounded-[1.5rem] text-[9px] font-black uppercase text-center tracking-widest italic">Ver en Wikiloc</a>
-                        </div>
-                    </div>
-
-                    <!-- 2. AQUUM SPA -->
-                    <div class="carousel-item premium-card rounded-[2.5rem] md:rounded-[3rem] overflow-hidden border-t-4 border-teal-500">
-                        <div class="h-40 md:h-48 relative bg-slate-800">
-                            <img src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
-                            <div class="absolute inset-0 bg-black/40 flex items-center justify-center p-4"><h5 class="text-white font-black text-xl md:text-2xl italic tracking-tighter text-center uppercase">Aquum Spa</h5></div>
-                        </div>
-                        <div class="p-6 md:p-8 space-y-4 md:space-y-6">
-                            <p class="text-[10px] md:text-[11px] text-slate-400 leading-relaxed italic">"650m2 de relax total. Piscinas termales y circuitos de bienestar a solo 10 min andando del loft."</p>
-                            <a href="https://www.aquum.es/" target="_blank" class="block w-full py-3 md:py-4 bg-teal-600 text-white rounded-[1.2rem] md:rounded-[1.5rem] text-[9px] font-black uppercase text-center tracking-widest font-bold">Reserva Relax</a>
-                        </div>
-                    </div>
-
-                    <!-- 3. PORT AVENTURA -->
-                    <div class="carousel-item premium-card rounded-[2.5rem] md:rounded-[3rem] overflow-hidden border-t-4 border-red-500">
-                        <div class="h-40 md:h-48 relative bg-slate-800">
-                            <img src="https://images.unsplash.com/photo-1606240724602-5b21f896397c?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
-                            <div class="absolute inset-0 bg-black/30 flex items-center justify-center p-4"><h5 class="text-white font-black text-xl md:text-2xl italic tracking-tighter text-center uppercase">Port Aventura</h5></div>
-                        </div>
-                        <div class="p-6 md:p-8 space-y-4 md:space-y-6">
-                            <p class="text-[10px] md:text-[11px] text-slate-400 leading-relaxed italic">"Adrenalina pura a 10 min. El plan perfecto para un día emocionante con Valeria o amigos en Ferrari Land."</p>
-                            <a href="https://www.portaventuraworld.com/" target="_blank" class="block w-full py-3 md:py-4 bg-red-600 text-white rounded-[1.2rem] md:rounded-[1.5rem] text-[9px] font-black uppercase text-center tracking-widest font-bold">Entradas</a>
-                        </div>
-                    </div>
-
-                    <!-- 4. TAGLIATELLA -->
-                    <div class="carousel-item premium-card rounded-[2.5rem] md:rounded-[3rem] overflow-hidden">
-                        <div class="h-40 md:h-48 relative bg-slate-800">
-                            <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
-                            <div class="absolute inset-0 bg-black/50 flex items-center justify-center p-4"><h5 class="text-white font-black text-xl md:text-2xl italic tracking-tighter text-center uppercase">La Tagliatella</h5></div>
-                        </div>
-                        <div class="p-6 md:p-8 space-y-4 md:space-y-6">
-                            <p class="text-[10px] md:text-[11px] text-slate-400 leading-relaxed italic">"Cenas frente al mar. Luis recomienda los Ravioli di Zucca en su espectacular terraza de La Pineda."</p>
-                            <a href="https://maps.app.goo.gl/9ZpLg8wTj7tG8uKx5" target="_blank" class="block w-full py-3 md:py-4 bg-slate-100 text-slate-900 rounded-[1.2rem] md:rounded-[1.5rem] text-[9px] font-black uppercase text-center tracking-widest font-bold">Abrir Mapa</a>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- SECCIÓN LUIS & VALERIA (RESPONSIVA) -->
-            <section class="animate-in" style="animation-delay: 0.6s">
-                <div class="premium-card p-8 md:p-14 rounded-[3rem] md:rounded-[4.5rem] text-white relative overflow-hidden group">
-                    <div class="absolute -top-10 -right-10 w-48 md:w-80 h-48 md:h-80 bg-blue-600/10 rounded-full blur-3xl group-hover:bg-blue-600/20 transition-all duration-1000"></div>
-                    <div class="flex flex-col lg:flex-row gap-8 lg:gap-14 items-center md:items-start relative z-10">
-                        <div class="w-20 md:w-28 h-20 md:h-28 bg-gradient-to-tr from-blue-600 to-indigo-600 rounded-[2rem] md:rounded-[2.5rem] flex items-center justify-center shadow-2xl flex-shrink-0"><i class="fas fa-heart text-white text-3xl md:text-5xl"></i></div>
-                        <div class="space-y-6 md:space-y-8 text-center md:text-left">
-                            <h4 id="story-title" class="text-4xl md:text-6xl font-black italic leading-tight tracking-tighter italic uppercase">Luis & Valeria</h4>
-                            <p id="story-body" class="text-sm md:text-lg font-light leading-relaxed text-slate-300 italic">"En 2020 decidí crear este refugio tecnológico para mi hija Valeria. Buscaba un lugar donde las luces, la tecnología y el mar se unieran para dar paz. Hoy os abrimos nuestras puertas deseando que os aporte felicidad."</p>
-                            <div class="flex items-center justify-center md:justify-start gap-4">
-                                <div class="w-1 md:w-1.5 h-8 md:h-10 bg-blue-500"></div>
-                                <span class="text-[10px] md:text-[12px] font-black text-blue-400 uppercase tracking-[0.4em] italic">Superanfitriones · 4% Valeria Spirit</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
         </main>
     </div>
 
-    <!-- WHATSAPP FLOATING (AJUSTADO PARA FOLD) -->
-    <a id="wa-link" href="#" target="_blank" class="fixed bottom-6 md:bottom-10 right-6 md:right-10 w-16 md:w-20 h-16 md:h-20 bg-[#25D366] text-white rounded-[1.8rem] md:rounded-[2.2rem] shadow-[0_25px_50px_rgba(37,211,102,0.4)] z-[60] hidden items-center justify-center border-4 border-white/10 active:scale-90 transition-all hover:rotate-6 shadow-2xl"><i class="fab fa-whatsapp text-3xl md:text-4xl"></i></a>
+    <!-- WHATSAPP FLOATING -->
+    <a id="wa-link" href="#" target="_blank" class="fixed bottom-10 right-10 w-20 h-20 bg-[#25D366] text-white rounded-[2.2rem] shadow-[0_30px_60px_rgba(37,211,102,0.5)] z-[60] hidden items-center justify-center border-4 border-white/10 active:scale-90 transition-all hover:rotate-6 shadow-2xl animate-in">
+        <i class="fab fa-whatsapp text-4xl"></i>
+    </a>
 
     <script>
-        const Store = { set: (k, v) => { localStorage.setItem(k, v); sessionStorage.setItem(k, v); }, get: (k) => localStorage.getItem(k) || sessionStorage.getItem(k), clear: () => { localStorage.clear(); sessionStorage.clear(); } };
+        const Store = { 
+            set: (k, v) => { localStorage.setItem(k, v); sessionStorage.setItem(k, v); }, 
+            get: (k) => localStorage.getItem(k) || sessionStorage.getItem(k), 
+            clear: () => { localStorage.clear(); sessionStorage.clear(); } 
+        };
+
         const state = { id: Store.get('LOFT_ID') || null, lang: Store.get('LANG') || 'es', history: JSON.parse(Store.get('CHAT_LOG') || '[]') };
         
-        // --- CONFIGURACIÓN LUIS PRO ---
-        const commonInfo = {
-            parking: "Aparcamiento comunitario gratuito (plaza libre). ¡En agosto hay mucha demanda! Te recomiendo no mover mucho el vehículo. En la caja de seguridad tienes una **pequeña llave** para los cepos. Por favor, ciérralos al salir.",
-            keys: "Llegada autónoma: el código de tu caja de seguridad (negra en el 210, negra/amarilla en el 211, gris en el 212) se envía por WhatsApp. Dentro hay un **cilindro negro**: apóyalo en la placa bajo los números del portero para abrir el portal.",
-            checkout: "Al salir: deja la **ropa sucia en el suelo del baño**, baja la basura y guarda la **llave en la caja de seguridad**. Paga la **tasa turística** (efectivo, Bizum o PayPal).",
-            tech: "Todas las TVs son Philips con Ambilight y Android TV. Recuerda borrar tus cuentas de Netflix/HBO antes de irte.",
-            rules: "**PROHIBIDO FUMAR** y no se aceptan mascotas."
-        };
-
         const lofts = { 
-            '210': { name: 'Loft 210 Premium', img: 'img/210-salon.avif', spec: 'Philips 65" Ambilight + Nanoleaf + Govee + Chimenea', box: 'negra' }, 
-            '211': { name: 'Loft 211 Executive', img: 'img/211-mesa-tv.jpeg', spec: 'Philips 55" Ambilight + Lavavajillas + Persiana Eléctrica', box: 'negra y amarilla' }, 
-            '212': { name: 'Loft 212 Design', img: 'img/212-general.avif', spec: 'Philips 55" Ambilight + Tocador + Air Fry', box: 'gris' } 
+            '210': { name: 'Unit 210 Premium', img: 'img/210-salon.avif', spec: 'Philips 65" Ambilight + Nanoleaf + Govee + Chimenea', box: 'negra' }, 
+            '211': { name: 'Unit 211 Executive', img: 'img/211-mesa-tv.jpeg', spec: 'Philips 55" Ambilight + Lavavajillas + Persiana Eléctrica', box: 'negra y amarilla' }, 
+            '212': { name: 'Unit 212 Design', img: 'img/212-general.avif', spec: 'Philips 55" Ambilight + Tocador + Air Fry', box: 'gris' } 
         };
 
-        // --- CEREBRO CONOCIMIENTO ---
         const knowledgeBase = [
-            { tags: ['hola', 'buenos dias', 'saludos', 'que tal'], ans: "¡Hola! 😊 Soy el asistente de Luis. ¡Qué alegría saludarte! Estoy aquí para que tu estancia en este proyecto familiar sea perfecta. ¿En qué puedo ayudarte hoy?" },
-            { tags: ['gracias', 'perfecto', 'ok', 'vale'], ans: "¡De nada! ❤️ Luis y Valeria estamos felices de tenerte. ¡Disfruta cada minuto!" },
-            { tags: ['wifi', 'internet', 'clave'], ans: "📡 Red: **apartaoaporta** | Clave: **2020v@leria**. ¡Vuela por la red!" },
-            { tags: ['parking', 'coche', 'cepo', 'llave parking'], ans: () => `${commonInfo.parking} En la calle hay zona azul gratis de 21h a 10h.` },
-            { tags: ['llave', 'entrar', 'portal', 'cilindro', 'negro', 'caja'], ans: () => `🔑 Tu unidad es el **${lofts[state.id].name}**. Busca la caja **${lofts[state.id].box}**. Usa el **cilindro negro** sobre la placa bajo los números para el portal. ¡Tecnología fácil! 😉` },
-            { tags: ['salir', 'checkout', 'ropa', 'basura', 'tasa', 'pagar'], ans: commonInfo.checkout },
-            { tags: ['tele', 'tv', 'netflix', 'hbo', 'disney'], ans: () => `📺 Tienes una Smart TV Philips con Ambilight. **IMPORTANTE**: Borra tus cuentas de streaming al salir por privacidad.` },
-            { tags: ['luces', 'hue', 'mando', 'color'], ans: "💡 Tienes Philips Hue RGB. Usa el mando para encender todo o cambiar ambientes a tu gusto." },
-            { tags: ['lavavajillas'], ans: () => (state.id === '211' ? "🍽️ ¡Sí! El Loft 211 tiene lavavajillas." : "🍽️ Esta unidad no tiene lavavajillas.") },
-            { tags: ['hervidor'], ans: () => (state.id === '210' ? "🫖 Tienes hervidor en el 210." : "🫖 No tiene de serie, pero Luis puede traerte uno si lo pides.") },
-            { tags: ['valeria', 'historia'], ans: "❤️ Este refugio nació en 2020 para Valeria, la hija de Luis. Querían un lugar mágico de tecnología y mar." }
+            { tags: ['hola', 'buenos dias', 'saludos', 'hey', 'que tal'], ans: "¡Hola Luis! (o huésped Pro de Luis) 😊 Es un auténtico placer saludarte. Soy tu asistente AI inteligente. Estoy aquí para que tu estancia en este rincón tecnológico frente al mar sea perfecta. ¿En qué puedo ayudarte hoy? WiFi, dónde comer, check-out..." },
+            { tags: ['gracias', 'perfecto', 'ok', 'vale'], ans: "¡De nada! Es un placer ayudarte. ❤️ Luis y Valeria estamos felices de que estés disfrutando del loft. ¡Diviértete mucho!" },
+            { tags: ['wifi', 'internet', 'clave'], ans: "📡 ¡A tope de gigas! Red: **apartaoaporta** | Clave: **2020v@leria**. ¡Vuela por la red!" },
+            { tags: ['parking', 'coche', 'cepo', 'llave parking'], ans: "🚗 Parking comunitario gratuito (plaza libre). ¡En agosto hay mucha demanda! No muevas mucho el vehículo. Usa la **pequeña llave** de tu caja para los cepos y ciérralos al salir." },
+            { tags: ['llave', 'entrar', 'portal', 'cilindro', 'negro', 'caja'], ans: () => `🔑 Tu unidad es el **${lofts[state.id].name}**. Busca la caja **${lofts[state.id].box}** al lado del portal. Usa el **cilindro negro** sobre la placa bajo los números para abrir el portal del edificio. ¡Tecnología mágica! 😉` },
+            { tags: ['salir', 'checkout', 'ropa', 'basura', 'tasa'], ans: "Al salir: deja la **ropa sucia en el suelo del baño**, baja la basura y guarda la **llave en la caja**. Tasa turística: efectivo, Bizum o PayPal." },
+            { tags: ['tele', 'tv', 'netflix', 'hbo'], ans: "📺 Tienes una Smart TV Philips con Ambilight. **IMPORTANTE**: Borra tus cuentas de streaming al salir por tu privacidad." },
+            { tags: ['valeria', 'historia'], ans: "❤️ Este refugio nació en 2020 para Valeria, la hija de Luis. Querían un lugar único de tecnología y paz frente al mar. ¡Gracias por formar parte de él!" }
         ];
 
-        const dict = { es: { wa: "¡Hola Luis! 👋 Soy tu huésped en el {loft}. ¡La guía es una pasada! ¿Me echas una mano?", error: "¡Uy! Luis no me ha enseñado eso aún... 😅 Pero sé mucho sobre wifi, parking, llaves, el cilindro negro o el check-out. ¿Me preguntas otra vez?" } };
+        window.onload = () => { 
+            setTimeout(() => { 
+                if (state.id) renderApp(); 
+                else { 
+                    document.getElementById('loft-buttons').classList.replace('opacity-0', 'opacity-100'); 
+                    document.getElementById('loft-buttons').classList.replace('translate-y-10', 'translate-y-0'); 
+                } 
+            }, 1000); 
+        };
 
-        // --- SISTEMA ARRANQUE ---
-        window.onload = () => { setTimeout(() => { if (state.id) renderApp(); else { document.getElementById('status-text').innerText = "Seleccionando Unidad Digital:"; document.getElementById('loft-buttons').classList.replace('opacity-0', 'opacity-100'); document.getElementById('loft-buttons').classList.replace('translate-y-10', 'translate-y-0'); } }, 1000); };
         function bootApp(id) { state.id = id; Store.set('LOFT_ID', id); renderApp(); }
+
         function renderApp() {
             const l = lofts[state.id]; if (!l) return shutdown();
             document.getElementById('welcome-screen').classList.add('hidden');
             document.getElementById('main-app').classList.remove('hidden');
             document.getElementById('wa-link').classList.replace('hidden', 'flex');
             document.getElementById('display-loft-id').innerText = l.name;
+            document.getElementById('loft-spec-text').innerText = l.spec;
             const imgEl = document.getElementById('loft-img'); if(imgEl) imgEl.src = l.img;
+            
             const engine = document.getElementById('chat-engine');
             if (engine && engine.children.length === 0) {
-                if (state.history.length === 0) pushChat(`¡Bienvenido al **${l.name}**! 👋 Soy tu asistente inteligente. ¿Cómo puedo hacer tu estancia perfecta hoy?`, 'bot', false);
+                if (state.history.length === 0) pushChat(`¡Hola! 👋 Bienvenido al **${l.name}**. Soy el asistente de Luis. Me hace mucha ilusión saludarte. ¿Buscas el WiFi o un sitio top para cenar?`, 'bot', false);
                 else state.history.forEach(m => pushChat(m.text, m.role, false));
             }
             updateWA();
@@ -347,7 +370,7 @@
         function pushChat(text, role, save = true) {
             const engine = document.getElementById('chat-engine');
             const bubble = document.createElement('div');
-            bubble.className = `${role === 'bot' ? 'bot-bubble text-slate-300' : 'user-bubble ml-auto text-white'} p-4 md:p-5 text-[10px] md:text-[11px] max-w-[85%] leading-relaxed shadow-xl animate-in mb-4`;
+            bubble.className = `${role === 'bot' ? 'bot-bubble text-slate-300' : 'user-bubble ml-auto text-white'} p-5 text-[11px] max-w-[85%] leading-relaxed shadow-xl animate-in mb-4`;
             bubble.innerHTML = text.replace(/\*\*(.*?)\*\*/g, '<span class="font-bold text-white">$1</span>').replace(/\n/g, '<br>');
             engine.appendChild(bubble); engine.scrollTop = engine.scrollHeight;
             if (save) { state.history.push({ role, text }); Store.set('CHAT_LOG', JSON.stringify(state.history)); }
@@ -359,14 +382,14 @@
             setTimeout(() => {
                 const lower = msg.toLowerCase();
                 let match = knowledgeBase.find(k => k.tags.some(tag => lower.includes(tag)));
-                let reply = match ? (typeof match.ans === 'function' ? match.ans() : match.ans) : dict.es.error;
+                let reply = match ? (typeof match.ans === 'function' ? match.ans() : match.ans) : "¡Vaya! Luis no me ha enseñado eso aún... 😅 Pero sé mucho sobre wifi, parking, llaves o check-out. ¿Me preguntas otra vez?";
                 pushChat(reply, 'bot');
             }, 700);
         }
 
         function copyPass() { const el = document.createElement('textarea'); el.value = '2020v@leria'; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el); alert("¡Copiado Luis! 📋"); }
         function switchLang() { state.lang = document.getElementById('lang-select').value; Store.set('LANG', state.lang); state.history = []; location.reload(); }
-        function updateWA() { document.getElementById('wa-link').href = `https://wa.me/34617635544?text=${encodeURIComponent(dict.es.wa.replace('{loft}', lofts[state.id].name))}`; }
+        function updateWA() { document.getElementById('wa-link').href = `https://wa.me/34617635544?text=${encodeURIComponent("¡Hola Luis! 👋 Soy tu huésped en el " + lofts[state.id].name + ". ¿Me echas una mano?")}`; }
         function shutdown() { Store.clear(); location.reload(); }
         document.getElementById('chat-input').onkeypress = (e) => { if(e.key === 'Enter') sendUserMsg(); };
     </script>
